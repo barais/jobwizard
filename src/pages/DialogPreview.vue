@@ -30,7 +30,7 @@
         </q-btn>
         <q-space />
         <q-btn v-close-popup dense icon="mdi-close" class="z-top" name="close">
-          <q-tooltip :delay="400">{{ $t('btn.close') }}</q-tooltip>
+          <q-tooltip :delay="400">{{ $t('label.close') }}</q-tooltip>
         </q-btn>
       </q-bar>
       <q-card-section :class="'col-grow overflow-hidden row q-pa-md mx-auto '+mode">

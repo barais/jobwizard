@@ -47,7 +47,8 @@ It's possible to show a toolbar with the Logo and a navigation drawer by using q
 
 | Param        | Description       |
 |--------------|-------------------|
-| tb           | hide toolbar      |  
+| tb=0         | hide toolbar      |  
+| hf=1         | hide footer       | 
 
 ## Live
 

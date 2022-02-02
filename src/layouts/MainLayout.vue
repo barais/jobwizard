@@ -157,11 +157,12 @@ export default
       ...mapGetters([GET_TOKEN, HAS_AUTH, GET_SETTINGS]),
       showToolbar()
       {
-        return !this.$route.query.tb;
+        console.log(this.$route.query);
+        return !(this.$route.query.tb === '0');
       },
       showFooter()
       {
-        return !this.$route.query.hf;
+        return !(this.$route.query.hf === '1');
       },
       initials()
       {
