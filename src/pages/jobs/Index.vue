@@ -19,7 +19,10 @@
       <template #body="props">
         <q-tr :props="props">
           <q-td key="date" :props="props">
-            {{ props.row.attributes.publishedAt ? new Date(props.row.attributes.publishedAt).toLocaleString($yawik.lang()) : $t('unpublished') }}
+            {{ props.row.attributes.publishedAt ? new Date(props.row.attributes.publishedAt).toLocaleString($yawik.lang()) : new Date(props.row.attributes.createdAt).toLocaleString($yawik.lang()) }}
+            <div v-if="!props.row.attributes.publishedAt">
+              <q-badge>{{ $t('unpublished') }}</q-badge>
+            </div>
           </q-td>
           <q-td key="title" :props="props">
             <a v-if="props.row.attributes.html" target="_new" :href="jobDetailUrl + props.row.attributes.html.url">
