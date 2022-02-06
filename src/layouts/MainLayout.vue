@@ -68,8 +68,8 @@ import SwitchLanguage from '../components/SwitchLanguage';
 import Breadcrumb from '../components/Breadcrumb';
 import SidebarDrawer from '../components/Drawer.vue';
 import LogoPanel from '../components/Logo';
-import { GET_TOKEN, HAS_AUTH, GET_SETTINGS, SET_SETTINGS_FIELD } from '../store/names';
-import { mapGetters } from 'vuex';
+import { GET_SETTINGS, SET_SETTINGS_FIELD } from '../store/names';
+import { mapGetters, mapMutations } from 'vuex';
 import { useMeta } from 'quasar';
 import LoginButton from 'components/LoginButton';
 import Logout from 'components/Logout';
@@ -123,7 +123,7 @@ export default {
   },
   computed:
       {
-        ...mapGetters([GET_TOKEN, HAS_AUTH, GET_SETTINGS]),
+        ...mapGetters([GET_SETTINGS]),
         showToolbar()
         {
           console.log(this.$route.query);
@@ -160,6 +160,10 @@ export default {
   mounted()
   {
     this.$q.dark.set(this.dark);
-  }
+  },
+  methods:
+    {
+      ...mapMutations([SET_SETTINGS_FIELD]),
+    }
 };
 </script>

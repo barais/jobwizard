@@ -33,7 +33,7 @@
 
 <script>
 import { mapMutations } from 'vuex';
-import { GET_TOKEN, SET_SETTINGS_FIELD, SET_TOKEN } from '../store/names';
+import { GET_TOKEN, SET_TOKEN } from '../store/names';
 import eventBus, { AJAX_FAILED, TOGGLE_LOGIN } from '../lib/eventBus';
 
 export default {
@@ -105,7 +105,7 @@ export default {
   },
   methods:
       {
-        ...mapMutations([SET_TOKEN, SET_SETTINGS_FIELD]),
+        ...mapMutations([SET_TOKEN]),
         clearTimer()
         {
           if (this.tokenTimer) clearInterval(this.tokenTimer);
