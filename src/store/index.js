@@ -14,7 +14,8 @@ export default function(/* { ssrContext } */)
           key: 'yawik',
           paths: [
             'yawik.form',
-            'yawik.settings'
+            'yawik.settings',
+            'yawik.token'
           ]
         })
       ],

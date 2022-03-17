@@ -12,6 +12,7 @@
       />
 
       <q-select
+        v-if="$yawik.isAuth()"
         v-model="organization"
         :label="$t('label.organization')"
         :rules="[ruleRequired]"
@@ -31,6 +32,16 @@
           <q-icon name="cancel" class="cursor-pointer" @click.stop="organization = null" />
         </template>
       </q-select>
+
+      <TextInput
+        v-else
+        v-model.trim="organization"
+        name="organization"
+        class="col-12"
+        :label="$t('label.organization')"
+        :rules="[ruleRequired]"
+        @enterPress="gotoNext"
+      />
 
       <div class="col-12">
         <div class="row">

@@ -1,4 +1,3 @@
-import { uid } from 'quasar';
 import userSettings from 'src/settings/user';
 
 import {
@@ -29,7 +28,6 @@ const emptyForm = {
   createdAt: null,
   updatedAt: null,
   publishedAt: null,
-  jobId: uid(),
   step: 'stepOne',
   jobTitle: '',
   organization: '',

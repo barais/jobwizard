@@ -28,6 +28,11 @@ const routes = [
         component: () => import('pages/Wizard.vue'),
       },
       {
+        path: 'create/job',
+        name: 'create-job',
+        component: () => import('pages/Wizard.vue'),
+      },
+      {
         path: 'jobboard',
         name: 'jobboard',
         component: () => import('pages/jobboard/Index.vue'),

@@ -192,7 +192,7 @@ export default {
               'pagination[page]': pagination.pagination.page,
               'pagination[pageSize]': pagination.pagination.rowsPerPage,
               populate: 'html',
-              sort: 'publishedAt:desc'
+              sort: 'createdAt:desc'
             },
             headers: {
               accept: 'application/json',
@@ -225,7 +225,8 @@ export default {
             method: 'GET',
             url: process.env.YAWIK_API_URL + '/api/jobs/' + job.id,
             params: {
-              populate: 'logo',
+              populate: 'html,logo',
+              sort: 'createdAt:desc'
             },
             headers: {
               accept: 'application/json',
@@ -297,7 +298,7 @@ export default {
         {
           this.$router.push(
             {
-              path: '/'
+              name: 'create-job'
             }
           );
         }

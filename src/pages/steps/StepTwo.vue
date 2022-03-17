@@ -12,6 +12,8 @@
           :max-total-size="2e5"
           :max-files="1"
           :label="$t('choose_logo')"
+          :factory="upload"
+          auto-upload
           @rejected="rejectedFiles"
           @added="logoAdded"
           @removed="logoRemoved"
@@ -23,7 +25,7 @@
       <div class="col-lg-10 col-md-9" :style="{maxWidth: (maxWidth * 2 * 0.8) + 'px'}">
         <q-item>
           <q-item-section class="full-width">
-            <q-item-label class="text-h3" caption>{{ GET_FORM.organization || '' }}</q-item-label>
+            <q-item-label class="text-h3" caption>{{ orgName }}</q-item-label>
             <q-item-label class="text-h2">{{ GET_FORM.jobTitle }}</q-item-label>
           </q-item-section>
         </q-item>
@@ -118,7 +120,7 @@
 <script>
 import mixinValidations from 'src/lib/validations';
 import { mapGetters, mapMutations } from 'vuex';
-import { GET_SETTINGS, GET_STEP, GET_FORM, SET_FIELD, GET_LOGO, GET_HEADER, SET_LOGO, SET_HEADER } from 'src/store/names';
+import { GET_SETTINGS, GET_STEP, GET_TOKEN, GET_FORM, SET_FIELD, GET_LOGO, GET_HEADER, SET_LOGO, SET_HEADER } from 'src/store/names';
 import EditorInput from 'src/components/form/Editor.vue';
 
 export default
@@ -137,7 +139,7 @@ export default
   },
   computed:
     {
-      ...mapGetters([GET_FORM, GET_LOGO, GET_HEADER, GET_SETTINGS]),
+      ...mapGetters([GET_FORM, GET_TOKEN, GET_LOGO, GET_HEADER, GET_SETTINGS]),
       introLabel:
         {
           get()
@@ -289,6 +291,15 @@ export default
       orgContactInfoLabel()
       {
         return this[GET_SETTINGS].orgContactInfoLabel;
+      },
+      orgName()
+      {
+        const name = this[GET_FORM].organization;
+        return (typeof name === 'object' && 'name' in name) ? name.name : name;
+      },
+      token()
+      {
+        return this[GET_TOKEN];
       }
     },
   watch:
@@ -368,6 +379,35 @@ export default
       headerRemoved(files)
       {
         this.imageHeader = '';
+      },
+      upload(file)
+      {
+        const token = this.token;
+        const fd = new FormData();
+        console.log('FILE:', file);
+        fd.append('ref', 'api::job.job');
+        fd.append('refId', this.$route.params.id);
+        fd.append('field', 'logo');
+        fd.append('files', file[0]);
+
+        return new Promise((resolve, reject) =>
+        {
+          this.$axios({
+            method: 'POST',
+            url: 'http://10.10.1.81:1337/api/upload',
+            headers: {
+              accept: 'application/json',
+              Authorization: 'Bearer ' + token,
+              'Content-Type': 'multipart/form-data'
+            },
+            data: fd
+          })
+            .then(res =>
+            {
+              resolve(file);
+            })
+            .catch(err => reject(err));
+        });
       },
     }
 };
