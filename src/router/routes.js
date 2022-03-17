@@ -26,7 +26,6 @@ const routes = [
         name: 'job',
         props: true,
         component: () => import('pages/Wizard.vue'),
-
       },
       {
         path: 'jobboard',

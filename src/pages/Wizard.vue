@@ -30,22 +30,36 @@
         header-class="bg-third"
       >
         <!-- eslint-enable quasar/no-invalid-props -->
-        <q-step v-for="stepName in steps" :key="stepName" :name="stepName" :prefix="steps.indexOf(stepName)+1"
-                :title="$t('steps.' + stepName)"
-                done-color="positive" active-color="primary" error-color="negative"
-                :done="isCompleted(stepName)" :error="validationErrors[stepName] && isCompleted(stepName)"
+        <q-step
+          v-for="stepName in steps"
+          :key="stepName"
+          :name="stepName"
+          :prefix="steps.indexOf(stepName)+1"
+          :title="$t('steps.' + stepName)"
+          done-color="positive"
+          active-color="primary"
+          error-color="negative"
+          :done="isCompleted(stepName)"
+          :error="validationErrors[stepName] && isCompleted(stepName)"
         >
           <component :is="stepName" style="min-height: 500px;" @next="navigate('next')" />
         </q-step>
         <template #navigation>
           <q-page-sticky style="z-index: 5900;" position="bottom-right" :offset="[18, -65]">
             <div class="row justify-end q-px-lg q-pb-lg">
-              <q-btn v-if="steps.indexOf(currentStep) > 0 && mode==='insert'" name="prev" outline color="primary"
-                     :label="$t('btn.back')"
-                     class="q-mr-md" @click.stop="navigate('previous')"
+              <q-btn
+                v-if="steps.indexOf(currentStep) > 0 && mode==='insert'"
+                name="prev" outline color="primary"
+                :label="$t('btn.back')"
+                class="q-mr-md"
+                @click.stop="navigate('previous')"
               />
-              <q-btn v-if="lastStep & !$yawik.isAuth()" color="primary" name="next" :label="$t('btn.download')"
-                     @click.stop="trySubmit"
+              <q-btn
+                v-if="lastStep & !$yawik.isAuth()"
+                color="primary"
+                name="next"
+                :label="$t('btn.download')"
+                @click.stop="trySubmit"
               />
               <q-btn-dropdown
                 v-if="lastStep & $yawik.isAuth() | mode==='edit'"
@@ -74,8 +88,10 @@
                   </q-item>
                 </q-list>
               </q-btn-dropdown>
-              <q-btn v-if="!lastStep && mode==='insert'" color="primary" name="next" :label="$t('btn.continue')"
-                     @click.stop="navigate('next')"
+              <q-btn
+                v-if="!lastStep && mode==='insert'"
+                color="primary" name="next" :label="$t('btn.continue')"
+                @click.stop="navigate('next')"
               />
             </div>
           </q-page-sticky>
@@ -258,7 +274,7 @@ export default {
             url: url,
             headers: {
               accept: 'application/json',
-              Authorization: 'Bearer ' + this.$store.getters.GET_TOKEN.token,
+              Authorization: 'Bearer ' + this.$store.getters.GET_TOKEN,
               'Content-Type': 'multipart/form-data'
             },
             data: formData

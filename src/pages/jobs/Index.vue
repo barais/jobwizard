@@ -92,7 +92,9 @@
 <script>
 
 import { useMeta } from 'quasar';
-import { SET_JOB, SET_LOGO } from 'src/store/names';
+import { SET_JOB, SET_LOGO, GET_TOKEN } from 'src/store/names';
+import { mapGetters, mapMutations } from 'vuex';
+
 export default {
   name: 'Index',
   setup()
@@ -125,6 +127,7 @@ export default {
   },
   computed:
       {
+        ...mapGetters([GET_TOKEN]),
         grid()
         {
           return this.$q.platform.is.mobile;
@@ -180,6 +183,7 @@ export default {
   },
   methods:
       {
+        ...mapMutations([SET_JOB]),
         getJobs(pagination = { pagination: this.pagination })
         {
           this.loading = true;
@@ -192,7 +196,7 @@ export default {
             },
             headers: {
               accept: 'application/json',
-              Authorization: 'Bearer ' + this.$store.getters.GET_TOKEN.token
+              Authorization: 'Bearer ' + this[GET_TOKEN]
             }
           }
           ).then(response =>
@@ -225,7 +229,7 @@ export default {
             },
             headers: {
               accept: 'application/json',
-              Authorization: 'Bearer ' + this.$store.getters.GET_TOKEN.token
+              Authorization: 'Bearer ' + this[GET_TOKEN]
             }
           }).then(response =>
           {
@@ -238,7 +242,10 @@ export default {
           });
 
           this.$router.push({
-            name: 'wizard',
+            name: 'job',
+            params: {
+              id: job.id
+            }
           });
         },
         deleteJob(id)
@@ -248,7 +255,7 @@ export default {
             url: process.env.YAWIK_STRAPI_URL + '/api/jobs/' + id,
             headers: {
               accept: 'application/json',
-              Authorization: 'Bearer ' + this.$store.getters.GET_TOKEN.token
+              Authorization: 'Bearer ' + this[GET_TOKEN]
             }
           }).then(response =>
           {

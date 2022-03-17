@@ -29,20 +29,10 @@
 
         <q-separator v-if="!$q.platform.is.mobile" spaced vertical color="transparent" />
 
-        <!--
- <q-btn v-if="!$yawik.isAuth()" outline type="a" :href="$yawik.loginUrl()" no-caps>
-           {{ $t('btn.login') }}
-         </q-btn>
--->
-        <Login />
+        <login-strapi />
 
         <q-separator v-if="!$q.platform.is.mobile" spaced vertical color="transparent" />
 
-        <q-btn v-if="!$yawik.isAuth()" type="a" :href="$yawik.registerUrl()" no-caps>
-          {{ $t('btn.register') }}
-        </q-btn>
-
-        <Logout />
         <q-separator spaced vertical />
 
         <q-btn dense flat round :icon="showDrawer ? 'mdi-menu' : 'mdi-menu-open'" @click="showDrawer = !showDrawer" />
@@ -71,7 +61,7 @@ import LogoPanel from '../components/Logo';
 import { GET_SETTINGS, SET_SETTINGS_FIELD } from '../store/names';
 import { mapGetters, mapMutations } from 'vuex';
 import { useMeta } from 'quasar';
-import LoginButton from 'components/LoginButton';
+import LoginStrapi from 'components/LoginStrapi';
 import Logout from 'components/Logout';
 
 const metaData = {
@@ -105,16 +95,16 @@ export default {
     useMeta(metaData);
   },
   components:
-      {
-        Logout,
-        Login: LoginButton,
-        Breadcrumb,
-        PageFooter,
-        SidebarDrawer,
-        LogoPanel,
-        SwitchLanguage,
-        Tooltip
-      },
+  {
+    Logout,
+    LoginStrapi,
+    Breadcrumb,
+    PageFooter,
+    SidebarDrawer,
+    LogoPanel,
+    SwitchLanguage,
+    Tooltip
+  },
   data()
   {
     return {

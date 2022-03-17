@@ -50,7 +50,6 @@ module.exports = function(ctx)
 
     htmlVariables:
       {
-        keyCloak: variables.YAWIK_SSO_URL,
         googleMaps: variables.YAWIK_GOOGLE_MAPS,
         urlHome: variables.YAWIK_URL_HOME
       },

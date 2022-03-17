@@ -25,10 +25,18 @@ import {
 } from '../names';
 
 const emptyForm = {
+  id: null,
+  createdAt: null,
+  updatedAt: null,
+  publishedAt: null,
   jobId: uid(),
   step: 'stepOne',
   jobTitle: '',
   organization: '',
+  org: {
+    id: 13,
+    name: 'Test AG'
+  },
   channels: [],
   location: {
     streetAdress: '',
@@ -122,7 +130,7 @@ export default
       },
       [HAS_AUTH](state)
       {
-        return state.token && state.token.authenticated;
+        return state.token && state.token !== null;
       },
     },
   mutations:
@@ -173,6 +181,7 @@ export default
       [SET_JOB](state, data)
       {
         state.form = { ...Object.values(data)[0] };
+        console.log(data);
         state.form.step = 'stepOne';
         if (!state.form.meta)
         {

@@ -11,15 +11,26 @@
         @enterPress="gotoNext"
       />
 
-      <!-- Organization -->
-      <TextInput
-        v-model.trim="organization"
-        name="organization"
-        class="col-12"
+      <q-select
+        v-model="organization"
         :label="$t('label.organization')"
         :rules="[ruleRequired]"
-        @enterPress="gotoNext"
-      />
+        outlined
+        use-input
+        dense
+        :placeholder="organization === null ? $t('select_or_create') : ''"
+        input-debounce="0"
+        :options="filterOptions"
+        option-value="id"
+        option-label="name"
+        class="col-12"
+        @new-value="createValue"
+        @filter="filterFn"
+      >
+        <template v-if="organization" #append>
+          <q-icon name="cancel" class="cursor-pointer" @click.stop="organization = null" />
+        </template>
+      </q-select>
 
       <div class="col-12">
         <div class="row">
@@ -136,10 +147,14 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex';
-import { GET_FORM, GET_SETTINGS, SET_META, GET_META, SET_FIELD } from 'src/store/names';
+import { GET_FORM, GET_TOKEN, GET_SETTINGS, SET_META, GET_META, SET_FIELD } from 'src/store/names';
 import mixinValidations from 'src/lib/validations';
 import TextInput from 'src/components/form/TextInput.vue';
 import Tooltip from 'src/components/form/Tooltip.vue';
+
+const stringOptions = [
+  'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
+];
 
 export default {
   name: 'StepOne',
@@ -176,12 +191,21 @@ export default {
         administrative_area_level_1: 'short_name',
         country: 'long_name',
         postal_code: 'short_name',
-      }
+      },
+      pagination: {
+        sortBy: 'desc',
+        descending: true,
+        rowsNumber: 10,
+        page: 1,
+        rowsPerPage: 10
+      },
+      filterOptions: [],
+      organizations: [],
     };
   },
   computed:
       {
-        ...mapGetters([GET_FORM, GET_META, GET_SETTINGS]),
+        ...mapGetters([GET_TOKEN, GET_FORM, GET_META, GET_SETTINGS]),
 
         jobTitle:
 
@@ -318,7 +342,7 @@ export default {
           {
             return this[GET_SETTINGS].jobs_reference_enabled;
           }
-        },
+        }
       },
   mounted()
   {
@@ -343,6 +367,10 @@ export default {
         this.locationChanged(place);
       }
       );
+    }
+    if (this.$yawik.isAuth())
+    {
+      this.getOrganizations();
     }
   },
   beforeUnmount()
@@ -398,11 +426,87 @@ export default {
           this.insertLocatationData(addressComponents);
           this.$store.commit('SET_LOCATION', Object.assign({}, this.locationData));
           this.locationDisplay = place.formatted_address;
-        }
-        ,
+        },
+        createValue(val, done)
+        {
+          // Calling done(var) when new-value-mode is not set or "add", or done(var, "add") adds "var" content to the model
+          // and it resets the input textbox to empty string
+          // ----
+          // Calling done(var) when new-value-mode is "add-unique", or done(var, "add-unique") adds "var" content to the model
+          // only if is not already set
+          // and it resets the input textbox to empty string
+          // ----
+          // Calling done(var) when new-value-mode is "toggle", or done(var, "toggle") toggles the model with "var" content
+          // (adds to model if not already in the model, removes from model if already has it)
+          // and it resets the input textbox to empty string
+          // ----
+          // If "var" content is undefined/null, then it doesn't tampers with the model
+          // and only resets the input textbox to empty string
+
+          if (val.length > 0)
+          {
+            if (!stringOptions.includes(val))
+            {
+              stringOptions.push(val);
+            }
+            done(val, 'toggle');
+          }
+        },
+
+        filterFn(val, update)
+        {
+          update(() =>
+          {
+            if (val === '')
+            {
+              this.filterOptions = this.organizations;
+            }
+            else
+            {
+              const needle = val.toLowerCase();
+              this.filterOptions = this.organizations.filter(
+                v => v.name.toLowerCase().indexOf(needle) > -1
+              );
+            }
+          });
+          console.log('FILTER', val, update);
+        },
+        getOrganizations(pagination = { pagination: this.pagination })
+        {
+          this.loading = true;
+          this.$axios.get(process.env.YAWIK_STRAPI_URL + '/api/organizations', {
+            params: {
+              'pagination[page]': pagination.pagination.page,
+              'pagination[pageSize]': pagination.pagination.rowsPerPage,
+              sort: 'name:desc'
+            },
+            headers: {
+              accept: 'application/json',
+              Authorization: 'Bearer ' + this[GET_TOKEN]
+            }
+          }
+          ).then(response =>
+          {
+            console.log(response.data.data);
+            this.organizations = response.data.data.map(({ attributes }) => attributes);
+            this.setPagination(response.data.meta.pagination);
+          }).finally(() =>
+          {
+            this.loading = false;
+          });
+        },
+        setPagination(pagination)
+        {
+          this.pagination = {
+            sortBy: 'asc',
+            descending: true,
+            rowsNumber: pagination.total,
+            page: pagination.page,
+            rowsPerPage: pagination.pageSize
+          };
+        },
       }
-}
-;
+};
 </script>
 
 <i18n>
@@ -410,17 +514,20 @@ export default {
   "en": {
     "wizard-help-title": "Create job ad",
     "wizard-help-text": "The Jobwizard supports you in creating an advertisement. The use of the Job Wizard and the creation of the advertisement is free of charge. You can activate and deactivate further fields via the settings.",
-    "wizard-help-anonymous": "You are currently not logged in. You can use all functions as an anonymous user. However, at the end you can only download the advertisement as HTML."
+    "wizard-help-anonymous": "You are currently not logged in. You can use all functions as an anonymous user. However, at the end you can only download the advertisement as HTML.",
+    "select_or_create": "Choose a company or create a new one."
   },
   "de": {
     "wizard-help-title": "Stellenanzeige erstellen",
     "wizard-help-text": "Der Jobwizard unterstützt sie bei der Erstellung einer Anzeige. Die Nutzung des Jobwizard und die Erstellung der Anzeige ist kostenlos. Über die Einstellungen können sie weitere Felder aktivieren und deaktivieren.",
-    "wizard-help-anonymous": "Sie sind momentan nicht angemeldet. Sie können als anonymer Benutzer alle Funktionen nutzen. Allerdings können Sie am Ende die Anzeige nur als HTML downloaden."
+    "wizard-help-anonymous": "Sie sind momentan nicht angemeldet. Sie können als anonymer Benutzer alle Funktionen nutzen. Allerdings können Sie am Ende die Anzeige nur als HTML downloaden.",
+    "select_or_create": "Wählen sie eine Firma oder erstellen sie eine neue."
   },
   "fr": {
     "wizard-help-title": "Créer une offre d'emploi",
     "wizard-help-text": "Le Jobwizard vous aide à créer une annonce. L'utilisation du Jobwizard et la création de l'annonce sont gratuites. Vous pouvez activer ou désactiver d'autres champs dans les paramètres.",
-    "wizard-help-anonymous": "Vous n'êtes actuellement pas connecté. Vous pouvez utiliser toutes les fonctions en tant qu'utilisateur anonyme. Cependant, vous ne pourrez finalement télécharger l'annonce qu'au format HTML."
-}
+    "wizard-help-anonymous": "Vous n'êtes actuellement pas connecté. Vous pouvez utiliser toutes les fonctions en tant qu'utilisateur anonyme. Cependant, vous ne pourrez finalement télécharger l'annonce qu'au format HTML.",
+    "select_or_create": "Choisissez une entreprise ou créez-en une nouvelle."
+  }
 }
 </i18n>
