@@ -4,14 +4,14 @@
       <q-breadcrumbs active-color="secondary" style="font-size: 16px;">
         <q-breadcrumbs-el label="Home" icon="mdi-home" :to="home" />
         <q-breadcrumbs-el
-          v-if="!(route == 'wizard')"
-          :label="$t(route == 'jobs' ? 'ad_management' : route )"
-          :icon="'mdi-' + icon"
-          :to="route"
+          v-if="!($route.name === 'wizard')"
+          :label="$t($route.name === 'jobs' ? 'ad_management' : $route.name )"
+          :icon="icon"
+          :to="$route.path"
         />
         <q-breadcrumbs-el
           v-if="route == 'job'"
-          label="job"
+          :label="$t('job')"
           icon="mdi-star"
         />
       </q-breadcrumbs>
@@ -43,22 +43,25 @@ export default
       switch (this.route)
       {
         case 'job':
-          mdi = 'view-list';
+          mdi = 'mdi-pencil';
           break;
         case 'jobs':
-          mdi = 'view-list';
+          mdi = 'mdi-view-list';
+          break;
+        case 'create-job':
+          mdi = 'plus';
           break;
         case 'jobboard':
-          mdi = 'earth';
+          mdi = 'mdi-earth';
           break;
         case 'templates':
-          mdi = 'content-copy';
+          mdi = 'mdi-content-copy';
           break;
         case 'statistics':
           mdi = 'poll';
           break;
         default:
-          mdi = 'cog';
+          mdi = 'mdi-cog';
       }
       return mdi;
     },

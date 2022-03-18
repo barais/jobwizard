@@ -2,8 +2,9 @@
   <div class="q-gutter-md">
     <!-- Logo -->
     <div class="jobintro row q-col-gutter-md justify-center">
-      <div v-if="!(imageLogo && imageLogo.data)" class="col-lg-2 col-md-3">
+      <div class="col-lg-2 col-md-3">
         <q-uploader
+          v-if="!(imageLogo && imageLogo.data)"
           hide-upload-btn
           :color="$q.dark.mode ? 'black' : 'grey-2' "
           :text-color="$q.dark.mode ? 'white' : 'dark'"
@@ -11,16 +12,17 @@
           style="max-width: 220px; height: 220px;"
           :max-total-size="2e5"
           :max-files="1"
+          :class="(imageLogo && imageLogo.data) ? 'hidden' : ''"
           :label="$t('choose_logo')"
-          :factory="upload"
+          :factory="uploadLogo"
           auto-upload
           @rejected="rejectedFiles"
           @added="logoAdded"
           @removed="logoRemoved"
         />
-      </div>
-      <div v-if="imageLogo && imageLogo.data" class="col-lg-2 col-md-3">
-        <q-img :src="jobDetailUrl + imageLogo.data.url" />
+        <q-img
+          v-else width="220px" height="220px" fit="contain" :src="jobDetailUrl + imageLogo.data.formats.thumbnail.url"
+        />
       </div>
       <div class="col-lg-10 col-md-9" :style="{maxWidth: (maxWidth * 2 * 0.8) + 'px'}">
         <q-item>
@@ -34,6 +36,7 @@
       <!-- Header image -->
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" :style="{maxWidth: (maxWidth * 2) + 'px'}">
         <q-uploader
+          v-if="!(imageHeader && imageHeader.data)"
           hide-upload-btn
           :color="$q.dark.mode ? 'black' : 'grey-2' "
           :text-color="$q.dark.mode ? 'white' : 'dark'"
@@ -41,10 +44,19 @@
           style="max-height: 400px; min-height: 200px; width: 100%;"
           :max-total-size="2e6"
           :max-files="1"
+          :class="(imageHeader && imageHeader.data) ? 'hidden' : ''"
           :label="$t('choose_header')"
+          :factory="uploadHeader"
+          auto-upload
           @rejected="rejectedFiles"
           @added="headerAdded"
           @removed="headerRemoved"
+        />
+        <q-img
+          v-else
+          height="200px"
+          fit="cover"
+          :src="jobDetailUrl + imageHeader.data[0].url"
         />
       </div>
     </div>
@@ -300,6 +312,10 @@ export default
       token()
       {
         return this[GET_TOKEN];
+      },
+      api()
+      {
+        return this.process.env.YAWIK_STRAPI_URL;
       }
     },
   watch:
@@ -380,7 +396,7 @@ export default
       {
         this.imageHeader = '';
       },
-      upload(file)
+      uploadLogo(file)
       {
         const token = this.token;
         const fd = new FormData();
@@ -394,7 +410,7 @@ export default
         {
           this.$axios({
             method: 'POST',
-            url: 'http://10.10.1.81:1337/api/upload',
+            url: this.api + '/api/upload',
             headers: {
               accept: 'application/json',
               Authorization: 'Bearer ' + token,
@@ -409,6 +425,36 @@ export default
             .catch(err => reject(err));
         });
       },
+      uploadHeader(file)
+      {
+        const token = this.token;
+        const fd = new FormData();
+        console.log('FILE:', file);
+        fd.append('ref', 'api::job.job');
+        fd.append('refId', this.$route.params.id);
+        fd.append('field', 'header');
+        fd.append('files', file[0]);
+
+        return new Promise((resolve, reject) =>
+        {
+          this.$axios({
+            method: 'POST',
+            url: this.api + '/api/upload',
+            headers: {
+              accept: 'application/json',
+              Authorization: 'Bearer ' + token,
+              'Content-Type': 'multipart/form-data'
+            },
+            data: fd
+          })
+            .then(res =>
+            {
+              resolve(file);
+            })
+            .catch(err => reject(err));
+        });
+      },
+
     }
 };
 </script>

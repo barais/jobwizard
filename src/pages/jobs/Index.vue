@@ -92,7 +92,7 @@
 <script>
 
 import { useMeta } from 'quasar';
-import { SET_JOB, SET_LOGO, GET_TOKEN } from 'src/store/names';
+import { SET_JOB, SET_LOGO, SET_HEADER, GET_TOKEN } from 'src/store/names';
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
@@ -183,7 +183,7 @@ export default {
   },
   methods:
       {
-        ...mapMutations([SET_JOB]),
+        ...mapMutations([SET_JOB, SET_LOGO, SET_HEADER]),
         getJobs(pagination = { pagination: this.pagination })
         {
           this.loading = true;
@@ -239,6 +239,10 @@ export default {
             if (response.data.success.job.logo)
             {
               this[SET_LOGO]({ data: response.data.success.job.logo });
+            }
+            if (response.data.success.job.header)
+            {
+              this[SET_HEADER]({ data: response.data.success.job.header });
             }
           });
 
