@@ -32,8 +32,8 @@ const emptyForm = {
   jobTitle: '',
   organization: '',
   org: {
-    id: 13,
-    name: 'Test AG'
+    id: null,
+    name: ''
   },
   channels: [],
   location: {

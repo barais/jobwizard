@@ -2,7 +2,7 @@
   <div>
     <q-select
       v-if="$yawik.isAuth()"
-      v-model="organization"
+      v-model="org"
       :label="$t('label.organization')"
       :rules="[ruleRequired]"
       outlined
@@ -13,7 +13,7 @@
       :options="filterOptions"
       option-value="id"
       option-label="name"
-      class="col-12"
+      @change="changeValue"
       @new-value="createValue"
       @filter="filterFn"
     >
@@ -31,41 +31,43 @@
       :rules="[ruleRequired]"
       @enterPress="gotoNext"
     />
+    <ul>
+      <li>{{ organizations }}</li>
+      <li>{{ organization }}</li>
+      <li>{{ filterOptions }}</li>
+    </ul>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from 'vuex';
 import { GET_FORM, SET_FIELD, GET_TOKEN } from 'src/store/names';
+import mixinValidations from 'src/lib/validations';
+import { api } from 'boot/axios';
 
 export default {
   name: 'CompanySelect',
   setup()
   {
     return {
-      pagination: {
-        sortBy: 'desc',
-        descending: true,
-        rowsNumber: 10,
-        page: 1,
-        rowsPerPage: 10
-      },
       filterOptions: [],
       organizations: []
     };
   },
+  mixins: [mixinValidations],
   computed:
   {
     ...mapGetters([GET_FORM, GET_TOKEN]),
-    organization:
+    org:
     {
       get()
       {
-        return this[GET_FORM].organization;
+        return this[GET_FORM].org || this[GET_FORM].organization;
       },
       set(val)
       {
-        this[SET_FIELD]({ organization: val });
+        this[SET_FIELD]({ org: val });
+        this[SET_FIELD]({ organization: val.name });
       }
     },
   },
@@ -104,6 +106,15 @@ export default {
         done(val, 'toggle');
       }
     },
+    changeValue(val, done)
+    {
+      if (val.length > 0)
+      {
+        this[SET_FIELD].organization(val.name);
+        done(val, 'toggle');
+      }
+      console.log('VAL', val);
+    },
     filterFn(val, update)
     {
       update(() =>
@@ -122,13 +133,14 @@ export default {
       });
       console.log('FILTER', val, update);
     },
-    getOrganizations(pagination = { pagination: this.pagination })
+    getOrganizations()
     {
       this.loading = true;
       this.$axios.get(process.env.YAWIK_STRAPI_URL + '/api/organizations', {
         params: {
-          'pagination[page]': pagination.pagination.page,
-          'pagination[pageSize]': pagination.pagination.rowsPerPage,
+          'pagination[page]': 1,
+          'pagination[pageSize]': 20,
+          fields: ['id', 'name'],
           sort: 'name:desc'
         },
         headers: {
@@ -138,24 +150,28 @@ export default {
       }
       ).then(response =>
       {
-        console.log(response.data.data);
         this.filterOptions = response.data.data.map(({ attributes }) => attributes);
         this.organizations = this.filterOptions;
-        this.setPagination(response.data.meta.pagination);
       }).finally(() =>
       {
         this.loading = false;
       });
     },
-    setPagination(pagination)
+    createOrganizations(name)
     {
-      this.pagination = {
-        sortBy: 'asc',
-        descending: true,
-        rowsNumber: pagination.total,
-        page: pagination.page,
-        rowsPerPage: pagination.pageSize
-      };
+      this.loading = true;
+      api.post('/api/organizations', { name: name },
+        {
+          accept: 'application/json',
+          Authorization: 'Bearer ' + this[GET_TOKEN]
+        }
+      ).then(response =>
+      {
+        this.test = response.data.data.map(({ attributes }) => attributes);
+      }).finally(() =>
+      {
+        this.loading = false;
+      });
     },
   }
 };
