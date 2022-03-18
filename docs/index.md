@@ -13,7 +13,7 @@ You can save and manage your job ads if you register in the Jobwizard. After fre
 
 currently under development. But the following is already working
 
-* Login, register and everything related to authentication (Thanks to [Keycloak](https://www.keycloak.org/))
+* Login, register and everything related to authentication ([Strapi](https://strapi.io))
 * Entering a job ad (Thanks to [Quasar](https://quasar.dev))
 * Saving the job ads (Thanks to [Strapi](https://strapi.io))
 * Download of a job ad with [Google Jobs Markup](https://developers.google.com/search/docs/advanced/structured-data/job-posting).
@@ -24,12 +24,12 @@ currently under development. But the following is already working
 * Integration of Google Places API
 * Configure colors and layout
 * Dark mode. Settings of the client are taken into account 
+* Create organisations. 
 
 ## Roadmap
 
 There is [Google Jobs](https://de.wikipedia.org/wiki/Google_for_Jobs). A great service that makes job ads findable via Google. But there is no entry tool for ads. We want to close this gap.
-
-* create organisations. 
+ 
 * integrate https://form.yawik.org
 * create templates for job postings
 * Invite Coworkers

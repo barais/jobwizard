@@ -24,15 +24,6 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn type="a" :href="$yawik.loginUrl()" no-caps color="info">
-            {{ $t('btn.login') }}
-          </q-btn>
-          <q-btn type="a" :href="$yawik.registerUrl()" no-caps color="info">
-            {{ $t('btn.register') }}
-            <q-tooltip>
-              {{ $t('job-wont-be-lost') }}
-            </q-tooltip>
-          </q-btn>
           <q-btn type="a" no-caps color="primary">
             {{ $t('btn.download') }}
           </q-btn>

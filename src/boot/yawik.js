@@ -14,28 +14,6 @@ const yawik = {
   {
     return store.getters.HAS_AUTH;
   },
-  loginUrl(path = '')
-  {
-    return `${process.env.YAWIK_SSO_URL}` +
-    'realms/' +
-    `${process.env.YAWIK_SSO_REALM}` +
-    '/protocol/openid-connect/auth?client_id=' +
-    `${process.env.YAWIK_SSO_CLIENT}` +
-    '&response_mode=fragment&response_type=code&login=true&redirect_uri=' +
-    `${process.env.YAWIK_URL_HOME}` +
-    this.lang() + '/' + path;
-  },
-  registerUrl(path = '')
-  {
-    return `${process.env.YAWIK_SSO_URL}` +
-    'realms/' +
-    `${process.env.YAWIK_SSO_REALM}` +
-    '/protocol/openid-connect/registrations?client_id=' +
-    `${process.env.YAWIK_SSO_CLIENT}` +
-    '&response_mode=fragment&response_type=code&redirect_uri=' +
-    `${process.env.YAWIK_URL_HOME}` +
-    this.lang() + '/' + path;
-  },
   setCookies(name, duration)
   {
     const options = {

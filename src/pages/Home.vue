@@ -1,5 +1,5 @@
 <template>
-  <div />
+  <div>1</div>
 </template>
 
 <script>
@@ -21,7 +21,7 @@ export default
   },
   created()
   {
-    const lang = navigator.language.substr(0, 2);
+    const lang = navigator.language.substring(0, 2);
     this.$router.replace(Object.keys(this.$root.$i18n.messages).includes(lang) ? `/${lang}` : '/en').catch(() => true);
   },
 };

@@ -77,14 +77,6 @@
       <q-separator />
 
       <div class="text-center text-h4 q-mb-md full-width">{{ $t('preis1') }}</div>
-      <q-card-actions>
-        <q-btn type="a" :href="$yawik.loginUrl('jobs')" no-caps color="primary">
-          {{ $t('btn.login') }}
-        </q-btn>
-        <q-btn type="a" :href="$yawik.registerUrl('jobs')" no-caps color="primary">
-          {{ $t('btn.register') }}
-        </q-btn>
-      </q-card-actions>
     </q-card>
   </q-page>
 </template>

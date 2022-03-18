@@ -113,14 +113,6 @@
             {{ $t('wizard_help_anonymous') }}
           </div>
         </q-card-section>
-        <q-card-actions v-if="!$yawik.isAuth()" align="center">
-          <q-btn type="a" :href="$yawik.loginUrl('jobs')" no-caps color="primary">
-            {{ $t('btn.login') }}
-          </q-btn>
-          <q-btn type="a" :href="$yawik.registerUrl('jobs')" no-caps color="primary">
-            {{ $t('btn.register') }}
-          </q-btn>
-        </q-card-actions>
       </q-card>
     </div>
   </div>
