@@ -112,6 +112,7 @@ import StepFour from './steps/StepFour';
 import { GET_STEP, SET_STEP, CLEAR_FORM, GET_FORM, GET_META, GET_LOGO, GET_HEADER, GET_SETTINGS } from '../store/names';
 import { mapGetters, mapMutations } from 'vuex';
 import saveAs from 'src/lib/FileSaver';
+import { api } from 'boot/axios';
 
 const maxContentWidth = 800; // pixels
 
@@ -235,12 +236,12 @@ export default {
         onSave()
         {
           let methodType = 'POST';
-          let url = process.env.YAWIK_STRAPI_URL + '/api/jobs';
+          let url = '/api/jobs';
           const form = { ...this.$store.getters.GET_FORM };
           if (form.id != null)
           {
             methodType = 'PUT';
-            url = process.env.YAWIK_API_URL + '/api/jobs/' + form.id;
+            url = '/api/jobs/' + form.id;
           }
 
           const formData = new FormData();
@@ -256,7 +257,7 @@ export default {
 
           formData.append('html', html, 'job_ad.html');
           formData.append('data', JSON.stringify(formObj));
-          this.$axios({
+          api({
             method: methodType,
             url: url,
             headers: {

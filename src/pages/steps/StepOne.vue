@@ -11,37 +11,7 @@
         @enterPress="gotoNext"
       />
 
-      <q-select
-        v-if="$yawik.isAuth()"
-        v-model="organization"
-        :label="$t('label.organization')"
-        :rules="[ruleRequired]"
-        outlined
-        use-input
-        dense
-        :placeholder="organization === null ? $t('select_or_create') : ''"
-        input-debounce="0"
-        :options="filterOptions"
-        option-value="id"
-        option-label="name"
-        class="col-12"
-        @new-value="createValue"
-        @filter="filterFn"
-      >
-        <template v-if="organization" #append>
-          <q-icon name="cancel" class="cursor-pointer" @click.stop="organization = null" />
-        </template>
-      </q-select>
-
-      <TextInput
-        v-else
-        v-model.trim="organization"
-        name="organization"
-        class="col-12"
-        :label="$t('label.organization')"
-        :rules="[ruleRequired]"
-        @enterPress="gotoNext"
-      />
+      <company-select class="col-12" :label="$t('label.organization')" />
 
       <div class="col-12">
         <div class="row">
@@ -162,16 +132,14 @@ import { GET_FORM, GET_TOKEN, GET_SETTINGS, SET_META, GET_META, SET_FIELD } from
 import mixinValidations from 'src/lib/validations';
 import TextInput from 'src/components/form/TextInput.vue';
 import Tooltip from 'src/components/form/Tooltip.vue';
-
-const stringOptions = [
-  'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-];
+import CompanySelect from 'src/components/CompanySelect.vue';
 
 export default {
   name: 'StepOne',
   components: {
     TextInput,
-    Tooltip
+    Tooltip,
+    CompanySelect
   },
   mixins: [mixinValidations],
   emits: ['next'],
@@ -203,158 +171,135 @@ export default {
         country: 'long_name',
         postal_code: 'short_name',
       },
-      pagination: {
-        sortBy: 'desc',
-        descending: true,
-        rowsNumber: 10,
-        page: 1,
-        rowsPerPage: 10
-      },
-      filterOptions: [],
-      organizations: [],
     };
   },
   computed:
+  {
+    ...mapGetters([GET_TOKEN, GET_FORM, GET_META, GET_SETTINGS]),
+    jobTitle:
+    {
+      get()
       {
-        ...mapGetters([GET_TOKEN, GET_FORM, GET_META, GET_SETTINGS]),
-
-        jobTitle:
-
-          {
-            get()
-            {
-              return this[GET_FORM].jobTitle;
-            },
-            set(val)
-            {
-              this[SET_FIELD]({ jobTitle: val });
-            }
-          },
-        remoteWork:
-          {
-            get()
-            {
-              return this[GET_META].remoteWork;
-            },
-            set(val)
-            {
-              this[SET_META]({ remoteWork: val });
-            }
-          },
-        remoteWorkPercentage:
-          {
-            get()
-            {
-              return this[GET_META].remoteWorkPercentage;
-            },
-            set(val)
-            {
-              this[SET_META]({ remoteWorkPercentage: val });
-            }
-          },
-        organization:
-          {
-            get()
-            {
-              return this[GET_FORM].organization;
-            },
-            set(val)
-            {
-              this[SET_FIELD]({ organization: val });
-            }
-          },
-
-        applyUrl:
-          {
-            get()
-            {
-              return this[GET_FORM].applyURL;
-            },
-            set(val)
-            {
-              this[SET_FIELD]({ applyURL: val });
-            }
-          },
-        applyEmail:
-          {
-            get()
-            {
-              return this[GET_FORM].applyEmail;
-            },
-            set(val)
-            {
-              this[SET_FIELD]({ applyEmail: val });
-            }
-          },
-        applyPost:
-          {
-            get()
-            {
-              return this[GET_FORM].applyPost;
-            },
-            set(val)
-            {
-              this[SET_FIELD]({ applyPost: val });
-            }
-          },
-        reference:
-          {
-            get()
-            {
-              return this[GET_FORM].reference;
-            },
-            set(val)
-            {
-              this[SET_FIELD]({ reference: val });
-            }
-          },
-        locationDisplay:
-          {
-            get()
-            {
-              return this[GET_FORM].formattedAddress;
-            },
-            set(val)
-            {
-              this[SET_FIELD]({ formattedAddress: val });
-            }
-          },
-        countries:
-          {
-            get()
-            {
-              return this[GET_SETTINGS].countries;
-            }
-          },
-        emailEnabled:
-        {
-          get()
-          {
-            return this[GET_SETTINGS].applications_applyEmail_enabled;
-          }
-        },
-        postEnabled:
-        {
-          get()
-          {
-            return this[GET_SETTINGS].applications_applyPost_enabled;
-          }
-        },
-        urlEnabled:
-        {
-          get()
-          {
-            return this[GET_SETTINGS].applications_applyUrl_enabled;
-          }
-        },
-        referenceEnabled:
-        {
-          get()
-          {
-            return this[GET_SETTINGS].jobs_reference_enabled;
-          }
-        }
+        return this[GET_FORM].jobTitle;
       },
+      set(val)
+      {
+        this[SET_FIELD]({ jobTitle: val });
+      }
+    },
+    remoteWork:
+    {
+      get()
+      {
+        return this[GET_META].remoteWork;
+      },
+      set(val)
+      {
+        this[SET_META]({ remoteWork: val });
+      }
+    },
+    remoteWorkPercentage:
+    {
+      get()
+      {
+        return this[GET_META].remoteWorkPercentage;
+      },
+      set(val)
+      {
+        this[SET_META]({ remoteWorkPercentage: val });
+      }
+    },
+    applyUrl:
+    {
+      get()
+      {
+        return this[GET_FORM].applyURL;
+      },
+      set(val)
+      {
+        this[SET_FIELD]({ applyURL: val });
+      }
+    },
+    applyEmail:
+    {
+      get()
+      {
+        return this[GET_FORM].applyEmail;
+      },
+      set(val)
+      {
+        this[SET_FIELD]({ applyEmail: val });
+      }
+    },
+    applyPost:
+    {
+      get()
+      {
+        return this[GET_FORM].applyPost;
+      },
+      set(val)
+      {
+        this[SET_FIELD]({ applyPost: val });
+      }
+    },
+    reference:
+    {
+      get()
+      {
+        return this[GET_FORM].reference;
+      },
+      set(val)
+      {
+        this[SET_FIELD]({ reference: val });
+      }
+    },
+    locationDisplay:
+    {
+      get()
+      {
+        return this[GET_FORM].formattedAddress;
+      },
+      set(val)
+      {
+        this[SET_FIELD]({ formattedAddress: val });
+      }
+    },
+    countries:
+    {
+      get()
+      {
+        return this[GET_SETTINGS].countries;
+      }
+    },
+    emailEnabled:
+    {
+      get()
+      {
+        return this[GET_SETTINGS].applications_applyEmail_enabled;
+      }
+    },
+    postEnabled:
+    {
+      get()
+      {
+        return this[GET_SETTINGS].applications_applyPost_enabled;
+      }
+    },
+    urlEnabled:
+    {
+      get()
+      {
+        return this[GET_SETTINGS].applications_applyUrl_enabled;
+      }
+    },
+    referenceEnabled:
+    {
+      get()
+      {
+        return this[GET_SETTINGS].jobs_reference_enabled;
+      }
+    }
+  },
   mounted()
   {
     if (window.google)
@@ -379,10 +324,6 @@ export default {
       }
       );
     }
-    if (this.$yawik.isAuth())
-    {
-      this.getOrganizations();
-    }
   },
   beforeUnmount()
   {
@@ -390,133 +331,55 @@ export default {
     this.googleSearchBox = null;
   },
   methods:
+  {
+    ...mapMutations([SET_FIELD, SET_META]),
+    gotoNext()
+    {
+      this.$emit('next');
+    },
+    getLocationComp(place, type)
+    {
+      for (const component of place)
       {
-        ...mapMutations([SET_FIELD, SET_META]),
-        gotoNext()
+        if (component.types[0] === type)
         {
-          this.$emit('next');
-        },
-        getLocationComp(place, type)
-        {
-          for (const component of place)
-          {
-            if (component.types[0] === type)
-            {
-              return component[this.locationNameFormat[type]];
-            }
-          }
-          return '';
-        },
-        insertLocatationData(loc)
-        {
-          for (const component of this.locationForm)
-          {
-            switch (component)
-            {
-              case 'location':
-                this.locationData.streetAddress = this.getLocationComp(loc, 'street_number') + ' ' + this.getLocationComp(loc, 'route');
-                break;
-              case 'locality':
-                this.locationData.addressLocality = this.getLocationComp(loc, component);
-                break;
-              case 'administrative_area_level_1':
-                this.locationData.addressRegion = this.getLocationComp(loc, component);
-                break;
-              case 'country':
-                this.locationData.addressCountry = this.getLocationComp(loc, component);
-                break;
-              case 'postal_code':
-                this.locationData.postalCode = this.getLocationComp(loc, component);
-                break;
-            }
-          }
-        },
-        locationChanged(place)
-        {
-          const addressComponents = place.address_components;
-          this.insertLocatationData(addressComponents);
-          this.$store.commit('SET_LOCATION', Object.assign({}, this.locationData));
-          this.locationDisplay = place.formatted_address;
-        },
-        createValue(val, done)
-        {
-          // Calling done(var) when new-value-mode is not set or "add", or done(var, "add") adds "var" content to the model
-          // and it resets the input textbox to empty string
-          // ----
-          // Calling done(var) when new-value-mode is "add-unique", or done(var, "add-unique") adds "var" content to the model
-          // only if is not already set
-          // and it resets the input textbox to empty string
-          // ----
-          // Calling done(var) when new-value-mode is "toggle", or done(var, "toggle") toggles the model with "var" content
-          // (adds to model if not already in the model, removes from model if already has it)
-          // and it resets the input textbox to empty string
-          // ----
-          // If "var" content is undefined/null, then it doesn't tampers with the model
-          // and only resets the input textbox to empty string
-
-          if (val.length > 0)
-          {
-            if (!stringOptions.includes(val))
-            {
-              stringOptions.push(val);
-            }
-            done(val, 'toggle');
-          }
-        },
-
-        filterFn(val, update)
-        {
-          update(() =>
-          {
-            if (val === '')
-            {
-              this.filterOptions = this.organizations;
-            }
-            else
-            {
-              const needle = val.toLowerCase();
-              this.filterOptions = this.organizations.filter(
-                v => v.name.toLowerCase().indexOf(needle) > -1
-              );
-            }
-          });
-          console.log('FILTER', val, update);
-        },
-        getOrganizations(pagination = { pagination: this.pagination })
-        {
-          this.loading = true;
-          this.$axios.get(process.env.YAWIK_STRAPI_URL + '/api/organizations', {
-            params: {
-              'pagination[page]': pagination.pagination.page,
-              'pagination[pageSize]': pagination.pagination.rowsPerPage,
-              sort: 'name:desc'
-            },
-            headers: {
-              accept: 'application/json',
-              Authorization: 'Bearer ' + this[GET_TOKEN]
-            }
-          }
-          ).then(response =>
-          {
-            console.log(response.data.data);
-            this.organizations = response.data.data.map(({ attributes }) => attributes);
-            this.setPagination(response.data.meta.pagination);
-          }).finally(() =>
-          {
-            this.loading = false;
-          });
-        },
-        setPagination(pagination)
-        {
-          this.pagination = {
-            sortBy: 'asc',
-            descending: true,
-            rowsNumber: pagination.total,
-            page: pagination.page,
-            rowsPerPage: pagination.pageSize
-          };
-        },
+          return component[this.locationNameFormat[type]];
+        }
       }
+      return '';
+    },
+    insertLocatationData(loc)
+    {
+      for (const component of this.locationForm)
+      {
+        switch (component)
+        {
+          case 'location':
+            this.locationData.streetAddress = this.getLocationComp(loc, 'street_number') + ' ' + this.getLocationComp(loc, 'route');
+            break;
+          case 'locality':
+            this.locationData.addressLocality = this.getLocationComp(loc, component);
+            break;
+          case 'administrative_area_level_1':
+            this.locationData.addressRegion = this.getLocationComp(loc, component);
+            break;
+          case 'country':
+            this.locationData.addressCountry = this.getLocationComp(loc, component);
+            break;
+          case 'postal_code':
+            this.locationData.postalCode = this.getLocationComp(loc, component);
+            break;
+        }
+      }
+    },
+    locationChanged(place)
+    {
+      const addressComponents = place.address_components;
+      this.insertLocatationData(addressComponents);
+      this.$store.commit('SET_LOCATION', Object.assign({}, this.locationData));
+      this.locationDisplay = place.formatted_address;
+    },
+  }
 };
 </script>
 
@@ -526,19 +389,16 @@ export default {
     "wizard-help-title": "Create job ad",
     "wizard-help-text": "The Jobwizard supports you in creating an advertisement. The use of the Job Wizard and the creation of the advertisement is free of charge. You can activate and deactivate further fields via the settings.",
     "wizard-help-anonymous": "You are currently not logged in. You can use all functions as an anonymous user. However, at the end you can only download the advertisement as HTML.",
-    "select_or_create": "Choose a company or create a new one."
   },
   "de": {
     "wizard-help-title": "Stellenanzeige erstellen",
     "wizard-help-text": "Der Jobwizard unterstützt sie bei der Erstellung einer Anzeige. Die Nutzung des Jobwizard und die Erstellung der Anzeige ist kostenlos. Über die Einstellungen können sie weitere Felder aktivieren und deaktivieren.",
     "wizard-help-anonymous": "Sie sind momentan nicht angemeldet. Sie können als anonymer Benutzer alle Funktionen nutzen. Allerdings können Sie am Ende die Anzeige nur als HTML downloaden.",
-    "select_or_create": "Wählen sie eine Firma oder erstellen sie eine neue."
   },
   "fr": {
     "wizard-help-title": "Créer une offre d'emploi",
     "wizard-help-text": "Le Jobwizard vous aide à créer une annonce. L'utilisation du Jobwizard et la création de l'annonce sont gratuites. Vous pouvez activer ou désactiver d'autres champs dans les paramètres.",
     "wizard-help-anonymous": "Vous n'êtes actuellement pas connecté. Vous pouvez utiliser toutes les fonctions en tant qu'utilisateur anonyme. Cependant, vous ne pourrez finalement télécharger l'annonce qu'au format HTML.",
-    "select_or_create": "Choisissez une entreprise ou créez-en une nouvelle."
   }
 }
 </i18n>
