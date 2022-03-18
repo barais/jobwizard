@@ -13,6 +13,7 @@ export const GET_LANG = 'GET_LANG';
 export const GET_LOGO = 'GET_LOGO';
 export const GET_META = 'GET_META';
 export const GET_HEADER = 'GET_HEADER';
+export const GET_HTML = 'GET_HTML';
 export const GET_TOKEN = 'GET_TOKEN';
 export const HAS_AUTH = 'HAS_AUTH';
 
@@ -26,5 +27,6 @@ export const SET_LANG = 'SET_LANG';
 export const SET_LOGO = 'SET_LOGO';
 export const SET_META = 'SET_META';
 export const SET_HEADER = 'SET_HEADER';
+export const SET_HTML = 'SET_HTML';
 export const SET_TOKEN = 'SET_TOKEN';
 export const SET_LOCATION = 'SET_LOCATION';

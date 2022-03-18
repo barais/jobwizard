@@ -8,6 +8,7 @@ import {
   GET_LOGO,
   GET_META,
   GET_HEADER,
+  GET_HTML,
   GET_TOKEN,
   HAS_AUTH,
   CLEAR_FORM,
@@ -19,15 +20,13 @@ import {
   SET_JOB,
   SET_META,
   SET_HEADER,
+  SET_HTML,
   SET_TOKEN,
   SET_LOCATION
 } from '../names';
 
 const emptyForm = {
   id: null,
-  createdAt: null,
-  updatedAt: null,
-  publishedAt: null,
   step: 'stepOne',
   jobTitle: '',
   organization: '',
@@ -88,6 +87,7 @@ export default
       settings: userSettings,
       logo: '', // Base-64 encoded
       header: '', // Base-64 encoded
+      html: '',
       token: null,
       lang: null
     };
@@ -121,6 +121,10 @@ export default
       [GET_HEADER](state)
       {
         return state.header;
+      },
+      [GET_HTML](state)
+      {
+        return state.html;
       },
       [GET_TOKEN](state)
       {
@@ -171,6 +175,10 @@ export default
       [SET_HEADER](state, value)
       {
         state.header = value;
+      },
+      [SET_HTML](state, value)
+      {
+        state.html = value;
       },
       [SET_TOKEN](state, token)
       {

@@ -97,12 +97,12 @@
       <q-card>
         <q-card-section>
           <div class="text-h4">
-            {{ $t('wizard-help-title') }}
+            {{ $t('wizard_help_title') }}
           </div>
         </q-card-section>
         <q-card-section>
           <div>
-            {{ $t('wizard-help-text') }}
+            {{ $t('wizard_help_text') }}
           </div>
         </q-card-section>
         <q-card-section align="center">
@@ -110,7 +110,7 @@
         </q-card-section>
         <q-card-section v-if="!$yawik.isAuth()">
           <div>
-            {{ $t('wizard-help-anonymous') }}
+            {{ $t('wizard_help_anonymous') }}
           </div>
         </q-card-section>
         <q-card-actions v-if="!$yawik.isAuth()" align="center">
@@ -382,23 +382,3 @@ export default {
   }
 };
 </script>
-
-<i18n>
-{
-  "en": {
-    "wizard-help-title": "Create job ad",
-    "wizard-help-text": "The Jobwizard supports you in creating an advertisement. The use of the Job Wizard and the creation of the advertisement is free of charge. You can activate and deactivate further fields via the settings.",
-    "wizard-help-anonymous": "You are currently not logged in. You can use all functions as an anonymous user. However, at the end you can only download the advertisement as HTML.",
-  },
-  "de": {
-    "wizard-help-title": "Stellenanzeige erstellen",
-    "wizard-help-text": "Der Jobwizard unterstützt sie bei der Erstellung einer Anzeige. Die Nutzung des Jobwizard und die Erstellung der Anzeige ist kostenlos. Über die Einstellungen können sie weitere Felder aktivieren und deaktivieren.",
-    "wizard-help-anonymous": "Sie sind momentan nicht angemeldet. Sie können als anonymer Benutzer alle Funktionen nutzen. Allerdings können Sie am Ende die Anzeige nur als HTML downloaden.",
-  },
-  "fr": {
-    "wizard-help-title": "Créer une offre d'emploi",
-    "wizard-help-text": "Le Jobwizard vous aide à créer une annonce. L'utilisation du Jobwizard et la création de l'annonce sont gratuites. Vous pouvez activer ou désactiver d'autres champs dans les paramètres.",
-    "wizard-help-anonymous": "Vous n'êtes actuellement pas connecté. Vous pouvez utiliser toutes les fonctions en tant qu'utilisateur anonyme. Cependant, vous ne pourrez finalement télécharger l'annonce qu'au format HTML.",
-  }
-}
-</i18n>

@@ -2,6 +2,7 @@ export default
 {
   localeName: () => 'English',
   jobs: () => 'Jobs',
+  job: () => 'Ad',
   jobboard: () => 'Jobboard',
   job_title: () => 'Job title',
   create_job: () => 'Create new Jobad',
@@ -14,6 +15,20 @@ export default
   location: () => 'Location',
   company: () => 'Company',
   recruiter: () => 'Recruiter',
+  edit_job: () => 'Edit Job',
+  title: () => 'Please register',
+  action: () => 'Action',
+  unpublished: () => 'unpublished',
+  'ad-management-description': 'With the advertisement management you can save, edit and delete job advertisements. The advertisement management is also required to integrate job advertisements into your homepage.',
+  preis1: () => 'Registration is free of charge',
+  please_register: () => 'You are currently not logged in. To use the ad management, you must register. Registration is free of charge.',
+  del_job: () => 'Delete job ad',
+  confirm_del: () => 'Do you really want to delete the job advertisement?',
+  alert: () => 'Alert',
+  wizard_help_title: () => 'Create job ad',
+  wizard_help_text: () => 'The Jobwizard supports you in creating an advertisement. The use of the Job Wizard and the creation of the advertisement is free of charge. You can activate and deactivate further fields via the settings.',
+  wizard_help_anonymous: () => 'You are currently not logged in. You can use all functions as an anonymous user. However, at the end you can only download the advertisement as HTML.',
+  select_or_create: () => 'Choose a company or create a new one.',
   btn:
   {
     login: () => 'Login',

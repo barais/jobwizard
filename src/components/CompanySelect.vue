@@ -13,7 +13,6 @@
       :options="filterOptions"
       option-value="id"
       option-label="name"
-      @change="changeValue"
       @new-value="createValue"
       @filter="filterFn"
     >
@@ -31,15 +30,11 @@
       :rules="[ruleRequired]"
       @enterPress="gotoNext"
     />
-    <ul>
-      <li>{{ organizations }}</li>
-      <li>{{ organization }}</li>
-      <li>{{ filterOptions }}</li>
-    </ul>
   </div>
 </template>
 
 <script>
+import TextInput from 'src/components/form/TextInput.vue';
 import { mapGetters, mapMutations } from 'vuex';
 import { GET_FORM, SET_FIELD, GET_TOKEN } from 'src/store/names';
 import mixinValidations from 'src/lib/validations';
@@ -47,6 +42,7 @@ import { api } from 'boot/axios';
 
 export default {
   name: 'CompanySelect',
+  components: { TextInput },
   setup()
   {
     return {
@@ -62,12 +58,23 @@ export default {
     {
       get()
       {
-        return this[GET_FORM].org || this[GET_FORM].organization;
+        return this[GET_FORM].org || this.organization;
       },
       set(val)
       {
         this[SET_FIELD]({ org: val });
-        this[SET_FIELD]({ organization: val.name });
+        this.organization = val.name;
+      }
+    },
+    organization:
+    {
+      get()
+      {
+        return this[GET_FORM].organization;
+      },
+      set(val)
+      {
+        this[SET_FIELD]({ org: val });
       }
     },
   },
@@ -105,15 +112,6 @@ export default {
         }
         done(val, 'toggle');
       }
-    },
-    changeValue(val, done)
-    {
-      if (val.length > 0)
-      {
-        this[SET_FIELD].organization(val.name);
-        done(val, 'toggle');
-      }
-      console.log('VAL', val);
     },
     filterFn(val, update)
     {
@@ -176,17 +174,3 @@ export default {
   }
 };
 </script>
-
-<i18n>
-{
-  "en": {
-    "select_or_create": "Choose a company or create a new one."
-  },
-  "de": {
-     "select_or_create": "Wählen sie eine Firma oder erstellen sie eine neue."
-  },
-  "fr": {
-   "select_or_create": "Choisissez une entreprise ou créez-en une nouvelle."
-  }
-}
-</i18n>

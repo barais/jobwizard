@@ -88,11 +88,7 @@ export default {
       let routePath = '/' + lang;
       if (routeName !== 'wizard')
       {
-        routePath = routePath + '/' + this.$route.name;
-        if (routeName === 'job')
-        {
-          routePath = routePath + '/' + this.$route.params.id;
-        }
+        routePath = routePath + '/' + this.$route.path.split('/').slice(2).join('/');
       }
       this.$router.push(routePath);
 
