@@ -134,6 +134,7 @@ import mixinValidations from 'src/lib/validations';
 import { mapGetters, mapMutations } from 'vuex';
 import { GET_SETTINGS, GET_STEP, GET_TOKEN, GET_FORM, SET_FIELD, GET_LOGO, GET_HEADER, SET_LOGO, SET_HEADER } from 'src/store/names';
 import EditorInput from 'src/components/form/Editor.vue';
+import { api } from 'boot/axios';
 
 export default
 {
@@ -313,10 +314,6 @@ export default
       {
         return this[GET_TOKEN];
       },
-      api()
-      {
-        return this.process.env.YAWIK_STRAPI_URL;
-      }
     },
   watch:
     {
@@ -408,16 +405,14 @@ export default
 
         return new Promise((resolve, reject) =>
         {
-          this.$axios({
-            method: 'POST',
-            url: this.api + '/api/upload',
-            headers: {
-              accept: 'application/json',
-              Authorization: 'Bearer ' + token,
-              'Content-Type': 'multipart/form-data'
-            },
-            data: fd
-          })
+          api.post('/api/upload', fd,
+            {
+              headers: {
+                accept: 'application/json',
+                Authorization: 'Bearer ' + token,
+                'Content-Type': 'multipart/form-data'
+              }
+            })
             .then(res =>
             {
               resolve(file);
@@ -437,15 +432,12 @@ export default
 
         return new Promise((resolve, reject) =>
         {
-          this.$axios({
-            method: 'POST',
-            url: this.api + '/api/upload',
+          api.post('/api/upload', fd, {
             headers: {
               accept: 'application/json',
               Authorization: 'Bearer ' + token,
               'Content-Type': 'multipart/form-data'
             },
-            data: fd
           })
             .then(res =>
             {

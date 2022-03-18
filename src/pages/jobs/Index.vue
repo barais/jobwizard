@@ -94,6 +94,7 @@
 import { useMeta } from 'quasar';
 import { SET_JOB, SET_LOGO, SET_HEADER, GET_TOKEN } from 'src/store/names';
 import { mapGetters, mapMutations } from 'vuex';
+import { api } from 'boot/axios';
 
 export default {
   name: 'Index',
@@ -223,7 +224,7 @@ export default {
         {
           this.$axios({
             method: 'GET',
-            url: process.env.YAWIK_API_URL + '/api/jobs/' + job.id,
+            url: process.env.YAWIK_STRAPI_URL + '/api/jobs/' + job.id,
             params: {
               populate: 'html,logo',
               sort: 'createdAt:desc'
@@ -255,9 +256,7 @@ export default {
         },
         deleteJob(id)
         {
-          this.$axios({
-            method: 'DELETE',
-            url: process.env.YAWIK_STRAPI_URL + '/api/jobs/' + id,
+          api.delete('/api/jobs/' + id, {
             headers: {
               accept: 'application/json',
               Authorization: 'Bearer ' + this[GET_TOKEN]
