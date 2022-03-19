@@ -117,7 +117,7 @@ export default
           separator: true
         },
         {
-          icon: 'mdi-cog',
+          icon: 'miscellaneous_services',
           label: this.$t('nav.misc'),
           separator: false
         }

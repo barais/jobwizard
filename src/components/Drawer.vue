@@ -79,19 +79,25 @@ export default
             separator: true
           },
           {
+            icon: 'domain',
+            label: this.$t('nav.organizations'),
+            to: '/' + this.$yawik.lang() + '/organizations',
+            separator: true
+          },
+          {
             icon: 'mdi-content-copy',
             label: this.$t('templates'),
             to: '/' + this.$yawik.lang() + '/templates',
             separator: true
           },
           {
-            icon: 'mdi-poll',
-            label: this.$t('statistics'),
+            icon: 'poll',
+            label: this.$t('nav.statistics'),
             to: '/' + this.$yawik.lang() + '/statistics',
             separator: true
           },
           {
-            icon: 'mdi-cogs',
+            icon: 'settings',
             label: this.$t('settings'),
             to: '/' + this.$yawik.lang() + '/settings',
             separator: false

@@ -60,7 +60,7 @@
         </q-tr>
       </template>
       <template #top-right>
-        <q-btn color="primary" no-caps :disable="loading" :label="$t('create_job')" :to="'/' + $yawik.lang()" />
+        <q-btn color="primary" no-caps :disable="loading" :label="$t('create_job')" :to="'/' + $yawik.lang() + '/create/job'" />
       </template>
     </q-table>
   </q-page>

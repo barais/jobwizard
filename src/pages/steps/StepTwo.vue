@@ -402,6 +402,7 @@ export default
         fd.append('refId', this.$route.params.id);
         fd.append('field', 'logo');
         fd.append('files', file[0]);
+        fd.append('source', 'users-permissions');
 
         return new Promise((resolve, reject) =>
         {
@@ -415,6 +416,7 @@ export default
             })
             .then(res =>
             {
+              console.log('Result', res);
               resolve(file);
             })
             .catch(err => reject(err));
@@ -441,6 +443,7 @@ export default
           })
             .then(res =>
             {
+              console.log('Result', res);
               resolve(file);
             })
             .catch(err => reject(err));

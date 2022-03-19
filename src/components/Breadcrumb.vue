@@ -49,7 +49,7 @@ export default
           mdi = 'mdi-view-list';
           break;
         case 'create-job':
-          mdi = 'plus';
+          mdi = 'mdi-plus';
           break;
         case 'jobboard':
           mdi = 'mdi-earth';
@@ -57,7 +57,10 @@ export default
         case 'templates':
           mdi = 'mdi-content-copy';
           break;
-        case 'statistics':
+        case 'nav.organizations':
+          mdi = 'domain';
+          break;
+        case 'nav.statistics':
           mdi = 'poll';
           break;
         default:

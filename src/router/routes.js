@@ -17,6 +17,11 @@ const routes = [
         component: () => import('pages/Wizard.vue'),
       },
       {
+        path: 'organizations',
+        name: 'nav.organizations',
+        component: () => import('pages/Organizations.vue'),
+      },
+      {
         path: 'jobs',
         name: 'jobs',
         component: () => import('pages/jobs/Index.vue'),
@@ -29,7 +34,7 @@ const routes = [
       },
       {
         path: 'create/job',
-        name: 'create-job',
+        name: 'create_job',
         component: () => import('pages/Wizard.vue'),
       },
       {
@@ -44,7 +49,7 @@ const routes = [
       },
       {
         path: 'statistics',
-        name: 'statistics',
+        name: 'nav.statistics',
         component: () => import('pages/Statistics.vue'),
       },
       {
