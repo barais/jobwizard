@@ -1,29 +1,16 @@
 <template>
   <div class="q-gutter-md">
     <!-- Logo -->
-    <div class="jobintro row q-col-gutter-md justify-center">
-      <div class="col-lg-2 col-md-3">
-        <q-uploader
-          v-if="!(imageLogo && imageLogo.data)"
-          hide-upload-btn
-          :color="$q.dark.mode ? 'black' : 'grey-2' "
-          :text-color="$q.dark.mode ? 'white' : 'dark'"
-          accept="image/*"
-          style="max-width: 220px; height: 220px;"
-          :max-total-size="2e5"
-          :max-files="1"
-          :class="(imageLogo && imageLogo.data) ? 'hidden' : ''"
-          :label="$t('choose_logo')"
-          :factory="uploadLogo"
-          auto-upload
-          @rejected="rejectedFiles"
-          @added="logoAdded"
-          @removed="logoRemoved"
-        />
-        <q-img
-          v-else width="220px" height="220px" fit="contain" :src="jobDetailUrl + imageLogo.data.formats.thumbnail.url"
-        />
-      </div>
+    <div class="row q-col-gutter-md justify-center">
+      <upload-logo
+        ref="job"
+        class="col-md-2"
+        :ref-id="$route.params.id"
+        field="logo"
+        fit="contain"
+        height="200px"
+        :label="$t('choose_logo')"
+      />
       <div class="col-lg-10 col-md-9" :style="{maxWidth: (maxWidth * 2 * 0.8) + 'px'}">
         <q-item>
           <q-item-section class="full-width">
@@ -34,31 +21,17 @@
       </div>
 
       <!-- Header image -->
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" :style="{maxWidth: (maxWidth * 2) + 'px'}">
-        <q-uploader
-          v-if="!(imageHeader && imageHeader.data)"
-          hide-upload-btn
-          :color="$q.dark.mode ? 'black' : 'grey-2' "
-          :text-color="$q.dark.mode ? 'white' : 'dark'"
-          accept="image/*"
-          style="max-height: 400px; min-height: 200px; width: 100%;"
-          :max-total-size="2e6"
-          :max-files="1"
-          :class="(imageHeader && imageHeader.data) ? 'hidden' : ''"
-          :label="$t('choose_header')"
-          :factory="uploadHeader"
-          auto-upload
-          @rejected="rejectedFiles"
-          @added="headerAdded"
-          @removed="headerRemoved"
-        />
-        <q-img
-          v-else
-          height="200px"
-          fit="cover"
-          :src="jobDetailUrl + imageHeader.data[0].url"
-        />
-      </div>
+      <upload-logo
+        ref="job"
+        :ref-id="$route.params.id"
+        field="header"
+        class="col-md-10 q-mr-lg"
+        fit="cover"
+        :width="(maxWidth * 2) + 'px'"
+        height="200px"
+        :max-total-size="204800"
+        :label="$t('choose_header')"
+      />
     </div>
 
     <div class="jobfields row q-col-gutter-md justify-center">
@@ -134,20 +107,20 @@ import mixinValidations from 'src/lib/validations';
 import { mapGetters, mapMutations } from 'vuex';
 import { GET_SETTINGS, GET_STEP, GET_TOKEN, GET_FORM, SET_FIELD, GET_LOGO, GET_HEADER, SET_LOGO, SET_HEADER } from 'src/store/names';
 import EditorInput from 'src/components/form/Editor.vue';
-import { api } from 'boot/axios';
+import UploadLogo from 'src/components/UploadLogo.vue';
 
 export default
 {
   name: 'StepTwo',
   components: {
-    EditorInput
+    EditorInput,
+    UploadLogo
   },
   mixins: [mixinValidations],
   data()
   {
     return {
       maxWidth: 800,
-      jobDetailUrl: `${process.env.YAWIK_JOB_URL}`,
     };
   },
   computed:
@@ -263,17 +236,6 @@ export default
             this[SET_FIELD]({ contactInfo: val });
           }
         },
-      imageLogo:
-        {
-          get()
-          {
-            return this[GET_LOGO];
-          },
-          set(val)
-          {
-            this[SET_LOGO](val);
-          }
-        },
       imageHeader:
         {
           get()
@@ -370,17 +332,6 @@ export default
           message: this.$t('image_rejected'),
         });
       },
-      logoAdded(files)
-      {
-        this.readFile(files[0]).then(b64 =>
-        {
-          this.imageLogo = b64;
-        });
-      },
-      logoRemoved(files)
-      {
-        this.imageLogo = '';
-      },
       headerAdded(files)
       {
         this.readFile(files[0]).then(b64 =>
@@ -392,62 +343,6 @@ export default
       headerRemoved(files)
       {
         this.imageHeader = '';
-      },
-      uploadLogo(file)
-      {
-        const token = this.token;
-        const fd = new FormData();
-        console.log('FILE:', file);
-        fd.append('ref', 'api::job.job');
-        fd.append('refId', this.$route.params.id);
-        fd.append('field', 'logo');
-        fd.append('files', file[0]);
-        fd.append('source', 'users-permissions');
-
-        return new Promise((resolve, reject) =>
-        {
-          api.post('/api/upload', fd,
-            {
-              headers: {
-                accept: 'application/json',
-                Authorization: 'Bearer ' + token,
-                'Content-Type': 'multipart/form-data'
-              }
-            })
-            .then(res =>
-            {
-              console.log('Result', res);
-              resolve(file);
-            })
-            .catch(err => reject(err));
-        });
-      },
-      uploadHeader(file)
-      {
-        const token = this.token;
-        const fd = new FormData();
-        console.log('FILE:', file);
-        fd.append('ref', 'api::job.job');
-        fd.append('refId', this.$route.params.id);
-        fd.append('field', 'header');
-        fd.append('files', file[0]);
-
-        return new Promise((resolve, reject) =>
-        {
-          api.post('/api/upload', fd, {
-            headers: {
-              accept: 'application/json',
-              Authorization: 'Bearer ' + token,
-              'Content-Type': 'multipart/form-data'
-            },
-          })
-            .then(res =>
-            {
-              console.log('Result', res);
-              resolve(file);
-            })
-            .catch(err => reject(err));
-        });
       },
 
     }

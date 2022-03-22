@@ -135,7 +135,9 @@ module.exports = function(ctx)
       config: {
         dark: false,
         sitename: 'jobwizard',
-        logo: 'img:../../images/yawik_logo-mobile.svg'
+        logo: 'img:../../images/yawik_logo-mobile.svg',
+        jobUrl: variables.YAWIK_JOB_URL,
+        strapiUrl: variables.YAWIK_JOB_URL
       },
 
       // Possible values for "importStrategy":
