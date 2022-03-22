@@ -25,7 +25,7 @@
             </div>
           </q-td>
           <q-td key="title" :props="props">
-            <a v-if="props.row.attributes.html" target="_new" :href="jobDetailUrl + props.row.attributes.html.url">
+            <a v-if="props.row.attributes.html" target="_new" :href="$q.config.jobUrl + props.row.attributes.html.url">
               <span class="cursor-pointer jobtitle">
                 {{ props.row.attributes.jobTitle }}
                 <q-tooltip :delay="500">
@@ -106,7 +106,6 @@ export default {
     return {
       rows: [],
       jobsUrl: `${process.env.YAWIK_STRAPI_URL}/api/jobs`,
-      jobDetailUrl: `${process.env.YAWIK_STRAPI_URL}`,
       loading: false,
       rowsPerPageOptions: [10, 25, 50, 100],
       pagination: {

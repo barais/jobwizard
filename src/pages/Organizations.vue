@@ -24,7 +24,7 @@
               width="100px"
               height="50px"
               fit="cover"
-              :src="jobDetailUrl + props.row.attributes.logo.formats.thumbnail.url"
+              :src="$q.config.jobUrl + props.row.attributes.logo.formats.thumbnail.url"
             />
             <q-btn v-else dense icon="mdi-plus" label="logo" />
           </q-td>
@@ -34,7 +34,7 @@
               width="100px"
               height="50px"
               fit="cover"
-              :src="jobDetailUrl + props.row.attributes.header[0].formats.thumbnail.url"
+              :src="$q.config.jobUrl + props.row.attributes.header[0].formats.thumbnail.url"
             />
             <q-btn v-else dense icon="mdi-plus" label="header" />
           </q-td>
@@ -78,7 +78,6 @@ export default {
   data()
   {
     return {
-      jobDetailUrl: `${process.env.YAWIK_STRAPI_URL}`,
       rows: [],
       loading: false,
       rowsPerPageOptions: [10, 25, 50, 100],
