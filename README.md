@@ -37,11 +37,9 @@ The form is .env-aware.
 | YAWIK_URL_PRIVACY            | Link to the Privacy notes           |
 | YAWIK_APP_KEY                | Shared App Key                      |
 | YAWIK_API_URL                | Yawik API                           |
+| YAWIK_STRAPI_URL             | Strapi Backend                      |
 | YAWIK_JOB_URL                | URL to job details                  |
 | YAWIK_ROUTER_BASE            | Router Base of the web app          |
-| YAWIK_SSO_URL                | Keycloak base URL                   |  
-| YAWIK_SSO_REALM              | Keycloak realm                      |  
-| YAWIK_SSO_CLIENT             | Keycloak application ID             |  
 
 It's possible to show a toolbar with the Logo and a navigation drawer by using query parameter with any non-empty value.
 
