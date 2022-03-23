@@ -3,6 +3,8 @@ export default
   localeName: () => 'Deutsch',
   jobs: () => 'Stellenanzeigen',
   job: () => 'Anzeige',
+  logo: () => 'Logo',
+  header: () => 'Headerbild',
   create_job: () => 'Neue Stellenanzeige eingeben',
   jobboard: () => 'Stellenbörse',
   public_jobs: () => 'aktuelle Stellenanzeigen',

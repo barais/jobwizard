@@ -14,7 +14,7 @@
       table-class="jobtable"
       title-class="text-h5"
       table-header-class="jobtable-header"
-      @request="getJobs"
+      @request="organizations"
     >
       <template #body="props">
         <q-tr :props="props">
@@ -26,7 +26,11 @@
               fit="cover"
               :src="$q.config.jobUrl + props.row.attributes.logo.formats.thumbnail.url"
             />
-            <q-btn v-else dense icon="mdi-plus" label="logo" />
+            <q-btn
+              v-else
+              dense icon="mdi-plus" label="logo"
+              @click="value = false,dlgLogo = true"
+            />
           </q-td>
           <q-td key="header" :props="props">
             <q-img
@@ -44,7 +48,12 @@
             </span>
           </q-td>
           <q-td key="action" :props="props">
-            <q-btn size="sm" color="primary" dense class="cursor-pointer" icon="mdi-pencil" @click="editJob(props.row)">
+            <q-btn
+              size="sm"
+              color="primary"
+              dense class="cursor-pointer" icon="mdi-pencil"
+              :to="'/' + $yawik.lang() + '/organization/' + props.row.id"
+            >
               <q-tooltip :delay="500">
                 {{ $t('nav.edit_org') }}
               </q-tooltip>
@@ -58,13 +67,14 @@
         </q-tr>
       </template>
       <template #top-right>
-        <q-btn no-caps color="primary" :disable="loading" :label="$t('nav.create_org')" @click="createAd" />
+        <q-btn no-caps color="primary" :disable="loading" :label="$t('nav.create_org')" to="#" />
       </template>
     </q-table>
     <q-card v-if="!$yawik.isAuth()" class="absolute-center channel shadow-5">
       <div class="text-h4 q-mb-md full-width">{{ $t('title') }}</div>
       <p>{{ $t('please_register') }}</p>
     </q-card>
+    <DialogLogo v-model="dlgLogo" />
   </q-page>
 </template>
 
@@ -72,13 +82,27 @@
 import { GET_TOKEN } from 'src/store/names';
 import { mapGetters } from 'vuex';
 import { api } from 'boot/axios';
+import DialogLogo from 'src/components/dialogs/DialogLogo';
 
 export default {
   name: 'Organizations',
+  components: {
+    DialogLogo
+  },
+  props:
+  {
+    modelValue:
+      {
+        type: Boolean,
+        default: false
+      },
+  },
+  emits: ['update:modelValue'],
   data()
   {
     return {
       rows: [],
+      dlgLogo: false,
       loading: false,
       rowsPerPageOptions: [10, 25, 50, 100],
       pagination: {
@@ -129,17 +153,28 @@ export default {
         },
       ];
     },
+    value:
+    {
+      get()
+      {
+        return this.modelValue;
+      },
+      set(val)
+      {
+        this.$emit('update:modelValue', val);
+      }
+    },
   },
   mounted()
   {
     if (this.$yawik.isAuth())
     {
-      this.getMedia();
+      this.organizations();
     }
   },
   methods:
   {
-    getMedia(pagination = { pagination: this.pagination })
+    organizations(pagination = { pagination: this.pagination })
     {
       this.loading = true;
       api.get('/api/organizations', {
@@ -175,6 +210,50 @@ export default {
         rowsPerPage: pagination.pageSize
       };
     },
+    deleteOrganization(id)
+    {
+      api.delete('/api/organizations/' + id, {
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer ' + this[GET_TOKEN]
+        }
+      }).then(response =>
+      {
+        this.organizations();
+        this.$q.notify({
+          type: 'positive',
+          message: `company deleted successfully.`
+        });
+      });
+
+      this.$router.push({
+        name: 'jobs',
+      });
+    },
+    confirm(id, title)
+    {
+      this.$q.dialog({
+        title: this.$t('alert'),
+        message: this.$t('confirm_del') + '<p><b>' + title + '</b></p>',
+        cancel: true,
+        persistent: true,
+        html: true
+      }).onOk(() =>
+      {
+        this.deleteJob(id);
+        console.log('>>>> OK');
+      }).onOk(() =>
+      {
+        console.log('>>>> second OK catcher');
+      }).onCancel(() =>
+      {
+        console.log('>>>> Cancel');
+      }).onDismiss(() =>
+      {
+        console.log('I am triggered on both OK and Cancel');
+      });
+    },
+
   }
 };
 </script>

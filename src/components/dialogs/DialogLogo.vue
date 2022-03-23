@@ -7,8 +7,7 @@
         </q-card-section>
         <q-card-section>
           <div class="column">
-            <DropZone @change="choosePhoto" />
-            <UserPhoto :image="image" :width="160" :height="80" class="q-mx-auto q-mt-md" @remove="photo = null,image = ''" />
+            <upload-logo />
           </div>
         </q-card-section>
         <q-card-actions align="right">
@@ -28,8 +27,7 @@
 </template>
 
 <script>
-import DropZone from 'src/components/DropZone';
-import UserPhoto from 'src/components/UserPhoto';
+import UploadLogo from 'src/components/UploadLogo';
 import eventBus, { AJAX_FAILED } from 'src/lib/eventBus';
 
 export default
@@ -37,8 +35,7 @@ export default
   name: 'DialogLogo',
   components:
     {
-      DropZone,
-      UserPhoto,
+      UploadLogo,
     },
   props:
     {

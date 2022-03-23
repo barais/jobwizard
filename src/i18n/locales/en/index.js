@@ -3,6 +3,8 @@ export default
   localeName: () => 'English',
   jobs: () => 'Jobs',
   job: () => 'Ad',
+  logo: () => 'Logo',
+  header: () => 'Headerimage',
   jobboard: () => 'Jobboard',
   job_title: () => 'Job title',
   ad_management: () => 'Ad management',
