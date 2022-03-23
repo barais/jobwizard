@@ -2,6 +2,37 @@
   <q-page padding>
     <h1>{{ $t('organization') }} {{ orgId }}#</h1>
     <pre>{{ org.name }}</pre>
+    <div v-if="orgId">
+      <q-input
+        v-model="org.name"
+        :label="$t('label.organization')"
+        dense
+        clearable
+        outlined
+      />
+      <q-btn
+        dense
+        :label="$t('save')"
+        color="primary"
+        @click="updateOrg"
+      />
+    </div>
+    <div v-else>
+      <q-input
+        v-model="org.name"
+        :label="$t('label.organization')"
+        dense
+        clearable
+        outlined
+      />
+      <q-btn
+        dense
+        :label="$t('save')"
+        color="primary"
+        @click="createOrg"
+      />
+    </div>
+    {{ org }}
   </q-page>
 </template>
 
@@ -25,7 +56,7 @@ export default {
     return {
       org: {
         name: null,
-        id: null
+        id: null,
       },
       loading: false,
       pagination: {
@@ -45,12 +76,12 @@ export default {
   {
     if (this.$yawik.isAuth())
     {
-      this.organization(this.orgId);
+      this.getOrg(this.orgId);
     }
   },
   methods:
   {
-    organization(id)
+    getOrg(id)
     {
       api.get('/api/organizations/' + id,
         {
@@ -59,6 +90,42 @@ export default {
             Authorization: 'Bearer ' + this[GET_TOKEN]
           }
         }
+      ).then(response =>
+      {
+        this.org = response.data;
+        console.log(response.data.success.org);
+      });
+    },
+    createOrg(data)
+    {
+      console.log(data);
+      api.post('/api/organizations', {
+        data: this.org
+      },
+      {
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer ' + this[GET_TOKEN]
+        },
+      }
+      ).then(response =>
+      {
+        this.org = response.data;
+        console.log(response.data.success.org);
+      });
+    },
+    updateOrg(data)
+    {
+      console.log(data);
+      api.put('/api/organizations/' + data.id, {
+        data: this.org
+      },
+      {
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer ' + this[GET_TOKEN]
+        },
+      }
       ).then(response =>
       {
         this.org = response.data;

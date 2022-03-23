@@ -7,15 +7,16 @@
         </q-card-section>
         <q-card-section>
           <div class="column">
-            <upload-logo />
+            <upload-logo
+              ref="api::organization:organization"
+              :ref-id="5"
+              field="logo"
+            />
           </div>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn color="primary" outline class="q-mr-sm" @click="value = false">
+          <q-btn no-caps color="primary" outline class="q-mr-sm" @click="value = false">
             {{ $t('btn.cancel') }}
-          </q-btn>
-          <q-btn color="primary" class="q-ml-sm" type="submit">
-            {{ $t('btn.send') }}
           </q-btn>
         </q-card-actions>
         <q-inner-loading :showing="sending">
@@ -72,7 +73,7 @@ export default
     {
       value(newVal)
       {
-        if (newVal) this.fetchData();
+        console.log(newVal);
       }
     },
   methods:
@@ -83,22 +84,6 @@ export default
         this.$axios.get(process.env.YAWIK_API_URL + '/logo').then(response =>
         {
           this.image = response.data.logoUrl;
-        }).catch(err =>
-        {
-          eventBus.emit(AJAX_FAILED, err);
-        }).finally(() =>
-        {
-          this.sending = false;
-        });
-      },
-      submitForm()
-      {
-        this.sending = true;
-        const data = new FormData();
-        data.append('logo', this.photo || '');
-        this.$axios.post(process.env.YAWIK_API_URL + '/logo', data).then(response =>
-        {
-          this.value = false;
         }).catch(err =>
         {
           eventBus.emit(AJAX_FAILED, err);

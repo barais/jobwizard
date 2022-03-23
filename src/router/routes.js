@@ -28,6 +28,12 @@ const routes = [
         component: () => import('pages/Organization.vue'),
       },
       {
+        path: 'organization',
+        name: 'nav.create_org',
+        props: true,
+        component: () => import('pages/Organization.vue'),
+      },
+      {
         path: 'jobs',
         name: 'jobs',
         component: () => import('pages/jobs/Index.vue'),

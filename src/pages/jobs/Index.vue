@@ -41,7 +41,8 @@
             {{ props.row.attributes.formattedAddress }}
           </q-td>
           <q-td key="company" :props="props">
-            {{ props.row.attributes.organization }}
+            <router-link v-if="props.row.attributes.org" :to="'organization/' + props.row.attributes.org.id">{{ props.row.attributes.organization }}</router-link>
+            <span v-else>{{ props.row.attributes.organization }}</span>
           </q-td>
           <q-td key="action" :props="props">
             <q-btn size="sm" color="primary" dense class="cursor-pointer" icon="mdi-pencil" @click="editJob(props.row)">
@@ -179,11 +180,11 @@ export default {
         getJobs(pagination = { pagination: this.pagination })
         {
           this.loading = true;
-          this.$axios.get(this.jobsUrl, {
+          api.get('/api/jobs', {
             params: {
               'pagination[page]': pagination.pagination.page,
               'pagination[pageSize]': pagination.pagination.rowsPerPage,
-              populate: 'html',
+              populate: 'html,org',
               sort: 'createdAt:desc'
             },
             headers: {

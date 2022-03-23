@@ -43,7 +43,7 @@
             <q-btn v-else dense icon="mdi-plus" label="header" />
           </q-td>
           <q-td key="company" :props="props">
-            <span v-if="props.row.attributes.name" class="jobtitle">
+            <span v-if="props.row.attributes.name">
               {{ props.row.attributes.name }}
             </span>
           </q-td>
@@ -67,14 +67,14 @@
         </q-tr>
       </template>
       <template #top-right>
-        <q-btn no-caps color="primary" :disable="loading" :label="$t('nav.create_org')" to="#" />
+        <q-btn no-caps color="primary" :disable="loading" :label="$t('nav.create_org')" :to="'/' + $yawik.lang() + '/organization'" />
       </template>
     </q-table>
     <q-card v-if="!$yawik.isAuth()" class="absolute-center channel shadow-5">
       <div class="text-h4 q-mb-md full-width">{{ $t('title') }}</div>
       <p>{{ $t('please_register') }}</p>
     </q-card>
-    <DialogLogo v-model="dlgLogo" />
+    <dialog-logo v-model="dlgLogo" />
   </q-page>
 </template>
 
