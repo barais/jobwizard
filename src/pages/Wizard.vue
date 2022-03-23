@@ -109,7 +109,7 @@ import StepOne from './steps/StepOne';
 import StepTwo from './steps/StepTwo';
 import StepThree from './steps/StepThree';
 import StepFour from './steps/StepFour';
-import { GET_STEP, SET_STEP, CLEAR_FORM, GET_FORM, GET_META, GET_LOGO, GET_HEADER, GET_SETTINGS } from '../store/names';
+import { GET_STEP, SET_STEP, CLEAR_FORM, GET_FORM, GET_META, GET_LOGO, GET_TOKEN, GET_HEADER, GET_SETTINGS } from '../store/names';
 import { mapGetters, mapMutations } from 'vuex';
 import saveAs from 'src/lib/FileSaver';
 import { api } from 'boot/axios';
@@ -153,7 +153,7 @@ export default {
   },
   computed:
       {
-        ...mapGetters([GET_STEP, GET_FORM, GET_META, GET_SETTINGS, GET_LOGO, GET_HEADER]),
+        ...mapGetters([GET_TOKEN, GET_STEP, GET_FORM, GET_META, GET_SETTINGS, GET_LOGO, GET_HEADER]),
         currentStep:
           {
             get()
@@ -237,7 +237,7 @@ export default {
         {
           let methodType = 'POST';
           let url = '/api/jobs';
-          const form = { ...this.$store.getters.GET_FORM };
+          const form = { ...this[GET_FORM] };
           if (form.id != null)
           {
             methodType = 'PUT';
@@ -262,7 +262,7 @@ export default {
             url: url,
             headers: {
               accept: 'application/json',
-              Authorization: 'Bearer ' + this.$store.getters.GET_TOKEN,
+              Authorization: 'Bearer ' + this[GET_TOKEN],
               'Content-Type': 'multipart/form-data'
             },
             data: formData
