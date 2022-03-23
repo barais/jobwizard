@@ -21,20 +21,20 @@
       </template>
     </q-select>
 
-    <TextInput
+    <q-input
       v-else
-      v-model.trim="organization"
+      v-model="organization"
+      outlined
+      dense
       name="organization"
       class="col-12"
       :label="$t('label.organization')"
       :rules="[ruleRequired]"
-      @enterPress="gotoNext"
     />
   </div>
 </template>
 
 <script>
-import TextInput from 'src/components/form/TextInput.vue';
 import { mapGetters, mapMutations } from 'vuex';
 import { GET_FORM, SET_FIELD, GET_TOKEN } from 'src/store/names';
 import mixinValidations from 'src/lib/validations';
@@ -42,7 +42,7 @@ import { api } from 'boot/axios';
 
 export default {
   name: 'CompanySelect',
-  components: { TextInput },
+  components: { },
   setup()
   {
     return {
@@ -74,7 +74,7 @@ export default {
       },
       set(val)
       {
-        this[SET_FIELD]({ org: val });
+        this[SET_FIELD]({ organization: val });
       }
     },
   },
@@ -134,7 +134,7 @@ export default {
     getOrganizations()
     {
       this.loading = true;
-      this.$axios.get(process.env.YAWIK_STRAPI_URL + '/api/organizations', {
+      api.get('/api/organizations', {
         params: {
           'pagination[page]': 1,
           'pagination[pageSize]': 20,
