@@ -175,129 +175,104 @@ export default {
     }
   },
   methods:
-      {
-        ...mapMutations([SET_JOB, SET_LOGO, SET_HEADER]),
-        getJobs(pagination = { pagination: this.pagination })
-        {
-          this.loading = true;
-          api.get('/api/jobs', {
-            params: {
-              'pagination[page]': pagination.pagination.page,
-              'pagination[pageSize]': pagination.pagination.rowsPerPage,
-              populate: 'html,org',
-              sort: 'createdAt:desc'
-            },
-            headers: {
-              accept: 'application/json',
-              Authorization: 'Bearer ' + this[GET_TOKEN]
-            }
-          }
-          ).then(response =>
-          {
-            console.log(response);
-            this.rows = response.data.data;
-            this.setPagination(response.data.meta.pagination);
-          }).finally(() =>
-          {
-            this.loading = false;
-          });
+  {
+    ...mapMutations([SET_JOB, SET_LOGO, SET_HEADER]),
+    getJobs(pagination = { pagination: this.pagination })
+    {
+      this.loading = true;
+      api.get('/api/jobs', {
+        params: {
+          'pagination[page]': pagination.pagination.page,
+          'pagination[pageSize]': pagination.pagination.rowsPerPage,
+          populate: 'html,org',
+          sort: 'createdAt:desc'
         },
-        setPagination(pagination)
-        {
-          this.pagination = {
-            sortBy: 'asc',
-            descending: true,
-            rowsNumber: pagination.total,
-            page: pagination.page,
-            rowsPerPage: pagination.pageSize
-          };
-        },
-        editJob(job)
-        {
-          this.$axios({
-            method: 'GET',
-            url: process.env.YAWIK_STRAPI_URL + '/api/jobs/' + job.id,
-            params: {
-              populate: 'html,logo',
-              sort: 'createdAt:desc'
-            },
-            headers: {
-              accept: 'application/json',
-              Authorization: 'Bearer ' + this[GET_TOKEN]
-            }
-          }).then(response =>
-          {
-            this[SET_JOB]({ data: response.data.success.job });
-            console.log(response.data.success.job);
-            if (response.data.success.job.logo)
-            {
-              this[SET_LOGO]({ data: response.data.success.job.logo });
-            }
-            if (response.data.success.job.header)
-            {
-              this[SET_HEADER]({ data: response.data.success.job.header });
-            }
-          });
-
-          this.$router.push({
-            name: 'job',
-            params: {
-              id: job.id
-            }
-          });
-        },
-        deleteJob(id)
-        {
-          api.delete('/api/jobs/' + id, {
-            headers: {
-              accept: 'application/json',
-              Authorization: 'Bearer ' + this[GET_TOKEN]
-            }
-          }).then(response =>
-          {
-            this.getJobs();
-            this.$q.notify({
-              type: 'positive',
-              message: `Job deleted successfully.`
-            });
-          });
-
-          this.$router.push({
-            name: 'jobs',
-          });
-        },
-        confirm(id, title)
-        {
-          this.$q.dialog({
-            title: this.$t('alert'),
-            message: this.$t('confirm.delete_job') + '<p><b>' + title + '</b></p>',
-            cancel: true,
-            persistent: true,
-            html: true
-          }).onOk(() =>
-          {
-            this.deleteJob(id);
-            console.log('>>>> OK');
-          }).onOk(() =>
-          {
-            console.log('>>>> second OK catcher');
-          }).onCancel(() =>
-          {
-            console.log('>>>> Cancel');
-          }).onDismiss(() =>
-          {
-            console.log('I am triggered on both OK and Cancel');
-          });
-        },
-        createAd()
-        {
-          this.$router.push(
-            {
-              name: 'create_job'
-            }
-          );
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer ' + this[GET_TOKEN]
         }
       }
+      ).then(response =>
+      {
+        console.log(response);
+        this.rows = response.data.data;
+        this.setPagination(response.data.meta.pagination);
+      }).finally(() =>
+      {
+        this.loading = false;
+      });
+    },
+    setPagination(pagination)
+    {
+      this.pagination = {
+        sortBy: 'asc',
+        descending: true,
+        rowsNumber: pagination.total,
+        page: pagination.page,
+        rowsPerPage: pagination.pageSize
+      };
+    },
+    editJob(job)
+    {
+      this.$router.push({
+        name: 'job',
+        params: {
+          id: job.id
+        }
+      });
+    },
+    deleteJob(id)
+    {
+      api.delete('/api/jobs/' + id, {
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer ' + this[GET_TOKEN]
+        }
+      }).then(response =>
+      {
+        this.getJobs();
+        this.$q.notify({
+          type: 'positive',
+          message: `Job deleted successfully.`
+        });
+      });
+
+      this.$router.push({
+        name: 'jobs',
+      });
+    },
+    confirm(id, title)
+    {
+      this.$q.dialog({
+        title: this.$t('alert'),
+        message: this.$t('confirm.delete_job') + '<p><b>' + title + '</b></p>',
+        cancel: true,
+        persistent: true,
+        html: true
+      }).onOk(() =>
+      {
+        this.deleteJob(id);
+        console.log('>>>> OK');
+      }).onOk(() =>
+      {
+        console.log('>>>> second OK catcher');
+      }).onCancel(() =>
+      {
+        console.log('>>>> Cancel');
+      }).onDismiss(() =>
+      {
+        console.log('I am triggered on both OK and Cancel');
+      });
+    },
+    createAd()
+    {
+      this.$router.push(
+        {
+          name: 'create_job'
+        }
+      );
+    }
+  }
 };
 </script>
 

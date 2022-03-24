@@ -14,7 +14,7 @@
         dense
         :label="$t('save')"
         color="primary"
-        @click="updateOrg"
+        @click="updateOrg(org)"
       />
     </div>
     <div v-else>
@@ -117,7 +117,7 @@ export default {
     {
       console.log(data);
       api.put('/api/organizations/' + data.id, {
-        data: this.org
+        data: data
       },
       {
         headers: {

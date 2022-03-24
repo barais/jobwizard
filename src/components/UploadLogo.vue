@@ -178,11 +178,6 @@ export default {
     uploadFile(file)
     {
       const fd = new FormData();
-      console.log('Uploaded FILE:', file);
-      console.log('Uploaded ref:', this.ref);
-      console.log('Uploaded refId:', this.refId);
-      console.log('Uploaded field:', this.field);
-
       fd.append('ref', this.ref);
       fd.append('refId', this.refId);
       fd.append('field', this.field);

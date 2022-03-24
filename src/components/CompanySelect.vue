@@ -13,7 +13,6 @@
       :options="filterOptions"
       option-value="id"
       option-label="name"
-      @new-value="createValue"
       @filter="filterFn"
     >
       <template v-if="organization" #append>
@@ -43,6 +42,14 @@ import { api } from 'boot/axios';
 export default {
   name: 'CompanySelect',
   components: { },
+  params:
+  {
+    orgId:
+    {
+      type: [Number, String],
+      default: null
+    }
+  },
   setup()
   {
     return {
@@ -154,23 +161,7 @@ export default {
       {
         this.loading = false;
       });
-    },
-    createOrganizations(name)
-    {
-      this.loading = true;
-      api.post('/api/organizations', { name: name },
-        {
-          accept: 'application/json',
-          Authorization: 'Bearer ' + this[GET_TOKEN]
-        }
-      ).then(response =>
-      {
-        this.test = response.data.data.map(({ attributes }) => attributes);
-      }).finally(() =>
-      {
-        this.loading = false;
-      });
-    },
+    }
   }
 };
 </script>
