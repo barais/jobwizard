@@ -270,7 +270,7 @@ export default {
         {
           this.$q.dialog({
             title: this.$t('alert'),
-            message: this.$t('confirm_del') + '<p><b>' + title + '</b></p>',
+            message: this.$t('confirm.delete_job') + '<p><b>' + title + '</b></p>',
             cancel: true,
             persistent: true,
             html: true

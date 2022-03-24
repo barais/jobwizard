@@ -21,7 +21,6 @@ export default
   'ad-management-description': () => 'Mit der Anzeigenverwaltung können die Stellenanzeigen speichern, bearbeiten und löschen. Die Anzeigenverwaltung wird auch benötigt, um Stellenanzeigen in ihre Homepage zu integrieren.',
   preis1: () => 'Die Anmeldung ist kostenlos',
   please_register: () => 'Sie sind momentan nicht angemeldet. Um die Anzeigenverwaltung zu nutzen, müssen Sie sich registrieren. Die Registrierung ist kostenlos.',
-  confirm_del: () => 'Möchten Sie die Stellenanzeige wirklich löschen?',
   alert: () => 'Achtung',
   wizard_help_title: () => 'Stellenanzeige erstellen',
   wizard_help_text: () => 'Der Jobwizard unterstützt sie bei der Erstellung einer Anzeige. Die Nutzung des Jobwizard und die Erstellung der Anzeige ist kostenlos. Über die Einstellungen können sie weitere Felder aktivieren und deaktivieren.',
@@ -116,5 +115,9 @@ export default
     stepTwo: () => 'Stellenanzeige anlegen',
     stepThree: () => 'Kategorien',
     stepFour: () => 'Kanäle'
+  },
+  confirm: {
+    delete_organization: () => 'Möchten Sie die Firma wirklich gelöscht werden?',
+    delete_job: () => 'Möchten Sie die Stellenanzeige wirklich löschen?'
   }
 };

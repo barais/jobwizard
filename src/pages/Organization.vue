@@ -32,7 +32,6 @@
         @click="createOrg"
       />
     </div>
-    {{ org }}
   </q-page>
 </template>
 

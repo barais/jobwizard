@@ -58,7 +58,7 @@
                 {{ $t('nav.edit_org') }}
               </q-tooltip>
             </q-btn>
-            <q-btn size="sm" color="negative" style="margin-left: 5px;" dense class="cursor-pointer" icon="mdi-delete" @click="confirm(props.row.id,props.row.attributes.jobTitle)">
+            <q-btn size="sm" color="negative" style="margin-left: 5px;" dense class="cursor-pointer" icon="mdi-delete" @click="confirm(props.row.id,props.row.attributes.name)">
               <q-tooltip :delay="500">
                 {{ $t('nav.del_org') }}
               </q-tooltip>
@@ -227,20 +227,20 @@ export default {
       });
 
       this.$router.push({
-        name: 'jobs',
+        name: 'organizations',
       });
     },
-    confirm(id, title)
+    confirm(id, company)
     {
       this.$q.dialog({
         title: this.$t('alert'),
-        message: this.$t('confirm_del') + '<p><b>' + title + '</b></p>',
+        message: this.$t('confirm.delete_organization') + '<p><b>' + company + '</b></p>',
         cancel: true,
         persistent: true,
         html: true
       }).onOk(() =>
       {
-        this.deleteJob(id);
+        this.deleteOrganization(id);
         console.log('>>>> OK');
       }).onOk(() =>
       {

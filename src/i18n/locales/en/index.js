@@ -58,7 +58,7 @@ export default
     del_org: () => 'Delete company',
     statistics: () => 'Statistcs',
     create_job: () => 'Create new Jobad',
-    edir_job: () => 'Edit job ad',
+    edit_job: () => 'Edit job ad',
     del_job: () => 'Delete job ad',
   },
   help: {
