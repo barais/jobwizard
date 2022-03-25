@@ -98,7 +98,6 @@
         </template>
       </q-stepper>
     </q-form>
-    {{ $route.params.id }}
     <DialogPreview ref="preview" v-model="dlgPreview" />
   </q-page>
 </template>
@@ -110,7 +109,7 @@ import StepOne from './steps/StepOne';
 import StepTwo from './steps/StepTwo';
 import StepThree from './steps/StepThree';
 import StepFour from './steps/StepFour';
-import { SET_JOB, GET_STEP, SET_STEP, CLEAR_FORM, GET_FORM, GET_META, GET_LOGO, GET_TOKEN, SET_LOGO, SET_HEADER, GET_HEADER, GET_SETTINGS } from '../store/names';
+import { SET_JOB, GET_STEP, SET_STEP, CLEAR_FORM, GET_FORM, GET_META, GET_LOGO, GET_TOKEN, SET_LOGO, SET_HEADER, GET_HEADER, GET_SETTINGS, SET_FIELD } from '../store/names';
 import { mapGetters, mapMutations } from 'vuex';
 import saveAs from 'src/lib/FileSaver';
 import { api } from 'boot/axios';
@@ -131,10 +130,10 @@ export default {
   props:
   {
     toolbar:
-      {
-        type: Boolean,
-        default: false
-      }
+    {
+      type: Boolean,
+      default: false
+    }
   },
   data()
   {
@@ -156,16 +155,27 @@ export default {
   {
     ...mapGetters([GET_TOKEN, GET_STEP, GET_FORM, GET_META, GET_SETTINGS, GET_LOGO, GET_HEADER]),
     currentStep:
+    {
+      get()
       {
-        get()
-        {
-          return this[GET_STEP];
-        },
-        set(value)
-        {
-          this[SET_STEP](value);
-        }
+        return this[GET_STEP];
       },
+      set(value)
+      {
+        this[SET_STEP](value);
+      }
+    },
+    org:
+    {
+      get()
+      {
+        return this[GET_FORM].org;
+      },
+      set(value)
+      {
+        this[SET_FIELD].org = value;
+      }
+    },
     steps()
     {
       return Object.keys(this.validationErrors);
@@ -247,6 +257,12 @@ export default {
       {
         methodType = 'PUT';
         url = '/api/jobs/' + form.id;
+      }
+      if (form.org != null)
+      {
+        const id = form.org.id;
+        delete form.org;
+        form.org = id;
       }
 
       const formData = new FormData();
@@ -370,7 +386,7 @@ export default {
     {
       api.get('/api/jobs/' + id, {
         params: {
-          populate: 'html,logo',
+          populate: 'html,logo,header,org', // is overwritten on server side
           sort: 'createdAt:desc'
         },
         headers: {

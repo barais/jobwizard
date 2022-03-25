@@ -11,7 +11,11 @@
         @enterPress="gotoNext"
       />
 
-      <company-select class="col-12" :label="$t('label.organization')" />
+      <company-select
+        class="col-12"
+        :label="$t('label.organization')"
+        @update:org="saveOrg"
+      />
 
       <div class="col-12">
         <div class="row">
@@ -120,7 +124,7 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex';
-import { GET_FORM, GET_TOKEN, GET_SETTINGS, SET_META, GET_META, SET_FIELD } from 'src/store/names';
+import { GET_FORM, GET_TOKEN, SET_LOCATION, GET_SETTINGS, SET_META, GET_META, SET_FIELD } from 'src/store/names';
 import mixinValidations from 'src/lib/validations';
 import TextInput from 'src/components/form/TextInput.vue';
 import Tooltip from 'src/components/form/Tooltip.vue';
@@ -256,6 +260,17 @@ export default {
         this[SET_FIELD]({ formattedAddress: val });
       }
     },
+    org:
+    {
+      get()
+      {
+        return this[GET_FORM].org;
+      },
+      set(val)
+      {
+        this[SET_FIELD]({ org: val });
+      }
+    },
     countries:
     {
       get()
@@ -324,7 +339,7 @@ export default {
   },
   methods:
   {
-    ...mapMutations([SET_FIELD, SET_META]),
+    ...mapMutations([SET_FIELD, SET_LOCATION, SET_META]),
     gotoNext()
     {
       this.$emit('next');
@@ -368,9 +383,14 @@ export default {
     {
       const addressComponents = place.address_components;
       this.insertLocatationData(addressComponents);
-      this.$store.commit('SET_LOCATION', Object.assign({}, this.locationData));
+      this[SET_LOCATION] = this.locationData;
       this.locationDisplay = place.formatted_address;
     },
+    saveOrg(val)
+    {
+      this[SET_FIELD].organization = val.name;
+      this[SET_FIELD].org = val;
+    }
   }
 };
 </script>

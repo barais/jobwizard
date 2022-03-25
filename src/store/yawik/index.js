@@ -30,10 +30,7 @@ const emptyForm = {
   step: 'stepOne',
   jobTitle: '',
   organization: '',
-  org: {
-    id: null,
-    name: ''
-  },
+  org: null,
   channels: [],
   location: {
     streetAdress: '',
@@ -50,6 +47,7 @@ const emptyForm = {
     channels: [],
     workKind: ['contract'],
     workDuration: ['fulltime'],
+    partTime: false,
     partTimePercentage: 50,
     shiftWorkAmount: 2,
     remoteWork: false,
@@ -186,29 +184,13 @@ export default
       },
       [SET_JOB](state, data)
       {
+        state.form = emptyForm;
         state.form = { ...Object.values(data)[0] };
         console.log(data);
         state.form.step = 'stepOne';
-        if (!state.form.meta)
-        {
-          state.form.meta = {
-            publishImmediately: true,
-            publishStart: '',
-            publishDays: 30,
-            acceptTerms: false,
-          };
-        }
         if (!state.form.remoteWork)
         {
           state.form.remoteWork = false;
-        }
-        if (!state.form.meta.remoteWork)
-        {
-          state.form.meta.remoteWork = false;
-        }
-        if (!state.form.meta.partTimePercentage)
-        {
-          state.form.meta.partTimePercentage = 50;
         }
         if (!state.form.salary)
         {

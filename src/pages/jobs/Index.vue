@@ -41,7 +41,7 @@
             {{ props.row.attributes.formattedAddress }}
           </q-td>
           <q-td key="company" :props="props">
-            <router-link v-if="props.row.attributes.org" :to="'organization/' + props.row.attributes.org.id">{{ props.row.attributes.organization }}</router-link>
+            <router-link v-if="props.row.attributes.org" :to="'organization/' + props.row.attributes.org.id">{{ props.row.attributes.org.name }}</router-link>
             <span v-else>{{ props.row.attributes.organization }}</span>
           </q-td>
           <q-td key="action" :props="props">

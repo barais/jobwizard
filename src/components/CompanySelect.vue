@@ -6,9 +6,9 @@
       :label="$t('label.organization')"
       :rules="[ruleRequired]"
       outlined
-      use-input
+      :use-input="!org"
       dense
-      :placeholder="organization === null ? $t('select_or_create') : ''"
+      :placeholder="!org ? $t('select_or_create') : ''"
       input-debounce="0"
       :options="filterOptions"
       option-value="id"
@@ -42,48 +42,29 @@ import { api } from 'boot/axios';
 export default {
   name: 'CompanySelect',
   components: { },
-  params:
-  {
-    orgId:
-    {
-      type: [Number, String],
-      default: null
-    }
-  },
-  setup()
+  mixins: [mixinValidations],
+  emits: ['update:org'],
+  data()
   {
     return {
       filterOptions: [],
       organizations: []
     };
   },
-  mixins: [mixinValidations],
   computed:
   {
     ...mapGetters([GET_FORM, GET_TOKEN]),
-    org:
-    {
-      get()
-      {
-        return this[GET_FORM].org || this.organization;
-      },
+    org: {
       set(val)
       {
+        this.$emit('update:org', val);
         this[SET_FIELD]({ org: val });
-        this.organization = val.name;
-      }
-    },
-    organization:
-    {
+      },
       get()
       {
-        return this[GET_FORM].organization;
-      },
-      set(val)
-      {
-        this[SET_FIELD]({ organization: val });
+        return this[GET_FORM].org;
       }
-    },
+    }
   },
   mounted()
   {
@@ -95,38 +76,13 @@ export default {
   methods:
   {
     ...mapMutations([SET_FIELD]),
-    createValue(val, done)
-    {
-      // Calling done(var) when new-value-mode is not set or "add", or done(var, "add") adds "var" content to the model
-      // and it resets the input textbox to empty string
-      // ----
-      // Calling done(var) when new-value-mode is "add-unique", or done(var, "add-unique") adds "var" content to the model
-      // only if is not already set
-      // and it resets the input textbox to empty string
-      // ----
-      // Calling done(var) when new-value-mode is "toggle", or done(var, "toggle") toggles the model with "var" content
-      // (adds to model if not already in the model, removes from model if already has it)
-      // and it resets the input textbox to empty string
-      // ----
-      // If "var" content is undefined/null, then it doesn't tampers with the model
-      // and only resets the input textbox to empty string
-
-      if (val.length > 0)
-      {
-        if (!this.organizations.map(v => v.name).includes(val))
-        {
-          this.organizations.push(val);
-        }
-        done(val, 'toggle');
-      }
-    },
     filterFn(val, update)
     {
       update(() =>
       {
         if (val === '')
         {
-          this.filterOptions = this.organizations;
+          this.filterOptions = this.getOrganizations();
         }
         else
         {
@@ -155,12 +111,13 @@ export default {
       }
       ).then(response =>
       {
-        this.filterOptions = response.data.data.map(({ attributes }) => attributes);
-        this.organizations = this.filterOptions;
+        this.organizations = response.data.data.map(({ attributes }) => attributes);
+        this.filterOptions = this.organizations;
       }).finally(() =>
       {
         this.loading = false;
       });
+      return this.organizations;
     }
   }
 };
