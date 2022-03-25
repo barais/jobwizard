@@ -44,7 +44,7 @@ export default {
   name: 'CompanySelect',
   components: { },
   mixins: [mixinValidations],
-  emits: ['update:org'],
+  emits: ['update:org', 'update:organization'],
   setup()
   {
     return {
@@ -64,6 +64,16 @@ export default {
       get()
       {
         return this[GET_FORM].org;
+      }
+    },
+    organization: {
+      set(val)
+      {
+        this[SET_FIELD]({ organization: val });
+      },
+      get()
+      {
+        return this[GET_FORM].organization;
       }
     }
   },
