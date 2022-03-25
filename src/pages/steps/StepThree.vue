@@ -31,7 +31,7 @@
                     <div class="col-5" style="display: flex; align-items: center;">
                       <span>{{ opt.label }}</span>
                     </div>
-                    <div v-if="workDuration.includes('parttime')" class="col-7">
+                    <div v-if="workDuration && workDuration.constructor.name === 'Array' && workDuration.includes('parttime')" class="col-7">
                       <q-slider
                         v-model="partTimePercentage"
                         markers
@@ -53,7 +53,7 @@
                     <div class="col-5" style="display: flex; align-items: center;">
                       <span>{{ opt.label }}</span>
                     </div>
-                    <div v-if="workDuration.includes('shiftwork')" class="col-7">
+                    <div v-if="workDuration && workDuration.constructor.name === 'Array' && workDuration.includes('shiftwork') || false" class="col-7">
                       <q-slider
                         v-model="shiftWorkAmount"
                         markers

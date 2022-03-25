@@ -46,6 +46,11 @@ export default {
         type: String,
         default: 'api::job.job'
       },
+    ref2:
+      {
+        type: String,
+        default: ''
+      },
     refId:
       {
         type: [Number, String],
@@ -178,7 +183,7 @@ export default {
     uploadFile(file)
     {
       const fd = new FormData();
-      fd.append('ref', this.ref);
+      fd.append('ref', this.ref2);
       fd.append('refId', this.refId);
       fd.append('field', this.field);
       fd.append('files', file[0]);

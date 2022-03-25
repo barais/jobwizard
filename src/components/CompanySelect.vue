@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import { mapGetters, mapMutations } from 'vuex';
 import { GET_FORM, SET_FIELD, GET_TOKEN } from 'src/store/names';
 import mixinValidations from 'src/lib/validations';
@@ -44,11 +45,11 @@ export default {
   components: { },
   mixins: [mixinValidations],
   emits: ['update:org'],
-  data()
+  setup()
   {
     return {
-      filterOptions: [],
-      organizations: []
+      filterOptions: ref([]),
+      organizations: ref([]),
     };
   },
   computed:

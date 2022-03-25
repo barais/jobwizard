@@ -20,27 +20,38 @@
         <q-tr :props="props">
           <q-td key="logo" :props="props">
             <q-img
-              v-if="props.row.attributes.logo"
+              v-if="props.row.attributes.logo && props.row.attributes.logo.formats && props.row.attributes.logo.formats.thumbnail"
               width="100px"
               height="50px"
-              fit="cover"
+              fit="contain"
               :src="$q.config.jobUrl + props.row.attributes.logo.formats.thumbnail.url"
             />
             <q-btn
               v-else
               dense icon="mdi-plus" label="logo"
-              @click="value = false,dlgLogo = true"
+              @click="value = false,
+                      dlgLogo = true,
+                      field = 'logo',
+                      refId = props.row.id"
             />
           </q-td>
           <q-td key="header" :props="props">
             <q-img
-              v-if="props.row.attributes.header"
+              v-if="props.row.attributes.header && props.row.attributes.header[0].formats && props.row.attributes.header[0].formats.thumbnail"
               width="100px"
               height="50px"
               fit="cover"
               :src="$q.config.jobUrl + props.row.attributes.header[0].formats.thumbnail.url"
             />
-            <q-btn v-else dense icon="mdi-plus" label="header" />
+            <q-btn
+              v-else dense
+              icon="mdi-plus"
+              label="header"
+              @click="value = false,
+                      dlgLogo = true,
+                      field = 'header',
+                      refId = props.row.id"
+            />
           </q-td>
           <q-td key="company" :props="props">
             <span v-if="props.row.attributes.name">
@@ -74,7 +85,12 @@
       <div class="text-h4 q-mb-md full-width">{{ $t('title') }}</div>
       <p>{{ $t('please_register') }}</p>
     </q-card>
-    <dialog-logo v-model="dlgLogo" />
+    <dialog-logo
+      v-model="dlgLogo"
+      ref2="api::organization.organization"
+      :ref-id="refId"
+      :field="field"
+    />
   </q-page>
 </template>
 
@@ -104,6 +120,9 @@ export default {
       rows: [],
       dlgLogo: false,
       loading: false,
+      ref2: 'api::organization.organization',
+      field: '',
+      refId: 0,
       rowsPerPageOptions: [10, 25, 50, 100],
       pagination: {
         sortBy: 'desc',

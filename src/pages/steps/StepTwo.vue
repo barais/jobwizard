@@ -23,6 +23,7 @@
       <!-- Header image -->
       <upload-logo
         ref="job"
+        ref2="api::job.job"
         :ref-id="$route.params.id"
         field="header"
         class="col-md-10 q-mr-lg"

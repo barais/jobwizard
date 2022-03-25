@@ -2,23 +2,28 @@
   <q-dialog v-model="value">
     <q-form @submit="submitForm">
       <q-card class="relative-position">
-        <q-card-section class="bg-primary text-white q-py-sm">
-          <div class="text-h6">{{ $t('change_logo') }}</div>
+        <q-bar>
+          <q-icon name="img:../../yawik_logo-mobile.svg" />
+          <div>{{ $t('change_logo') }}</div>
+
+          <q-space />
+
+          <q-btn v-close-popup dense flat icon="close">
+            <q-tooltip>{{ $t('btn.close') }}</q-tooltip>
+          </q-btn>
+        </q-bar>
+        <q-card-section>
+          <div>{{ $t('change_logo') }}</div>
         </q-card-section>
         <q-card-section>
           <div class="column">
             <upload-logo
-              ref="api::organization:organization"
-              :ref-id="5"
-              field="logo"
+              :ref2="ref2"
+              :ref-id="refId"
+              :field="field"
             />
           </div>
         </q-card-section>
-        <q-card-actions align="right">
-          <q-btn no-caps color="primary" outline class="q-mr-sm" @click="value = false">
-            {{ $t('btn.cancel') }}
-          </q-btn>
-        </q-card-actions>
         <q-inner-loading :showing="sending">
           <q-spinner size="50px" color="primary" />
         </q-inner-loading>
@@ -39,13 +44,28 @@ export default
       UploadLogo,
     },
   props:
+  {
+    modelValue:
     {
-      modelValue:
-        {
-          type: Boolean,
-          default: false
-        },
+      type: Boolean,
+      default: false
     },
+    ref2:
+    {
+      type: [String, Number],
+      default: ''
+    },
+    refId:
+    {
+      type: Number,
+      default: 0
+    },
+    field:
+    {
+      type: String,
+      default: ''
+    },
+  },
   emits: ['update:modelValue'],
   data()
   {
@@ -122,6 +142,14 @@ export default
 <i18n>
   {
     "en": {
+      "change_logo": "Upload Image",
+      "photo_rejected": "Image was rejected",
+    },
+    "de": {
+      "change_logo": "Logo hochladen",
+      "photo_rejected": "Das Bild wurde abgelehnt",
+    },
+    "fr": {
       "change_logo": "Change logo",
       "photo_rejected": "Image was rejected",
     }

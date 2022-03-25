@@ -59,12 +59,12 @@ export default
     Channel
   },
   computed:
+  {
+    data()
     {
-      data()
-      {
-        return Channels;
-      }
-    },
+      return Channels;
+    }
+  },
   mounted()
   {
     if (!this.$yawik.isAuth())
