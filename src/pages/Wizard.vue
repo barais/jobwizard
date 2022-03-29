@@ -104,7 +104,7 @@
 
 <script>
 import SwitchLanguage from 'src/components/SwitchLanguage';
-import DialogPreview from './DialogPreview';
+import DialogPreview from 'src/components/dialogs/DialogPreview';
 import StepOne from './steps/StepOne';
 import StepTwo from './steps/StepTwo';
 import StepThree from './steps/StepThree';

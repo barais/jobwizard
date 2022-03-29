@@ -100,11 +100,11 @@ export default
       },
       htmlApply()
       {
-        return this[GET_FORM].applyPost
-          ? this.$t('apply_postmail')
+        return this[GET_FORM].applyPost | (!this[GET_FORM].applyEmail & !this[GET_FORM].applyEmail)
+          ? this.$t('btn.apply_postmail')
           : this[GET_FORM].applyURL
-            ? `<a href="${this[GET_FORM].applyURL}" class="mx-auto" target="_blank" rel="noopener noreferrer">${this.$t('apply_text')}</a>`
-            : this[GET_FORM].applyEmail ? `<a href="mailto:${this[GET_FORM].applyEmail}">${this.$t('apply_text')}</a>` : '';
+            ? '<a href="' + this[GET_FORM].applyURL + '" class="mx-auto" target="_blank" rel="noopener noreferrer">' + this.$t('btn.apply_text') + '</a>'
+            : this[GET_FORM].applyEmail ? '<a href="mailto:' + this[GET_FORM].applyEmail + '">' + this.$t('btn.apply_text') + '</a>' : '';
       },
       htmlIntro()
       {
@@ -423,11 +423,11 @@ export default
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 
   .desktop
   {
-    background-image: url("../assets/images/macbook-mockup.png");
+    background-image: url("../../assets/images/macbook-mockup.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -436,7 +436,7 @@ export default
 
   .mobile
   {
-    background-image: url("../assets/images/iphone-mockup.png");
+    background-image: url("../../assets/images/iphone-mockup.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -458,8 +458,6 @@ export default
       "profile": "Profile",
       "offer": "Offer",
       "contacts": "Contact info",
-      "apply_postmail": "Apply by regular post",
-      "apply_text": "apply now",
       "tooltip": {
         "mobile": "Mobile",
         "desktop": "Desktop",
@@ -474,8 +472,6 @@ export default
       "profile": "Profil",
       "offer": "Angebot",
       "contacts": "Kontakt Info",
-      "apply_postmail": "Bewerbung per Post",
-      "apply_text": "jetzt bewerben",
       "tooltip": {
         "mobile": "Smartphone",
         "desktop": "Desktop",

@@ -40,6 +40,9 @@ export default
     register: () => "S'inscrire",
     send: () => 'Envoyer',
     publish: () => 'Publier',
+    apply_postmail: () => 'Candidature par courrier',
+    apply_text: () => 'Postulez maintenant',
+
   },
   nav: {
     applications: () => 'Candidatures',

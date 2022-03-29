@@ -27,7 +27,7 @@
         :ref-id="$route.params.id"
         field="header"
         class="col-md-10 q-mr-lg"
-        fit="cover"
+        fit="fill"
         :width="(maxWidth * 2) + 'px'"
         height="200px"
         :max-total-size="204800"

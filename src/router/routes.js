@@ -13,6 +13,11 @@ const routes = [
     children: [
       {
         path: '',
+        name: 'landing',
+        component: () => import('pages/Landing.vue'),
+      },
+      {
+        path: 'demo',
         name: 'wizard',
         component: () => import('pages/Wizard.vue'),
       },

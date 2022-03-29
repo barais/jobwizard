@@ -41,6 +41,8 @@ export default
     save: () => 'Speichern',
     send: () => 'Senden',
     publish: () => 'Veröffentlichen',
+    apply_postmail: () => 'Bewerbung per Post',
+    apply_text: () => 'jetzt bewerben',
   },
   nav:
   {
