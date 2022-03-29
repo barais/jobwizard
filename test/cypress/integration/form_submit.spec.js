@@ -10,7 +10,7 @@ describe('Filling and sending the form', () =>
   before(() =>
   {
     cy.intercept('http://localhost:8080', { body: { success: true } }).as('submitForm');
-    cy.visit('/de');
+    cy.visit('/de/demo');
     // load job details
   });
 
@@ -44,7 +44,7 @@ describe('Filling and sending the form', () =>
   it('Step 4. Download', () =>
   {
     cy.get('.q-bar > .q-btn > .q-btn__content > .mdi').click();
-    cy.intercept('http://localhost:8080', { body: { success: true } }).as('submitForm');
+    cy.intercept('http://localhost:8080/en/demo', { body: { success: true } }).as('submitForm');
     // submit form
     cy.get('[name="next"]').click();
   });

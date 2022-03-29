@@ -10,7 +10,7 @@ describe("Use Parameter tb=1 and check for menu icon", () => {
     cy.intercept("http://localhost:8080", { body: { success: true } }).as(
       "submitForm"
     );
-    cy.visit("/en");
+    cy.visit("/en/demo");
   });
 
   it("open and close drawer", () => {

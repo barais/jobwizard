@@ -22,7 +22,7 @@ describe('check apply_url, apply_email and apply_post', () =>
 
   it('Step 1. apply by email', () =>
   {
-    cy.visit('/en')
+    cy.visit('/en/demo')
     cy.get('input[name="apply_email"]').type('bleek@cross-solution.de');
 
     cy.get('button[name="preview"]').then(($btn) => {
