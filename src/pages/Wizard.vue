@@ -196,6 +196,18 @@ export default {
     {
       return this[GET_HEADER];
     },
+    filename()
+    {
+      let name = 'job_';
+      if (this.mode === 'edit')
+      {
+        name = name + this[GET_FORM].id;
+      }
+      name = name + '.html';
+
+      return name;
+    }
+
   },
   watch:
   {
@@ -269,14 +281,14 @@ export default {
       const formObj = JSON.parse(JSON.stringify(form));
       const html = new Blob([this.$refs.preview.htmlCode], {
         type: 'text/html',
-        name: 'job_ad.html'
+        name: this.filename
       });
       formObj.html = html;
 
       this.progress = 0;
       this.sending = true;
 
-      formData.append('html', html, 'job_ad.html');
+      formData.append('html', html, this.filename);
       formData.append('data', JSON.stringify(formObj));
       api({
         method: methodType,
@@ -376,7 +388,7 @@ export default {
     submitForm()
     {
       const html = this.$refs.preview.htmlCode;
-      saveAs(new Blob([html], { type: 'text/html' }), 'job_ad.html', { autoBOM: true });
+      saveAs(new Blob([html], { type: 'text/html' }), this.filename, { autoBOM: true });
     },
     abortForm()
     {

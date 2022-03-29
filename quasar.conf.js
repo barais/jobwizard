@@ -51,7 +51,6 @@ module.exports = function(ctx)
     htmlVariables:
       {
         googleMaps: variables.YAWIK_GOOGLE_MAPS,
-        urlHome: variables.YAWIK_URL_HOME
       },
     // Full list of options: https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
