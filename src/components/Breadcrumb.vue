@@ -4,7 +4,7 @@
       <q-breadcrumbs active-color="secondary" style="font-size: 16px;">
         <q-breadcrumbs-el label="Home" icon="mdi-home" :to="home" />
         <q-breadcrumbs-el
-          v-if="!($route.name === 'wizard')"
+          v-if="!($route.name === 'landing')"
           :label="$t($route.name === 'jobs' ? 'ad_management' : $route.name )"
           :icon="icon"
           :to="$route.path"
@@ -62,6 +62,12 @@ export default
           break;
         case 'nav.statistics':
           mdi = 'poll';
+          break;
+        case 'nav.dashboard':
+          mdi = 'dashboard';
+          break;
+        case 'nav.demo':
+          mdi = 'play_lesson';
           break;
         default:
           mdi = 'mdi-cog';

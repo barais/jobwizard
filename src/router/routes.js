@@ -18,8 +18,13 @@ const routes = [
       },
       {
         path: 'demo',
-        name: 'wizard',
+        name: 'nav.demo',
         component: () => import('pages/Wizard.vue'),
+      },
+      {
+        path: 'dashboard',
+        name: 'nav.dashboard',
+        component: () => import('pages/Dashboard.vue'),
       },
       {
         path: 'organizations',

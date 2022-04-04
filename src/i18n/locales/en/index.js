@@ -50,6 +50,8 @@ export default
   nav:
   {
     applications: () => 'Applications',
+    dashboard: () => 'Dashboard',
+    demo: () => 'Demo',
     settings: () => 'Settings',
     jobs: () => 'Jobs',
     job_title: () => 'Job title',

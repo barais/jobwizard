@@ -46,6 +46,8 @@ export default
   },
   nav: {
     applications: () => 'Candidatures',
+    dashboard: () => 'Dashboard',
+    demo: () => 'Demo',
     settings: () => 'Réglages',
     jobs: () => 'Offres d\'emploi',
     job_title: () => 'Titre de l\'annonce',

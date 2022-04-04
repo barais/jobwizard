@@ -47,6 +47,8 @@ export default
   nav:
   {
     applications: () => 'Bewerbungen',
+    dashboard: () => 'Dashboard',
+    demo: () => 'Demo',
     settings: () => 'Einstellungen',
     jobs: () => 'Stellenanzeigen',
     job_title: () => 'Job title',
