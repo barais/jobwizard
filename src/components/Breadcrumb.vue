@@ -20,14 +20,9 @@
 </template>
 
 <script>
-
 export default
 {
   name: 'Breadcrumb',
-  data()
-  {
-    return {};
-  },
   computed: {
     route()
     {

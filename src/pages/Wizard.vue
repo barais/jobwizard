@@ -42,7 +42,7 @@
           :done="isCompleted(stepName)"
           :error="validationErrors[stepName] && isCompleted(stepName)"
         >
-          <component :is="stepName" style="min-height: 500px;" @next="navigate('next')" />
+          <component :is="stepName" :style="'min-height: ' + ($q.screen.height-230) + 'px;'" @next="navigate('next')" />
         </q-step>
         <template #navigation>
           <q-page-sticky style="z-index: 5900;" position="bottom-right" :offset="[18, -65]">
@@ -57,13 +57,16 @@
               <q-btn
                 v-if="lastStep & !$yawik.isAuth()"
                 color="primary"
+                icon="download"
                 name="next"
+                no-caps
                 :label="$t('btn.download')"
                 @click.stop="trySubmit"
               />
               <q-btn-dropdown
-                v-if="lastStep & $yawik.isAuth() | mode==='edit'"
+                v-if="(lastStep && $yawik.isAuth())"
                 split
+                no-caps
                 color="primary"
                 name="next"
                 :label="$t('btn.publish')"
@@ -80,7 +83,7 @@
                   </q-item>
                   <q-item v-close-popup clickable @click.stop="trySubmit">
                     <q-item-section side>
-                      <q-icon name="mdi-download" color="secondary" />
+                      <q-icon name="download" color="secondary" />
                     </q-item-section>
                     <q-item-section>
                       <q-item-label>{{ $t('btn.download') }}</q-item-label>
@@ -89,7 +92,7 @@
                 </q-list>
               </q-btn-dropdown>
               <q-btn
-                v-if="!lastStep && mode==='insert'"
+                v-if="!lastStep"
                 color="primary" name="next" :label="$t('btn.continue')"
                 @click.stop="navigate('next')"
               />
