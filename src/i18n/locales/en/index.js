@@ -78,6 +78,7 @@ export default
     country: () => 'Country',
     countries: () => 'Countries',
     location: () => 'Location',
+    email_or_username: () => 'Email or username',
     forgot_password: () => 'Forgot password',
     reset_password: () => 'Reset password',
     username: () => 'Username',
