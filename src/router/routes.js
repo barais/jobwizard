@@ -27,13 +27,9 @@ const routes = [
         component: () => import('pages/Dashboard.vue'),
       },
       {
-        path: 'login',
-        name: 'login',
-        component: () => import('pages/Login.vue'),
-      }, {
-        path: 'register',
-        name: 'register',
-        component: () => import('pages/Register.vue'),
+        path: 'auth',
+        name: 'auth',
+        component: () => import('pages/Auth.vue'),
       },
       {
         path: 'organizations',

@@ -40,27 +40,14 @@
 </template>
 
 <script>
-import { ref } from 'vue';
 import { SET_TOKEN, HAS_AUTH } from '../store/names';
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'LoginStrapi',
-  setup()
-  {
-    return {
-      tab: ref('signin'),
-    };
-  },
   data()
   {
     return {
-      prompt: false,
-      username: '',
-      password: '',
-      email: '',
-      password_repeat: '',
-      isPwd: true,
       isLoading: false,
       isLoggedIn: false,
       user: {
@@ -81,7 +68,7 @@ export default {
     ...mapMutations([SET_TOKEN]),
     openLoginPage()
     {
-      this.$router.push({ name: 'login' });
+      this.$router.push({ name: 'auth' });
     },
     logout()
     {
@@ -89,7 +76,6 @@ export default {
       this[SET_TOKEN](null);
       localStorage.removeItem('user');
     },
-
     checkUserLogged()
     {
       const token = this[HAS_AUTH];
