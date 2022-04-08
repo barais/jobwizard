@@ -6,6 +6,9 @@
           <q-icon name="img:../../yawik_logo-mobile.svg" />
           <div>{{ $t('welcome') }}</div>
           <q-space />
+          <q-btn v-close-popup dense flat icon="close">
+            <q-tooltip>{{ $t('btn.close') }}</q-tooltip>
+          </q-btn>
         </q-bar>
         <q-tabs
           v-model="tab"
@@ -258,13 +261,8 @@ export default {
   },
   methods: {
     ...mapMutations([SET_TOKEN]),
-    openRegisterPage()
-    {
-      this.$router.push({ name: 'register' });
-    },
     login()
     {
-      this.loginSuccess();
       this.isLoading = true;
       axios.post(process.env.YAWIK_AUTH_URL + '/api/auth/local', {
         identifier: this.username,
@@ -276,7 +274,7 @@ export default {
         this[SET_TOKEN](token);
         localStorage.setItem('user', JSON.stringify(user));
         this.loginSuccess();
-        this.$router.push({ name: 'home' });
+        this.prompt = false;
         //  this.checkUserLogged();
       }).catch(error =>
       {
