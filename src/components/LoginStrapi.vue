@@ -318,8 +318,8 @@ export default {
     },
     login()
     {
-      this.isLoading = true;
-      axios.post(process.env.YAWIK_AUTH_URL + '/api/auth/local', {
+      this.isLoading = true;//process.env.YAWIK_AUTH_URL +
+      axios.post('https://api.yawik.org/api/auth/local', {
         identifier: this.username,
         password: this.password
       }).then(response =>
@@ -341,8 +341,8 @@ export default {
     },
     register()
     {
-      this.isLoading = true;
-      axios.post(process.env.YAWIK_AUTH_URL + '/api/auth/local/register', {
+      this.isLoading = true;//process.env.YAWIK_AUTH_URL +
+      axios.post('https://api.yawik.org/api/auth/local/register', {
         username: this.username,
         email: this.email,
         password: this.password
