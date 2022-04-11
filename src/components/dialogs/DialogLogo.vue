@@ -18,6 +18,7 @@
         <q-card-section>
           <div class="column">
             <upload-logo
+              v-bind="$attrs"
               :ref2="ref2"
               :ref-id="refId"
               :field="field"

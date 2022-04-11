@@ -6,4 +6,5 @@
 /.quasar
 /node_modules
 .eslintrc.js
+/src
 

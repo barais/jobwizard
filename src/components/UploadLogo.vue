@@ -40,107 +40,107 @@ export default {
   name: 'UploadLogo',
   mixins: [mixinValidations],
   props:
-  {
-    ref:
       {
-        type: String,
-        default: 'api::job.job'
-      },
-    ref2:
-      {
-        type: String,
-        default: ''
-      },
-    refId:
-      {
-        type: [Number, String],
-        default: 300
-      },
-    field:
-      {
-        type: String,
-        default: 'logo'
-      },
-    width:
-      {
-        type: String,
-        default: 'logo'
-      },
-    height:
-      {
-        type: String,
-        default: 'logo'
-      },
-    fit:
-      {
-        type: String,
-        default: 'logo'
-      },
+        ref:
+          {
+            type: String,
+            default: 'api::job.job'
+          },
+        ref2:
+          {
+            type: String,
+            default: ''
+          },
+        refId:
+          {
+            type: [Number, String],
+            default: 300
+          },
+        field:
+          {
+            type: String,
+            default: 'logo'
+          },
+        width:
+          {
+            type: String,
+            default: 'logo'
+          },
+        height:
+          {
+            type: String,
+            default: 'logo'
+          },
+        fit:
+          {
+            type: String,
+            default: 'logo'
+          },
 
-    label:
-      {
-        type: String,
-        default: ''
+        label:
+          {
+            type: String,
+            default: ''
+          },
+        maxTotalSize:
+          {
+            type: [Number],
+            default: 1024000
+          }
       },
-    maxTotalSize:
-      {
-        type: [Number],
-        default: 1024000
-      }
-  },
   setup()
   {
     return {};
   },
   computed:
-  {
-    ...mapGetters([GET_TOKEN, GET_LOGO, GET_HEADER]),
-    imageLogo:
-    {
-      get()
       {
-        return this[GET_LOGO];
-      },
-      set(val)
-      {
-        this[SET_LOGO](val);
-      }
-    },
-    imageHeader:
-    {
-      get()
-      {
-        return this[GET_HEADER];
-      },
-      set(val)
-      {
-        this[SET_HEADER](val);
-      }
-    },
-    fileExists()
-    {
-      return this.field === 'logo'
-        ? this.imageLogo && this.imageLogo.data
-        : this.imageHeader && this.imageHeader.data;
-    },
-    logoUrl()
-    {
-      return this.imageLogo.data.formats.thumbnail.url;
-    },
-    headerUrl()
-    {
-      return this.imageHeader.data[0].formats.thumbnail.url;
-    },
+        ...mapGetters([GET_TOKEN, GET_LOGO, GET_HEADER]),
+        imageLogo:
+          {
+            get()
+            {
+              return this[GET_LOGO];
+            },
+            set(val)
+            {
+              this[SET_LOGO](val);
+            }
+          },
+        imageHeader:
+          {
+            get()
+            {
+              return this[GET_HEADER];
+            },
+            set(val)
+            {
+              this[SET_HEADER](val);
+            }
+          },
+        fileExists()
+        {
+          return this.field === 'logo'
+            ? this.imageLogo && this.imageLogo.data
+            : this.imageHeader && this.imageHeader.data;
+        },
+        logoUrl()
+        {
+          return this.imageLogo.data.formats.thumbnail.url;
+        },
+        headerUrl()
+        {
+          return this.imageHeader.data[0].formats.thumbnail.url;
+        },
 
-    token()
-    {
-      return this[GET_TOKEN];
-    },
-    maxWidth()
-    {
-      return maxWidth;
-    },
-  },
+        token()
+        {
+          return this[GET_TOKEN];
+        },
+        maxWidth()
+        {
+          return maxWidth;
+        },
+      },
   methods: {
     ...mapMutations([SET_LOGO, SET_HEADER, SET_LOGO]),
     readFile(file)
@@ -201,6 +201,11 @@ export default {
           .then(res =>
           {
             console.log('Result', res);
+            this.$emit('file-uploaded', {
+              uploaded: true,
+              field: this.field
+            });
+            console.log('upload file');
             resolve(file);
           })
           .catch(err => reject(err));
@@ -213,29 +218,29 @@ export default {
 
 <i18n>
   {
-    "en": {
-      "logo": "Logo",
-      "header": "Header image",
-      "intro": "Company description",
-      "tasks": "Tasks",
-      "profile": "Profile",
-      "offer": "Offer",
-      "contact_info": "Contact",
-      "image_rejected": "File too big - above",
-      "choose_logo": "Choose company logo",
-      "choose_header": "Choose a header image",
-    },
-    "de": {
-      "logo": "Logo",
-      "header": "Headerbild",
-      "intro": "Unternehmensbeschreibung",
-      "tasks": "Aufgaben",
-      "profile": "Ihre Voraussetzungen",
-      "offer": "Ihre Vorteile",
-      "contact_info": "Kontakt",
-      "image_rejected": "Die Datei ist zu groß. über",
-      "choose_logo": "Logo wählen",
-      "choose_header": "Header wählen",
-    }
+  "en": {
+  "logo": "Logo",
+  "header": "Header image",
+  "intro": "Company description",
+  "tasks": "Tasks",
+  "profile": "Profile",
+  "offer": "Offer",
+  "contact_info": "Contact",
+  "image_rejected": "File too big - above",
+  "choose_logo": "Choose company logo",
+  "choose_header": "Choose a header image",
+  },
+  "de": {
+  "logo": "Logo",
+  "header": "Headerbild",
+  "intro": "Unternehmensbeschreibung",
+  "tasks": "Aufgaben",
+  "profile": "Ihre Voraussetzungen",
+  "offer": "Ihre Vorteile",
+  "contact_info": "Kontakt",
+  "image_rejected": "Die Datei ist zu groß. über",
+  "choose_logo": "Logo wählen",
+  "choose_header": "Header wählen",
+  }
   }
 </i18n>

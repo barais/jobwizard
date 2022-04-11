@@ -92,6 +92,7 @@
       ref2="api::organization.organization"
       :ref-id="refId"
       :field="field"
+      @file-uploaded="fileUploaded"
     />
     <q-dialog v-model="showOrgAddDialog">
       <q-form @submit="createOrg">
@@ -223,6 +224,15 @@ export default {
   },
   methods:
       {
+        fileUploaded(value)
+        {
+          console.log(value);
+          if (value.uploaded)
+          {
+            this.dlgLogo = false;
+            this.organizations();
+          }
+        },
         organizations(pagination = { pagination: this.pagination })
         {
           this.loading = true;
