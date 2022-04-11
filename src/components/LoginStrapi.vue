@@ -45,6 +45,13 @@ import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'LoginStrapi',
+  props: {
+    loggedIn: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
   data()
   {
     return {
@@ -60,6 +67,13 @@ export default {
       {
         ...mapGetters([HAS_AUTH]),
       },
+  watch: {
+    loggedIn(newVal, oldVal)
+    {
+      this.checkUserLogged();
+      console.log('logged in user');
+    }
+  },
   mounted()
   {
     this.checkUserLogged();

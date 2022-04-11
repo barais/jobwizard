@@ -264,7 +264,7 @@ export default {
     login()
     {
       this.isLoading = true;
-      axios.post(process.env.YAWIK_AUTH_URL + '/api/auth/local', {
+      axios.post(process.env.YAWIK_AUTH_URL+'/api/auth/local', {
         identifier: this.username,
         password: this.password
       }).then(response =>
@@ -275,7 +275,8 @@ export default {
         localStorage.setItem('user', JSON.stringify(user));
         this.loginSuccess();
         this.prompt = false;
-        //  this.checkUserLogged();
+        this.$emit('loggedIn', true);
+        this.$router.replace({ name: 'nav.dashboard' });
       }).catch(error =>
       {
         this.loginFail(error.response.data);
