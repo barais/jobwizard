@@ -64,7 +64,8 @@ export default {
   {
     this.checkUserLogged();
   },
-  methods: {
+  methods:
+  {
     ...mapMutations([SET_TOKEN]),
     openLoginPage()
     {

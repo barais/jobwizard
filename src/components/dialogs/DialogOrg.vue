@@ -97,7 +97,7 @@ export default
         this.sending = true;
         const data = new FormData();
         data.append('organization', this.orgName);
-        this.$axios.post(process.env.YAWIK_API_URL + '/organization', data).then(response =>
+        this.$axios.post(process.env.YAWIK_STRAPI_URL + '/api/organizations', data).then(response =>
         {
           this.value = false;
         }).catch(err =>
