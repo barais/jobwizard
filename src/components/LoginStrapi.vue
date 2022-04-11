@@ -341,7 +341,7 @@ export default {
     },
     register()
     {
-      this.isLoading = true;
+      this.isLoading = true;//
       axios.post(process.env.YAWIK_AUTH_URL + '/api/auth/local/register', {
         username: this.username,
         email: this.email,
