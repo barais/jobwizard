@@ -3,7 +3,7 @@
     <q-dialog v-model="prompt" persistent>
       <q-card style="width: 400px; max-width: 60vw;">
         <q-bar>
-          <q-icon name="img:../../yawik_logo-mobile.svg" />
+          <q-icon :name="$q.config.logo" />
           <div>{{ $t('welcome') }}</div>
           <q-space />
           <q-btn v-close-popup dense flat icon="close">
@@ -190,7 +190,7 @@ export default {
       loginSuccess()
       {
         $q.notify({
-          message: 'Logged in successfully!',
+          message: this.$t('msg.login_successfull'),
           color: 'green',
           type: 'positive',
           position: 'top'
@@ -199,7 +199,7 @@ export default {
       loginFail(data)
       {
         $q.notify({
-          message: 'Login Failed. ' + data.error.message,
+          message: this.$t('msg.login_failed') + ' ' + data.error.message,
           color: 'red',
           type: 'negative',
           position: 'top'
@@ -227,7 +227,7 @@ export default {
       registerSuccess()
       {
         $q.notify({
-          message: 'Registered successfully! Please check your Mail.',
+          message: this.$t('msg.registration_successfull'),
           color: 'green',
           type: 'positive',
           position: 'top'

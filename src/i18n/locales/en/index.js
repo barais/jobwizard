@@ -103,7 +103,10 @@ export default
     homeoffice: () => 'Home office',
   },
   msg: {
-    job_saved_success: () => 'job posting successfully saved',
+    job_saved_success: () => 'Job posting successfully saved',
+    login_successfull: () => 'Logged in successfully!',
+    login_failed: () => 'Login failed. {err}',
+    registration_successfull: () => 'The registration was successful. Please check your mails!'
   },
   rules:
   {
