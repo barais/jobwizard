@@ -20,11 +20,11 @@
         <q-tr :props="props">
           <q-td key="logo" :props="props">
             <q-img
-              v-if="props.row.attributes.logo && props.row.attributes.logo.formats && props.row.attributes.logo.formats.thumbnail"
+              v-if="props.row.attributes.logo && props.row.attributes.logo.url"
               width="100px"
               height="50px"
               fit="contain"
-              :src="$q.config.jobUrl + props.row.attributes.logo.formats.thumbnail.url"
+              :src="$q.config.jobUrl + props.row.attributes.logo.url"
             />
             <q-btn
               v-else
@@ -37,11 +37,11 @@
           </q-td>
           <q-td key="header" :props="props">
             <q-img
-              v-if="props.row.attributes.header && props.row.attributes.header[0].formats && props.row.attributes.header[0].formats.thumbnail"
+              v-if="props.row.attributes.header && props.row.attributes.header[0].url"
               width="100px"
               height="50px"
               fit="cover"
-              :src="$q.config.jobUrl + props.row.attributes.header[0].formats.thumbnail.url"
+              :src="$q.config.jobUrl + props.row.attributes.header[0].url"
             />
             <q-btn
               v-else dense
