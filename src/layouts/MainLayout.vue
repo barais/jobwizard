@@ -29,7 +29,7 @@
 
         <q-separator v-if="!$q.platform.is.mobile" spaced vertical color="transparent" />
 
-        <login-strapi />
+        <login-strapi :logged-in="isLoggedIn" />
 
         <q-separator v-if="!$q.platform.is.mobile" spaced vertical color="transparent" />
 
@@ -43,7 +43,7 @@
     <q-page-container style="overflow-x: hidden;">
       <router-view v-slot="{ Component }">
         <transition name="fade" appear mode="out-in">
-          <component :is="Component" :toolbar="showToolbar" />
+          <component :is="Component" :toolbar="showToolbar" @loggedIn="checkLoggedInStatus" />
         </transition>
       </router-view>
     </q-page-container>
@@ -109,6 +109,7 @@ export default {
   {
     return {
       showDrawer: false,
+      isLoggedIn: false
     };
   },
   computed:
@@ -150,10 +151,23 @@ export default {
   mounted()
   {
     this.$q.dark.set(this.dark);
+    const storedUser = localStorage.getItem('user');
+    if (storedUser)
+    {
+      this.isLoggedIn = true;
+    }
   },
   methods:
     {
       ...mapMutations([SET_SETTINGS_FIELD]),
+      checkLoggedInStatus(value)
+      {
+        this.isLoggedIn = value;
+        setTimeout(() =>
+        {
+          this.isLoggedIn = false;
+        }, 1000);
+      }
     }
 };
 </script>

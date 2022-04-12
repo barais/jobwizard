@@ -44,6 +44,7 @@ export default
     {
       UploadLogo,
     },
+  inheritAttrs: false,
   props:
   {
     modelValue:

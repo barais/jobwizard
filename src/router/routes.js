@@ -27,6 +27,11 @@ const routes = [
         component: () => import('pages/Dashboard.vue'),
       },
       {
+        path: 'auth',
+        name: 'auth',
+        component: () => import('pages/Auth.vue'),
+      },
+      {
         path: 'organizations',
         name: 'nav.organizations',
         component: () => import('pages/Organizations.vue'),

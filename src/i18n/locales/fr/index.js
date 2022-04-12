@@ -73,6 +73,7 @@ export default
     country: () => 'Pays',
     countries: () => 'des pays',
     location: () => 'Lieu',
+    email_or_username: () => 'e-mail ou nom d\'utilisateur',
     forgot_password: () => 'Mot de passe oublié',
     reset_password: () => 'Réinitialiser le mot de passe',
     username: () => 'Nom d\'utilisateur',
@@ -97,7 +98,9 @@ export default
     homeoffice: () => 'bureau à domicile',
   },
   msg: {
-    job_saved_success: () => 'l\'offre d\'emploi a été sauvegardée avec succès',
+    job_saved_success: () => "l'offre d'emploi a été sauvegardée avec succès",
+    login_successfull: () => 'Connexion réussie !',
+    registration_successfull: () => "L'enregistrement a été effectué avec succès. Veuillez vérifier vos e-mails!"
   },
   rules:
   {

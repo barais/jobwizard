@@ -98,6 +98,12 @@ export default
     salary: () => 'Jahresgehalt',
     homeoffice: () => 'Homeoffice',
   },
+  msg: {
+    job_saved_success: () => 'Stellenanzeige wurde erfolgreich gespeichert',
+    login_successfull: () => 'Erfolgreich eingeloggt!',
+    login_failed: () => 'Anmeldung fehlgeschlagen. {err}',
+    registration_successfull: () => 'Die Registrierung war erfolgreich. Bitte prüfen Sie ihre Mails!'
+  },
   rules:
   {
     required: () => 'Pflichtfeld',
@@ -123,5 +129,5 @@ export default
   confirm: {
     delete_organization: () => 'Möchten Sie die Firma wirklich gelöscht werden?',
     delete_job: () => 'Möchten Sie die Stellenanzeige wirklich löschen?'
-  }
+  },
 };

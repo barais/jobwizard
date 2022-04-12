@@ -38,6 +38,7 @@ const maxWidth = 800;
 
 export default {
   name: 'UploadLogo',
+  emits: ['file-uploaded'],
   mixins: [mixinValidations],
   props:
       {
