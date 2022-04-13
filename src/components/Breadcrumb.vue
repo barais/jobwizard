@@ -55,6 +55,9 @@ export default
         case 'nav.organizations':
           mdi = 'domain';
           break;
+        case 'nav.applications':
+          mdi = 'people';
+          break;
         case 'nav.statistics':
           mdi = 'poll';
           break;

@@ -6,10 +6,12 @@ export default
   logo: () => 'Logo',
   header: () => 'Headerbild',
   create_job: () => 'Neue Stellenanzeige eingeben',
+  import_application: () => 'Neue Bewerbung importieren',
   jobboard: () => 'Stellenbörse',
   public_jobs: () => 'aktuelle Stellenanzeigen',
   ad_management: () => 'Anzeigenverwaltung',
   job_title: () => 'Anzeigentitel',
+  date: () => 'Datum',
   settings: () => 'Einstellungen',
   templates: () => 'Vorlagen',
   location: () => 'Ort',
@@ -47,6 +49,7 @@ export default
   nav:
   {
     applications: () => 'Bewerbungen',
+    applicant: () => 'Bewerber',
     dashboard: () => 'Dashboard',
     demo: () => 'Demo',
     settings: () => 'Einstellungen',

@@ -79,6 +79,12 @@ export default
             separator: true
           },
           {
+            icon: 'people',
+            label: this.$t('nav.applications'),
+            to: '/' + this.$yawik.lang() + '/applications',
+            separator: true
+          },
+          {
             icon: 'domain',
             label: this.$t('nav.organizations'),
             to: '/' + this.$yawik.lang() + '/organizations',

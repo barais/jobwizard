@@ -50,6 +50,7 @@ export default
   nav:
   {
     applications: () => 'Applications',
+    applicant: () => 'Applicant',
     dashboard: () => 'Dashboard',
     demo: () => 'Demo',
     settings: () => 'Settings',

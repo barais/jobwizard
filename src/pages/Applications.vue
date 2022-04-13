@@ -3,7 +3,7 @@
     <q-table
       v-if="$yawik.isAuth()"
       v-model:pagination="pagination"
-      :title="$t('ad_management')"
+      :title="$t('nav.applications')"
       :rows="rows"
       :grid="grid"
       :columns="columns"
@@ -40,14 +40,6 @@
           <q-td key="location" :props="props">
             {{ props.row.attributes.formattedAddress }}
           </q-td>
-          <q-td key="company" :props="props">
-            <router-link v-if="props.row.attributes.org" :to="'organization/' + props.row.attributes.org.id">{{ props.row.attributes.org.name }}</router-link>
-            <span v-else>{{ props.row.attributes.organization }}</span>
-          </q-td>
-          <q-td key="applications" :props="props">
-            <router-link v-if="props.row.attributes.applications && props.row.attributes.applications.length" :to="'applications/' + props.row.attributes.id">{{ props.row.attributes.applications.length }}</router-link>
-            <span v-else>0</span>
-          </q-td>
           <q-td key="action" :props="props">
             <q-btn size="sm" color="primary" dense class="cursor-pointer" icon="mdi-pencil" @click="editJob(props.row)">
               <q-tooltip :delay="500">
@@ -63,7 +55,7 @@
         </q-tr>
       </template>
       <template #top-right>
-        <q-btn no-caps color="primary" :disable="loading" :label="$t('create_job')" @click="createAd" />
+        <q-btn no-caps color="primary" :disable="loading" :label="$t('import_application')" @click="createAd" />
       </template>
     </q-table>
     <q-card v-if="!$yawik.isAuth()" class="absolute-center channel shadow-5">
@@ -87,14 +79,13 @@
 </template>
 
 <script>
-
 import { useMeta } from 'quasar';
 import { SET_JOB, SET_LOGO, SET_HEADER, GET_TOKEN } from 'src/store/names';
 import { mapGetters, mapMutations } from 'vuex';
 import { api } from 'boot/axios';
 
 export default {
-  name: 'Index',
+  name: 'Applications',
   setup()
   {
     useMeta({
@@ -142,7 +133,7 @@ export default {
             {
               name: 'title',
               required: true,
-              label: this.$t('job_title'),
+              label: this.$t('nav.applicant'),
               align: 'left',
               field: row => row.attributes.jobTitle,
               format: val => `${val}`,
@@ -153,20 +144,6 @@ export default {
               align: 'left',
               label: this.$t('location'),
               field: 'location',
-              sortable: false
-            },
-            {
-              name: 'company',
-              align: 'left',
-              label: this.$t('company'),
-              field: 'company',
-              sortable: false
-            },
-            {
-              name: 'applications',
-              align: 'left',
-              label: this.$t('nav.applications'),
-              field: 'applications',
               sortable: false
             },
             {
@@ -182,16 +159,16 @@ export default {
   {
     if (this.$yawik.isAuth())
     {
-      this.getJobs();
+      this.getApplications();
     }
   },
   methods:
   {
     ...mapMutations([SET_JOB, SET_LOGO, SET_HEADER]),
-    getJobs(pagination = { pagination: this.pagination })
+    getApplications(pagination = { pagination: this.pagination })
     {
       this.loading = true;
-      api.get('/api/jobs', {
+      api.get('/api/applications', {
         params: {
           'pagination[page]': pagination.pagination.page,
           'pagination[pageSize]': pagination.pagination.rowsPerPage,

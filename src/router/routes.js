@@ -32,6 +32,11 @@ const routes = [
         component: () => import('pages/Auth.vue'),
       },
       {
+        path: 'applications/:id?',
+        name: 'nav.applications',
+        component: () => import('pages/Applications.vue'),
+      },
+      {
         path: 'organizations',
         name: 'nav.organizations',
         component: () => import('pages/Organizations.vue'),
