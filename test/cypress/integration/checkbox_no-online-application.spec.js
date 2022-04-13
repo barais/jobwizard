@@ -16,7 +16,7 @@ describe('check apply_url, apply_email and apply_post', () =>
 
   it('enable url in settings', () =>
   {
-    cy.contains('Applications').click();
+    cy.get('.mdi-account-box-multiple-outline').click();
     cy.contains('Use application form').click();
   });
 
