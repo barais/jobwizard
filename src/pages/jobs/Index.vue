@@ -7,24 +7,26 @@
       :rows="rows"
       :grid="grid"
       :columns="columns"
+      :filter="filter"
       :rows-per-page-options="rowsPerPageOptions"
       :loading="loading"
-      row-key="name"
+      row-key="id"
       class="full-width"
       table-class="jobtable"
       title-class="text-h5"
       table-header-class="jobtable-header"
+      binary-state-sort
       @request="getJobs"
     >
       <template #body="props">
         <q-tr :props="props">
-          <q-td key="date" :props="props">
+          <q-td key="createdAt" :props="props">
             {{ props.row.attributes.publishedAt ? new Date(props.row.attributes.publishedAt).toLocaleString($yawik.lang()) : new Date(props.row.attributes.createdAt).toLocaleString($yawik.lang()) }}
             <div v-if="!props.row.attributes.publishedAt">
               <q-badge>{{ $t('unpublished') }}</q-badge>
             </div>
           </q-td>
-          <q-td key="title" :props="props">
+          <q-td key="jobTitle" :props="props">
             <a v-if="props.row.attributes.html" target="_new" :href="$q.config.jobUrl + props.row.attributes.html.url">
               <span class="cursor-pointer jobtitle">
                 {{ props.row.attributes.jobTitle }}
@@ -37,10 +39,10 @@
               {{ props.row.attributes.jobTitle }}
             </span>
           </q-td>
-          <q-td key="location" :props="props">
+          <q-td key="formattedAddress" :props="props">
             {{ props.row.attributes.formattedAddress }}
           </q-td>
-          <q-td key="company" :props="props">
+          <q-td key="organization" :props="props">
             <router-link v-if="props.row.attributes.org" :to="'organization/' + props.row.attributes.org.id">{{ props.row.attributes.org.name }}</router-link>
             <span v-else>{{ props.row.attributes.organization }}</span>
           </q-td>
@@ -63,6 +65,11 @@
         </q-tr>
       </template>
       <template #top-right>
+        <q-input v-model="filter" class="q-mr-sm" outlined dense debounce="300" :placeholder="$t('search')">
+          <template #append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
         <q-btn no-caps color="primary" :disable="loading" :label="$t('create_job')" @click="createAd" />
       </template>
     </q-table>
@@ -88,6 +95,7 @@
 
 <script>
 
+import { ref } from 'vue';
 import { useMeta } from 'quasar';
 import { SET_JOB, SET_LOGO, SET_HEADER, GET_TOKEN } from 'src/store/names';
 import { mapGetters, mapMutations } from 'vuex';
@@ -97,6 +105,8 @@ export default {
   name: 'Index',
   setup()
   {
+    const filter = ref('');
+
     useMeta({
       link: {
         material: {
@@ -105,16 +115,18 @@ export default {
         }
       }
     });
+    return {
+      filter
+    };
   },
   data()
   {
     return {
       rows: [],
-      jobsUrl: `${process.env.YAWIK_STRAPI_URL}/api/jobs`,
       loading: false,
       rowsPerPageOptions: [10, 25, 50, 100],
       pagination: {
-        sortBy: 'desc',
+        sortBy: 'createdAt',
         descending: true,
         rowsNumber: 10,
         page: 1,
@@ -133,34 +145,34 @@ export default {
         {
           return [
             {
-              name: 'date',
+              name: 'createdAt',
               align: 'left',
               label: this.$t('date'),
-              field: 'date',
-              sortable: false
+              field: row => row.attributes.createAd,
+              sortable: true
             },
             {
-              name: 'title',
+              name: 'jobTitle',
               required: true,
               label: this.$t('job_title'),
               align: 'left',
-              field: row => row.attributes.jobTitle,
+              field: 'row => row.attributes.jobTitle',
               format: val => `${val}`,
-              sortable: false
+              sortable: true
             },
             {
-              name: 'location',
+              name: 'formattedAddress',
               align: 'left',
               label: this.$t('location'),
               field: 'location',
-              sortable: false
+              sortable: true
             },
             {
-              name: 'company',
+              name: 'organization',
               align: 'left',
               label: this.$t('company'),
               field: 'company',
-              sortable: false
+              sortable: true
             },
             {
               name: 'applications',
@@ -188,15 +200,36 @@ export default {
   methods:
   {
     ...mapMutations([SET_JOB, SET_LOGO, SET_HEADER]),
-    getJobs(pagination = { pagination: this.pagination })
+    getJobs(data = { pagination: this.pagination })
     {
+      console.log(data);
+      if (data.pagination.sortBy)
+      {
+        this.pagination.sortBy = data.pagination.sortBy;
+      }
+      this.pagination.descending = data.pagination.descending;
+
       this.loading = true;
       api.get('/api/jobs', {
         params: {
-          'pagination[page]': pagination.pagination.page,
-          'pagination[pageSize]': pagination.pagination.rowsPerPage,
+          'pagination[page]': data.pagination.page,
+          'pagination[pageSize]': data.pagination.rowsPerPage,
           populate: 'html,org,applications',
-          sort: 'createdAt:desc'
+          filters: {
+            $or: [
+              {
+                jobTitle: {
+                  $containsi: data.filter
+                }
+              },
+              {
+                organization: {
+                  $containsi: data.filter
+                }
+              }
+            ]
+          },
+          sort: this.pagination.sortBy + ':' + (this.pagination.descending ? 'desc' : 'asc')
         },
         headers: {
           accept: 'application/json',
@@ -216,8 +249,8 @@ export default {
     setPagination(pagination)
     {
       this.pagination = {
-        sortBy: 'asc',
-        descending: true,
+        sortBy: this.pagination.sortBy,
+        descending: this.pagination.descending,
         rowsNumber: pagination.total,
         page: pagination.page,
         rowsPerPage: pagination.pageSize

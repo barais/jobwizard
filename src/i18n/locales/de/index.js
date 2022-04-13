@@ -12,6 +12,8 @@ export default
   ad_management: () => 'Anzeigenverwaltung',
   job_title: () => 'Anzeigentitel',
   date: () => 'Datum',
+  search: () => 'Suchen',
+
   settings: () => 'Einstellungen',
   templates: () => 'Vorlagen',
   location: () => 'Ort',

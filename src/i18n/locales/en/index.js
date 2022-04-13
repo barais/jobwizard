@@ -9,6 +9,7 @@ export default
   job_title: () => 'Job title',
   ad_management: () => 'Ad management',
   public_jobs: () => 'Current job offers',
+  search: () => 'Search',
   settings: () => 'Settings',
   templates: () => 'Templates',
   date: () => 'Date',
