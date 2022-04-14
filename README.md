@@ -28,6 +28,8 @@ yarn
 yarn dev
 ```
 
+you should be able to acess http://localhost:8090 
+
 ## Configuration
 
 The form is .env-aware.  
@@ -35,7 +37,6 @@ The form is .env-aware.
 | Name                         | Value                               | 
 |------------------------------|-------------------------------------|
 | YAWIK_URL_PRIVACY            | Link to the Privacy notes           |
-| YAWIK_APP_KEY                | Shared App Key                      |
 | YAWIK_API_URL                | Yawik API                           |
 | YAWIK_STRAPI_URL             | Strapi Backend                      |
 | YAWIK_JOB_URL                | URL to job details                  |
