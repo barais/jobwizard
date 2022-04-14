@@ -60,6 +60,8 @@ export default
     create_job: () => 'Saisir une nouvelle annonce',
     edit_job: () => "Modifier l'annonce",
     del_job: () => "Supprimer une offre d'emploi",
+    edit_application: () => 'Edit application',
+    del_application: () => 'Delete application',
   },
   help: {
     dark_mode: () => 'Activer et désactiver le mode sombre',

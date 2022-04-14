@@ -123,7 +123,7 @@ module.exports = function(ctx)
     devServer: {
       static: path.join(__dirname, 'public'),
       https: false,
-      port: 8080,
+      port: 8090,
       open: false // opens browser window automatically
     },
 

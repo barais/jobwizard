@@ -10,10 +10,10 @@ export default
   jobboard: () => 'Stellenbörse',
   public_jobs: () => 'aktuelle Stellenanzeigen',
   ad_management: () => 'Anzeigenverwaltung',
+  applicant_tracking_system: () => 'Bewerbermanagement',
   job_title: () => 'Anzeigentitel',
   date: () => 'Datum',
   search: () => 'Suchen',
-
   settings: () => 'Einstellungen',
   templates: () => 'Vorlagen',
   location: () => 'Ort',
@@ -22,9 +22,11 @@ export default
   unpublished: () => 'unveröffentlicht',
   title: () => 'Bitte melden Sie sich an',
   action: () => 'Aktion',
-  'ad-management-description': () => 'Mit der Anzeigenverwaltung können die Stellenanzeigen speichern, bearbeiten und löschen. Die Anzeigenverwaltung wird auch benötigt, um Stellenanzeigen in ihre Homepage zu integrieren.',
+  ad_management_description: () => 'Mit der Anzeigenverwaltung können die Stellenanzeigen speichern, bearbeiten und löschen. Die Anzeigenverwaltung wird auch benötigt, um Stellenanzeigen in ihre Homepage zu integrieren.',
+  ats_description: () => 'Die Bewerberverwaltung vereinfacht ihnen den Umgang mit Bewerbungen.',
   preis1: () => 'Die Anmeldung ist kostenlos',
   please_register: () => 'Sie sind momentan nicht angemeldet. Um die Anzeigenverwaltung zu nutzen, müssen Sie sich registrieren. Die Registrierung ist kostenlos.',
+  please_register_ats: () => 'Sie sind momentan nicht angemeldet. Um die Anzeigenverwaltung zu nutzen, müssen Sie sich registrieren. Die Registrierung ist kostenlos.',
   alert: () => 'Achtung',
   wizard_help_title: () => 'Stellenanzeige erstellen',
   wizard_help_text: () => 'Der Jobwizard unterstützt sie bei der Erstellung einer Anzeige. Die Nutzung des Jobwizard und die Erstellung der Anzeige ist kostenlos. Über die Einstellungen können sie weitere Felder aktivieren und deaktivieren.',
@@ -66,6 +68,8 @@ export default
     del_org: () => 'Firma löschen',
     edit_job: () => 'Anzeige bearbeiten',
     del_job: () => 'Anzeige löschen',
+    edit_application: () => 'Bewerbung bearbeiten',
+    del_application: () => 'Bewerbung löschen',
   },
   help: {
     dark_mode: () => 'Nachtdarstellung ein und ausschalten',
@@ -133,6 +137,7 @@ export default
   },
   confirm: {
     delete_organization: () => 'Möchten Sie die Firma wirklich gelöscht werden?',
-    delete_job: () => 'Möchten Sie die Stellenanzeige wirklich löschen?'
+    delete_job: () => 'Möchten Sie die Stellenanzeige wirklich löschen?',
+    delete_application: () => 'Möchten Sie die Bewerbung wirklich löschen?'
   },
 };

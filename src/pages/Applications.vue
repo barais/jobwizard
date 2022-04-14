@@ -20,35 +20,44 @@
         <q-tr :props="props">
           <q-td key="date" :props="props">
             {{ props.row.attributes.publishedAt ? new Date(props.row.attributes.publishedAt).toLocaleString($yawik.lang()) : new Date(props.row.attributes.createdAt).toLocaleString($yawik.lang()) }}
-            <div v-if="!props.row.attributes.publishedAt">
-              <q-badge>{{ $t('unpublished') }}</q-badge>
-            </div>
           </q-td>
-          <q-td key="title" :props="props">
-            <a v-if="props.row.attributes.html" target="_new" :href="$q.config.jobUrl + props.row.attributes.html.url">
-              <span class="cursor-pointer jobtitle">
-                {{ props.row.attributes.jobTitle }}
-                <q-tooltip :delay="500">
-                  {{ props.row.attributes.id }}
-                </q-tooltip>
-              </span>
-            </a>
+          <q-td key="applicant" :props="props">
+            <q-img
+              v-if="props.row.attributes.photo"
+              height="60px"
+              width="50px"
+              fit="cover"
+              class="float-left q-mr-sm"
+              :src="$q.config.jobUrl + props.row.attributes.photo.url" spinner-color="primary"
+            />
+            <div>
+              {{ props.row.attributes.gender === 'male' ? $t('Mr') : '' }}
+              {{ props.row.attributes.gender === 'female' ? $t('Mrs') : '' }}
+              {{ props.row.attributes.gender === 'diverse' ? $t('X') : '' }}
+              {{ props.row.attributes.firstname }}
+              {{ props.row.attributes.lastname }}<br>
+              {{ props.row.attributes.postalcode }} {{ props.row.attributes.city }}<br>
+              {{ props.row.attributes.street }} {{ props.row.attributes.housnumber }}
+              <q-tooltip :delay="500">
+                {{ props.row.attributes.id }}
+              </q-tooltip>
+            </div>
             <span v-if="!props.row.attributes.html" class="jobtitle">
               {{ props.row.attributes.jobTitle }}
             </span>
           </q-td>
-          <q-td key="location" :props="props">
-            {{ props.row.attributes.formattedAddress }}
+          <q-td key="contact" :props="props">
+            {{ props.row.attributes.phone }}
           </q-td>
           <q-td key="action" :props="props">
             <q-btn size="sm" color="primary" dense class="cursor-pointer" icon="mdi-pencil" @click="editJob(props.row)">
               <q-tooltip :delay="500">
-                {{ $t('nav.edit_job') }}
+                {{ $t('nav.edit_application') }}
               </q-tooltip>
             </q-btn>
             <q-btn size="sm" color="negative" style="margin-left: 5px;" dense class="cursor-pointer" icon="mdi-delete" @click="confirm(props.row.id,props.row.attributes.jobTitle)">
               <q-tooltip :delay="500">
-                {{ $t('nav.del_job') }}
+                {{ $t('nav.del_application') }}
               </q-tooltip>
             </q-btn>
           </q-td>
@@ -60,14 +69,14 @@
     </q-table>
     <q-card v-if="!$yawik.isAuth()" class="absolute-center channel shadow-5">
       <div class="text-h4 q-mb-md full-width">{{ $t('title') }}</div>
-      <p>{{ $t('please_register') }}</p>
+      <p>{{ $t('please_register_ats') }}</p>
 
       <q-card-section class="q-pt-none">
         <div class="text-subtitle1">
-          <q-icon name="mdi-content-copy" /> &nbsp; {{ $t("ad_management") }}
+          <q-icon name="mdi-content-copy" /> &nbsp; {{ $t("applicant_tracking_system") }}
         </div>
         <div class="text-caption text-grey">
-          {{ $t('ad-management-description') }}
+          {{ $t('ats_description') }}
         </div>
       </q-card-section>
 
@@ -128,21 +137,21 @@ export default {
               align: 'left',
               label: this.$t('date'),
               field: 'date',
-              sortable: false
+              sortable: true
             },
             {
-              name: 'title',
+              name: 'applicant',
               required: true,
               label: this.$t('nav.applicant'),
               align: 'left',
-              field: row => row.attributes.jobTitle,
+              field: row => row.attributes.firstname,
               format: val => `${val}`,
               sortable: false
             },
             {
-              name: 'location',
+              name: 'contact',
               align: 'left',
-              label: this.$t('location'),
+              label: this.$t('name.contact'),
               field: 'location',
               sortable: false
             },
@@ -172,7 +181,7 @@ export default {
         params: {
           'pagination[page]': pagination.pagination.page,
           'pagination[pageSize]': pagination.pagination.rowsPerPage,
-          populate: 'html,org,applications',
+          populate: 'photo,attachments',
           sort: 'createdAt:desc'
         },
         headers: {
@@ -221,7 +230,7 @@ export default {
         this.getJobs();
         this.$q.notify({
           type: 'positive',
-          message: `Job deleted successfully.`
+          message: `Application deleted successfully.`
         });
       });
 
@@ -233,7 +242,7 @@ export default {
     {
       this.$q.dialog({
         title: this.$t('alert'),
-        message: this.$t('confirm.delete_job') + '<p><b>' + title + '</b></p>',
+        message: this.$t('confirm.delete_application') + '<p><b>' + title + '</b></p>',
         cancel: true,
         persistent: true,
         html: true

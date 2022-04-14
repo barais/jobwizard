@@ -67,6 +67,8 @@ export default
     create_job: () => 'Create new Jobad',
     edit_job: () => 'Edit job ad',
     del_job: () => 'Delete job ad',
+    edit_application: () => 'Edit application',
+    del_application: () => 'Delete application',
   },
   help: {
     dark_mode: () => 'Switch dark display on and off',
