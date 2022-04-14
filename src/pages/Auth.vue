@@ -20,7 +20,7 @@
           narrow-indicator
         >
           <q-tab name="signin" :label="$t('btn.login')" />
-          <q-tab name="signup" :label="$t('btn.register')" />
+          <q-tab :disable="isAdmin" name="signup" :label="$t('btn.register')" />
         </q-tabs>
 
         <q-separator />
@@ -33,7 +33,7 @@
                 v-model="username"
                 class="q-pa-md"
                 outlined
-                :label="$t('label.email_or_username')"
+                :label="isAdmin ? $t('btn.email') : $t('label.email_or_username')"
                 dense
               />
               <q-input
@@ -55,9 +55,10 @@
 
             <q-card-actions
               align="between"
-              class="relative-position bg-grey-2 absolute-bottom text-primary"
+              class="relative-position absolute-bottom text-primary"
             >
               <q-btn
+                :disable="isAdmin"
                 no-caps
                 flat
                 :label="$t('label.forgot_password')"
@@ -260,18 +261,54 @@ export default {
       forgotPwdLoading: false,
     };
   },
+  computed:
+  {
+    isAdmin()
+    {
+      return this.$route.name === 'admin-auth';
+    },
+    loginUrl()
+    {
+      return this.isAdmin
+        ? process.env.YAWIK_AUTH_URL + '/admin/login'
+        : process.env.YAWIK_AUTH_URL + '/api/auth/local';
+    }
+  },
   methods: {
     ...mapMutations([SET_TOKEN]),
     login()
     {
-      this.isLoading = true;
-      axios.post(process.env.YAWIK_AUTH_URL + '/api/auth/local', {
-        identifier: this.username,
-        password: this.password
-      }).then(response =>
+      let data;
+      if (this.isAdmin)
       {
-        const token = response.data.jwt;
-        const user = response.data.user;
+        data = {
+          email: this.username,
+          password: this.password
+        };
+      }
+      else
+      {
+        data = {
+          identifier: this.username,
+          password: this.password,
+          populate: '*'
+        };
+      }
+      this.isLoading = true;
+      axios.post(this.loginUrl, data).then(response =>
+      {
+        let token,
+          user;
+        if (this.isAdmin)
+        {
+          token = response.data.data.token;
+          user = response.data.data.user;
+        }
+        else
+        {
+          token = response.data.jwt;
+          user = response.data.user;
+        }
         this[SET_TOKEN](token);
         localStorage.setItem('user', JSON.stringify(user));
         this.loginSuccess();

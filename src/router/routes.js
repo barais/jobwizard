@@ -32,6 +32,11 @@ const routes = [
         component: () => import('pages/Auth.vue'),
       },
       {
+        path: 'auth/admin',
+        name: 'admin-auth',
+        component: () => import('pages/Auth.vue'),
+      },
+      {
         path: 'applications/:id?',
         name: 'nav.applications',
         component: () => import('pages/Applications.vue'),
