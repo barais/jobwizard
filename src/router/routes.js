@@ -37,6 +37,11 @@ const routes = [
         component: () => import('pages/Applications.vue'),
       },
       {
+        path: 'application/:id',
+        name: 'nav.application',
+        component: () => import('pages/Application.vue'),
+      },
+      {
         path: 'organizations',
         name: 'nav.organizations',
         component: () => import('pages/Organizations.vue'),

@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-toolbar>
       <q-breadcrumbs active-color="secondary" style="font-size: 16px;">
-        <q-breadcrumbs-el label="Home" icon="mdi-home" :to="home" />
+        <q-breadcrumbs-el label="Home" icon="home" :to="home" />
         <q-breadcrumbs-el
           v-if="!($route.name === 'landing')"
           :label="$t($route.name === 'jobs' ? 'ad_management' : $route.name )"

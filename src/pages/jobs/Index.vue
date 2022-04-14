@@ -202,7 +202,6 @@ export default {
     ...mapMutations([SET_JOB, SET_LOGO, SET_HEADER]),
     getJobs(data = { pagination: this.pagination })
     {
-      console.log(data);
       if (data.pagination.sortBy)
       {
         this.pagination.sortBy = data.pagination.sortBy;

@@ -12,13 +12,17 @@
       row-key="name"
       class="full-width"
       table-class="jobtable"
+      :wrap-cells="true"
       title-class="text-h5"
       table-header-class="jobtable-header"
-      @request="getJobs"
+      @request="getApplications"
     >
       <template #body="props">
         <q-tr :props="props">
-          <q-td key="date" :props="props">
+          <q-td key="status" :props="props">
+            <q-badge v-if="props.row.attributes.status">{{ $t(props.row.attributes.status) }}</q-badge>
+          </q-td>
+          <q-td key="createdAt" :props="props">
             {{ props.row.attributes.publishedAt ? new Date(props.row.attributes.publishedAt).toLocaleString($yawik.lang()) : new Date(props.row.attributes.createdAt).toLocaleString($yawik.lang()) }}
           </q-td>
           <q-td key="applicant" :props="props">
@@ -46,11 +50,38 @@
               {{ props.row.attributes.jobTitle }}
             </span>
           </q-td>
-          <q-td key="contact" :props="props">
-            {{ props.row.attributes.phone }}
+          <q-td key="attachments" :props="props">
+            <attachments :files="props.row.attributes.attachments" />
+          </q-td>
+          <q-td key="contact" :props="props" style="max-width: 150px;">
+            <q-btn
+              v-if="props.row.attributes.phone"
+              icon="phone"
+              type="a"
+              :href="'tel:' + props.row.attributes.phone"
+              flat dense no-caps
+              :label="props.row.attributes.phone"
+            />
+            <q-btn
+              v-if="props.row.attributes.email"
+              icon="mail"
+              type="a"
+              :href="'mailto:'+props.row.attributes.email"
+              flat dense no-caps
+              :label="props.row.attributes.email"
+            />
+          </q-td>
+          <q-td key="job" :props="props">
+            <q-btn to="" disabled flat dense no-caps :label="props.row.attributes.job.jobTitle" />
           </q-td>
           <q-td key="action" :props="props">
-            <q-btn size="sm" color="primary" dense class="cursor-pointer" icon="mdi-pencil" @click="editJob(props.row)">
+            <q-btn
+              size="sm" color="primary"
+              dense
+              class="cursor-pointer"
+              icon="mdi-pencil"
+              @click="editApplication(props.row)"
+            >
               <q-tooltip :delay="500">
                 {{ $t('nav.edit_application') }}
               </q-tooltip>
@@ -64,7 +95,7 @@
         </q-tr>
       </template>
       <template #top-right>
-        <q-btn no-caps color="primary" :disable="loading" :label="$t('import_application')" @click="createAd" />
+        <q-btn no-caps color="primary" disabled :disable="loading" :label="$t('import_application')" @click="createApplication" />
       </template>
     </q-table>
     <q-card v-if="!$yawik.isAuth()" class="absolute-center channel shadow-5">
@@ -88,15 +119,19 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import { useMeta } from 'quasar';
 import { SET_JOB, SET_LOGO, SET_HEADER, GET_TOKEN } from 'src/store/names';
 import { mapGetters, mapMutations } from 'vuex';
 import { api } from 'boot/axios';
+import Attachments from 'components/AttachmentList.vue';
 
 export default {
   name: 'Applications',
   setup()
   {
+    const filter = ref('');
+
     useMeta({
       link: {
         material: {
@@ -105,16 +140,22 @@ export default {
         }
       }
     });
+    return {
+      filter
+    };
+  },
+  components:
+  {
+    Attachments,
   },
   data()
   {
     return {
       rows: [],
-      jobsUrl: `${process.env.YAWIK_STRAPI_URL}/api/jobs`,
       loading: false,
       rowsPerPageOptions: [10, 25, 50, 100],
       pagination: {
-        sortBy: 'desc',
+        sortBy: 'createdAt',
         descending: true,
         rowsNumber: 10,
         page: 1,
@@ -133,7 +174,14 @@ export default {
         {
           return [
             {
-              name: 'date',
+              name: 'status',
+              align: 'left',
+              label: this.$t('nav.state'),
+              field: 'date',
+              sortable: true
+            },
+            {
+              name: 'createdAt',
               align: 'left',
               label: this.$t('date'),
               field: 'date',
@@ -149,9 +197,23 @@ export default {
               sortable: false
             },
             {
+              name: 'attachments',
+              align: 'left',
+              label: this.$t('nav.attachments'),
+              field: 'attachments',
+              sortable: false
+            },
+            {
               name: 'contact',
               align: 'left',
-              label: this.$t('name.contact'),
+              label: this.$t('nav.contact'),
+              field: 'location',
+              sortable: false
+            },
+            {
+              name: 'job',
+              align: 'left',
+              label: this.$t('nav.project'),
               field: 'location',
               sortable: false
             },
@@ -174,15 +236,21 @@ export default {
   methods:
   {
     ...mapMutations([SET_JOB, SET_LOGO, SET_HEADER]),
-    getApplications(pagination = { pagination: this.pagination })
+    getApplications(data = { pagination: this.pagination })
     {
+      if (data.pagination.sortBy)
+      {
+        this.pagination.sortBy = data.pagination.sortBy;
+      }
+      this.pagination.descending = data.pagination.descending;
       this.loading = true;
       api.get('/api/applications', {
         params: {
-          'pagination[page]': pagination.pagination.page,
-          'pagination[pageSize]': pagination.pagination.rowsPerPage,
-          populate: 'photo,attachments',
-          sort: 'createdAt:desc'
+          'pagination[page]': data.pagination.page,
+          'pagination[pageSize]': data.pagination.rowsPerPage,
+          populate: 'photo,attachments,job',
+          sort: this.pagination.sortBy + ':' + (this.pagination.descending ? 'desc' : 'asc')
+
         },
         headers: {
           accept: 'application/json',
@@ -202,32 +270,32 @@ export default {
     setPagination(pagination)
     {
       this.pagination = {
-        sortBy: 'asc',
-        descending: true,
+        sortBy: this.pagination.sortBy,
+        descending: this.pagination.descending,
         rowsNumber: pagination.total,
         page: pagination.page,
         rowsPerPage: pagination.pageSize
       };
     },
-    editJob(job)
+    editApplication(application)
     {
       this.$router.push({
-        name: 'job',
+        name: 'nav.application',
         params: {
-          id: job.id
+          id: application.id
         }
       });
     },
     deleteJob(id)
     {
-      api.delete('/api/jobs/' + id, {
+      api.delete('/api/applications/' + id, {
         headers: {
           accept: 'application/json',
           Authorization: 'Bearer ' + this[GET_TOKEN]
         }
       }).then(response =>
       {
-        this.getJobs();
+        this.getApplications();
         this.$q.notify({
           type: 'positive',
           message: `Application deleted successfully.`
@@ -261,7 +329,7 @@ export default {
         console.log('I am triggered on both OK and Cancel');
       });
     },
-    createAd()
+    createApplication()
     {
       this.$router.push(
         {
