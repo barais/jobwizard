@@ -63,7 +63,7 @@
               size="sm"
               color="primary"
               dense class="cursor-pointer" icon="mdi-pencil"
-              :to="'/' + $yawik.lang() + '/organization/' + props.row.id"
+              @click="editOrg(props.row)"
             >
               <q-tooltip :delay="500">
                 {{ $t('nav.edit_org') }}
@@ -80,7 +80,7 @@
         </q-tr>
       </template>
       <template #top-right>
-        <q-btn no-caps color="primary" :disable="loading" :label="$t('nav.create_org')" @click="showOrgAddDialog=true" />
+        <q-btn no-caps color="primary" :disable="loading" :label="$t('nav.create_org')" @click="addOrg" />
       </template>
     </q-table>
     <q-card v-if="!$yawik.isAuth()" class="absolute-center channel shadow-5">
@@ -95,10 +95,10 @@
       @file-uploaded="fileUploaded"
     />
     <q-dialog v-model="showOrgAddDialog">
-      <q-form @submit="createOrg">
+      <q-form @submit="selectedOrg!=null?updateOrg():createOrg()">
         <q-card class="relative-position">
           <q-card-section class="bg-primary text-white q-py-sm">
-            <div class="text-h6">{{ $t('nav.create_org') }}</div>
+            <div class="text-h6">{{ selectedOrg==null? $t('nav.create_org'):$t('nav.update_org') }}</div>
           </q-card-section>
           <q-card-section>
             <q-input ref="company" v-model.trim="orgName" :label="$t('company')" outlined dense :rules="[ruleRequired]"
@@ -161,7 +161,8 @@ export default {
       },
       showOrgAddDialog: false,
       orgName: null,
-      sending: false
+      sending: false,
+      selectedOrg: null
     };
   },
   computed:
@@ -343,6 +344,50 @@ export default {
             this.sending = false;
           });
         },
+        updateOrg()
+        {
+          this.sending = true;
+          api.put('/api/organizations/' + this.selectedOrg.id, {
+            data: {
+              name: this.orgName,
+              id: this.selectedOrg.id
+            }
+          },
+          {
+            headers: {
+              accept: 'application/json',
+              Authorization: 'Bearer ' + this[GET_TOKEN]
+            },
+          }
+          ).then(response =>
+          {
+            if (response.status === 200)
+            {
+              this.$q.notify({
+                type: 'positive',
+                message: `Company name updated successfully.`
+              });
+              this.showOrgAddDialog = false;
+              this.selectedOrg = null;
+              this.organizations();
+            }
+          }).finally(() =>
+          {
+            this.sending = false;
+          });
+        },
+        editOrg(organization)
+        {
+          this.selectedOrg = organization;
+          this.orgName = organization.attributes.name;
+          this.showOrgAddDialog = true;
+        },
+        addOrg()
+        {
+          this.selectedOrg = null;
+          this.orgName = null;
+          this.showOrgAddDialog = true;
+        }
       }
 };
 </script>

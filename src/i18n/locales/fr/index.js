@@ -59,6 +59,7 @@ export default
     project: () => 'Projet',
     projects: () => 'Projets',
     create_org: () => 'Créer une nouvelle entreprise',
+    update_org: () => 'Mettre à jour l\'entreprise',
     edit_org: () => "Modifier l'entreprise",
     del_org: () => 'Supprimer une entreprise',
     state: () => 'Statut',

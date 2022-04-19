@@ -80,6 +80,7 @@ export default
     projects: () => 'Projects',
     contact: () => 'Contact',
     create_org: () => 'Create new company',
+    update_org: () => 'Update company',
     edit_org: () => 'Edit company',
     del_org: () => 'Delete company',
     state: () => 'State',

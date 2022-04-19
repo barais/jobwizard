@@ -43,7 +43,12 @@
             {{ props.row.attributes.formattedAddress }}
           </q-td>
           <q-td key="organization" :props="props">
-            <router-link v-if="props.row.attributes.org" :to="'organization/' + props.row.attributes.org.id">{{ props.row.attributes.org.name }}</router-link>
+            <p v-if="props.row.attributes.org"
+               class="cursor-pointer text-blue"
+               @click="editOrg(props.row.attributes.org)"
+            >
+              {{ props.row.attributes.org.name }}
+            </p>
             <span v-else>{{ props.row.attributes.organization }}</span>
           </q-td>
           <q-td key="applications" :props="props">
@@ -90,6 +95,32 @@
 
       <div class="text-center text-h4 q-mb-md full-width">{{ $t('preis1') }}</div>
     </q-card>
+
+    <q-dialog v-model="showOrgAddDialog">
+      <q-form @submit="updateOrg">
+        <q-card class="relative-position">
+          <q-card-section class="bg-primary text-white q-py-sm">
+            <div class="text-h6">{{ $t('nav.update_org') }}</div>
+          </q-card-section>
+          <q-card-section>
+            <q-input ref="company" v-model.trim="orgName" :label="$t('company')" outlined dense :rules="[ruleRequired]"
+                     lazy-rules
+            />
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn color="primary" outline class="q-mr-sm" @click="showOrgAddDialog = false">
+              {{ $t('btn.cancel') }}
+            </q-btn>
+            <q-btn color="primary" class="q-ml-sm" type="submit">
+              {{ $t('btn.send') }}
+            </q-btn>
+          </q-card-actions>
+          <q-inner-loading :showing="sending">
+            <q-spinner size="50px" color="primary" />
+          </q-inner-loading>
+        </q-card>
+      </q-form>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -132,6 +163,10 @@ export default {
         page: 1,
         rowsPerPage: 10
       },
+      sending: false,
+      orgName: null,
+      showOrgAddDialog: false,
+      selectedOrg: null
     };
   },
   computed:
@@ -314,7 +349,46 @@ export default {
           name: 'create_job'
         }
       );
-    }
+    },
+    editOrg(organization)
+    {
+      console.log(JSON.stringify(organization));
+      this.selectedOrg = organization;
+      this.orgName = organization.name;
+      this.showOrgAddDialog = true;
+    },
+    updateOrg()
+    {
+      this.sending = true;
+      api.put('/api/organizations/' + this.selectedOrg.id, {
+        data: {
+          name: this.orgName,
+          id: this.selectedOrg.id
+        }
+      },
+      {
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer ' + this[GET_TOKEN]
+        },
+      }
+      ).then(response =>
+      {
+        if (response.status === 200)
+        {
+          this.$q.notify({
+            type: 'positive',
+            message: `Company name updated successfully.`
+          });
+          this.showOrgAddDialog = false;
+          this.selectedOrg = null;
+          this.getJobs();
+        }
+      }).finally(() =>
+      {
+        this.sending = false;
+      });
+    },
   }
 };
 </script>

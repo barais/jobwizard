@@ -39,6 +39,7 @@ The form is .env-aware.
 | YAWIK_URL_PRIVACY            | Link to the Privacy notes           |
 | YAWIK_API_URL                | Yawik API                           |
 | YAWIK_STRAPI_URL             | Strapi Backend                      |
+| YAWIK_AUTH_URL               | Endpoint for authentication         |
 | YAWIK_JOB_URL                | URL to job details                  |
 | YAWIK_ROUTER_BASE            | Router Base of the web app          |
 | YAWIK_GOOGLE_MAPS            | Google Maps Key                     |

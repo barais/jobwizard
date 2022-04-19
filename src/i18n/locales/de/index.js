@@ -83,6 +83,7 @@ export default
     state: () => 'Status',
     organization: () => 'Firma',
     create_org: () => 'Neue Firma anlegen',
+    update_org: () => 'Unternehmen aktualisieren',
     contact: () => 'Kontakt',
     edit_org: () => 'Firma bearbeiten',
     del_org: () => 'Firma löschen',
