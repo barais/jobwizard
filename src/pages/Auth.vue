@@ -295,7 +295,7 @@ export default {
         };
       }
       this.isLoading = true;
-      axios.post('https://api.yawik.org/api/auth/local', data).then(response =>
+      axios.post(this.loginUrl, data).then(response =>
       {
         let token,
           user;
