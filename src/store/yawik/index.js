@@ -168,6 +168,7 @@ export default
       },
       [SET_LOGO](state, value)
       {
+        console.log('val ', value);
         state.logo = value;
       },
       [SET_HEADER](state, value)

@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-uploader
-      v-if="!fileExists"
+      v-if="!fileExists && image==null"
       hide-upload-btn
       :color="$q.dark.mode ? 'black' : 'grey-2' "
       :text-color="$q.dark.mode ? 'white' : 'dark'"
@@ -21,7 +21,7 @@
       :width="width"
       :height="height"
       :fit="fit"
-      :src="$q.config.jobUrl + (field == 'logo' ? logoUrl : headerUrl)"
+      :src="image!=null?image:$q.config.jobUrl + (field == 'logo' ? logoUrl : headerUrl)"
     />
   </div>
 </template>
@@ -82,6 +82,11 @@ export default {
           {
             type: String,
             default: ''
+          },
+        image:
+          {
+            type: String,
+            default: null
           },
         maxTotalSize:
           {
