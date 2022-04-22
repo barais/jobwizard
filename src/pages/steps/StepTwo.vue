@@ -314,7 +314,7 @@ export default
   mounted()
   {
     this.setFocus();
-    if (this.organization.id != null)
+    if (this.organization && this.organization.id != null)
     {
       this.getOrg(this.organization.id);
     }
