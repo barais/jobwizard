@@ -76,13 +76,16 @@
             infinite
           >
             <q-carousel-slide :name="1" img-src="../../public/images/screens/create_job-1.png" />
-            <q-carousel-slide :name="2" img-src="../../public/images/screens/create_job-2.png" />
+            <q-carousel-slide :name="2" img-src="../../public/images/screens/preview-job-5.png" />
+            <q-carousel-slide :name="3" img-src="../../public/images/screens/manage-jobs-4.png" />
           </q-carousel>
         </q-card>
       </div>
+    </div>
 
-      <q-separator color="primary" />
+    <q-separator color="primary" />
 
+    <div class="row q-my-xl">
       <div class="col-6">
         <transition mode="out-in">
           <q-card flat class="q-ma-lg">
@@ -123,7 +126,7 @@
                   <q-item-label caption><q-icon color="primary" name="check" /></q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item>
+              <q-item href="https://jobwizard.yawik.org/docs/widget/">
                 <q-item-section avatar>
                   <q-icon color="secondary" name="home" />
                 </q-item-section>
@@ -135,7 +138,7 @@
                   <q-item-label caption><q-icon color="primary" name="check" /></q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item>
+              <q-item href="https://jobboard.yawik.org/">
                 <q-item-section avatar>
                   <q-icon color="secondary" name="img:../../yawik_logo-mobile.svg" />
                 </q-item-section>
@@ -165,7 +168,66 @@
       </div>
     </div>
 
+    <div class="row q-my-xl hidden">
+      <div class="col-6">
+        <q-card align="left" class="q-ma-lg">
+          <q-card-section>
+            <q-list>
+              <q-item>
+                <q-item-section>
+                  <q-item-label class="text-h6">
+                    {{ $t('manage_applications') }}
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section avatar>
+                  <q-icon color="primary" name="edit_note" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>{{ $t('application_form_inclusive') }}</q-item-label>
+                  <q-item-label caption lines="2">{{ $t('application_form_with_file_upload') }}</q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                  <q-item-label caption><q-icon color="secondary" name="check" /></q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section avatar>
+                  <q-icon color="primary" name="image" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>{{ $t('integrate_own_ats') }}</q-item-label>
+                  <q-item-label caption lines="2">{{ $t('applications_via_form_or_email') }}</q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                  <q-item-label caption><q-icon color="secondary" name="check" /></q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-card-section>
+        </q-card>
+      </div>
+      <div class="col-6">
+        <q-card flat class="q-ma-lg">
+          <q-carousel
+            v-model="slide1"
+            animated
+            arrows
+            control-color="primary"
+            navigation
+            infinite
+          >
+            <q-carousel-slide :name="1" img-src="../../public/images/screens/create_job-1.png" />
+            <q-carousel-slide :name="2" img-src="../../public/images/screens/preview-job-5.png" />
+            <q-carousel-slide :name="3" img-src="../../public/images/screens/manage-jobs-4.png" />
+          </q-carousel>
+        </q-card>
+      </div>
+    </div>
+
     <q-btn
+      no-caps
       size="xl"
       color="secondary"
       rounded
