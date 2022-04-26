@@ -84,7 +84,7 @@ export default
       },
       htmlLogo()
       {
-        return (typeof this[GET_LOGO] === 'object' && this[GET_LOGO] != null)
+        return (typeof this[GET_LOGO] === 'object')
           ? `<img src="${process.env.YAWIK_JOB_URL}${this[GET_LOGO].data.url}" class="img_logo">`
           : this[GET_LOGO]
             ? `<img src="${this[GET_LOGO]}" class="img_logo">`
@@ -92,7 +92,7 @@ export default
       },
       htmlHeaderImage()
       {
-        return (typeof this[GET_HEADER] === 'object' && this[GET_HEADER] != null)
+        return (typeof this[GET_HEADER] === 'object')
           ? `<div class="flex" style="width: 100%; padding: 16px 0 0;"><img src="${process.env.YAWIK_JOB_URL}${this[GET_HEADER].data[0].url}" class="img_header mx-auto"></div>`
           : this[GET_HEADER]
             ? `<div class="flex" style="width: 100%; padding: 16px 0 0;"><img src="${this[GET_HEADER]}" class="img_header mx-auto"></div>`

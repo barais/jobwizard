@@ -124,22 +124,11 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex';
-import {
-  GET_FORM,
-  GET_TOKEN,
-  SET_LOCATION,
-  GET_SETTINGS,
-  SET_META,
-  GET_META,
-  SET_FIELD,
-  GET_LOGO,
-  SET_LOGO, GET_HEADER, SET_HEADER
-} from 'src/store/names';
+import { GET_FORM, GET_TOKEN, SET_LOCATION, GET_SETTINGS, SET_META, GET_META, SET_FIELD } from 'src/store/names';
 import mixinValidations from 'src/lib/validations';
 import TextInput from 'src/components/form/TextInput.vue';
 import Tooltip from 'src/components/form/Tooltip.vue';
 import CompanySelect from 'src/components/CompanySelect.vue';
-import { api } from 'boot/axios';
 
 export default {
   name: 'StepOne',
@@ -182,7 +171,7 @@ export default {
   },
   computed:
   {
-    ...mapGetters([GET_TOKEN, GET_FORM, GET_META, GET_SETTINGS, GET_LOGO, GET_HEADER]),
+    ...mapGetters([GET_TOKEN, GET_FORM, GET_META, GET_SETTINGS]),
     jobTitle:
     {
       get()
@@ -316,29 +305,7 @@ export default {
       {
         return this[GET_SETTINGS].jobs_reference_enabled;
       }
-    },
-    imageLogo:
-      {
-        get()
-        {
-          return this[GET_LOGO];
-        },
-        set(val)
-        {
-          this[SET_LOGO](val);
-        }
-      },
-    imageHeader:
-      {
-        get()
-        {
-          return this[GET_HEADER];
-        },
-        set(val)
-        {
-          this[SET_HEADER](val);
-        }
-      },
+    }
   },
   mounted()
   {
@@ -364,14 +331,6 @@ export default {
       }
       );
     }
-
-    if (this.org != null)
-    {
-      setTimeout(() =>
-      {
-        this.getOrg(this.org.id);
-      }, 3000);
-    }
   },
   beforeUnmount()
   {
@@ -380,7 +339,7 @@ export default {
   },
   methods:
   {
-    ...mapMutations([SET_FIELD, SET_LOCATION, SET_META, SET_LOGO, SET_HEADER]),
+    ...mapMutations([SET_FIELD, SET_LOCATION, SET_META]),
     gotoNext()
     {
       this.$emit('next');
@@ -431,24 +390,7 @@ export default {
     {
       this[SET_FIELD].organization = val.name;
       this[SET_FIELD].org = val;
-      this.getOrg(val.id);
-    },
-    getOrg(id)
-    {
-      api.get('/api/organizations/' + id,
-        {
-          headers: {
-            accept: 'application/json',
-            Authorization: 'Bearer ' + this[GET_TOKEN]
-          }
-        }
-      ).then(response =>
-      {
-        const org = response.data;
-        this.imageLogo = this.$q.config.jobUrl + org.logo.url;
-        this.imageHeader = org.header != null ? (this.$q.config.jobUrl + org.header[0].url) : null;
-      });
-    },
+    }
   }
 };
 </script>
