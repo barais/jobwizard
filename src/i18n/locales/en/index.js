@@ -85,6 +85,7 @@ export default
     del_org: () => 'Delete company',
     state: () => 'State',
     statistics: () => 'Statistcs',
+    clicks: () => 'Clicks',
     create_job: () => 'Create new Jobad',
     edit_job: () => 'Edit job ad',
     del_job: () => 'Delete job ad',

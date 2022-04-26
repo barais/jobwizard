@@ -51,9 +51,25 @@
             </p>
             <span v-else>{{ props.row.attributes.organization }}</span>
           </q-td>
+          <q-td key="statistics" :props="props">
+            <q-btn
+              v-if="props.row.attributes.statistics &&
+                props.row.attributes.statistics.length"
+              flat
+              @click="showStatisticsDialog = !showStatisticsDialog;
+                      statistics = props.row.attributes.statistics"
+            >
+              {{ props.row.attributes.statistics.reduce(function(pv, cv) { return pv + cv.clicks; }, 0) }}
+            </q-btn>
+          </q-td>
           <q-td key="applications" :props="props">
-            <router-link v-if="props.row.attributes.applications && props.row.attributes.applications.length" :to="'applications/' + props.row.attributes.id">{{ props.row.attributes.applications.length }}</router-link>
-            <span v-else>0</span>
+            <q-btn
+              v-if="props.row.attributes.applications &&
+                props.row.attributes.applications.length"
+              flat
+              :to="'applications/' + props.row.attributes.id"
+              :label="props.row.attributes.applications.length"
+            />
           </q-td>
           <q-td key="action" :props="props">
             <q-btn size="sm" color="primary" dense class="cursor-pointer" icon="mdi-pencil" @click="editJob(props.row)">
@@ -121,6 +137,7 @@
         </q-card>
       </q-form>
     </q-dialog>
+    <dialog-statistics :statistics="statistics" @close="statistics = false" />
   </q-page>
 </template>
 
@@ -131,9 +148,13 @@ import { useMeta } from 'quasar';
 import { SET_JOB, SET_LOGO, SET_HEADER, GET_TOKEN } from 'src/store/names';
 import { mapGetters, mapMutations } from 'vuex';
 import { api } from 'boot/axios';
+import DialogStatistics from 'src/components/dialogs/DialogStatistics';
 
 export default {
   name: 'Index',
+  components: {
+    DialogStatistics
+  },
   setup()
   {
     const filter = ref('');
@@ -166,7 +187,8 @@ export default {
       sending: false,
       orgName: null,
       showOrgAddDialog: false,
-      selectedOrg: null
+      selectedOrg: null,
+      statistics: false
     };
   },
   computed:
@@ -210,6 +232,13 @@ export default {
               sortable: true
             },
             {
+              name: 'statistics',
+              align: 'left',
+              label: this.$t('nav.clicks'),
+              field: 'statistics',
+              sortable: false
+            },
+            {
               name: 'applications',
               align: 'left',
               label: this.$t('nav.applications'),
@@ -248,7 +277,7 @@ export default {
         params: {
           'pagination[page]': data.pagination.page,
           'pagination[pageSize]': data.pagination.rowsPerPage,
-          populate: 'html,org,applications',
+          populate: 'html,org,applications,statistics',
           filters: {
             $or: [
               {

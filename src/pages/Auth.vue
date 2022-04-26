@@ -201,7 +201,7 @@ export default {
       loginFail(data)
       {
         $q.notify({
-          message: this.$t('msg.login_failed') + ' ' + data.error.message,
+          message: this.$t('msg.login_failed', { err: this.$t(data.error.message) }),
           color: 'red',
           type: 'negative',
           position: 'top'
@@ -220,7 +220,7 @@ export default {
       {
         console.log('ERROR: ', data);
         $q.notify({
-          message: 'Forgot Password failed. ' + data.error.message,
+          message: this.$t('msg.forgot_password_failed', [this.$t(data.error.message)]),
           color: 'red',
           type: 'negative',
           position: 'top'

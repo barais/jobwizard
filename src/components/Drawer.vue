@@ -96,12 +96,14 @@ export default
             to: '/' + this.$yawik.lang() + '/templates',
             separator: true
           },
+          /*
           {
             icon: 'poll',
             label: this.$t('nav.statistics'),
             to: '/' + this.$yawik.lang() + '/statistics',
             separator: true
           },
+          */
           {
             icon: 'settings',
             label: this.$t('settings'),

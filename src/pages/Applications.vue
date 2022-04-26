@@ -72,7 +72,16 @@
             />
           </q-td>
           <q-td key="job" :props="props">
-            <q-btn to="" disabled flat dense no-caps :label="props.row.attributes.job.jobTitle" />
+            <q-btn
+              to=""
+              disabled
+              flat
+              dense
+              no-caps
+              :label="props.row.attributes.job?.jobTitle
+                ? props.row.attributes.job?.jobTitle
+                : $t('Initiativbewerbung')"
+            />
           </q-td>
           <q-td key="action" :props="props">
             <q-btn
@@ -128,6 +137,7 @@ import Attachments from 'components/AttachmentList.vue';
 
 export default {
   name: 'Applications',
+  emits: ['application'],
   setup()
   {
     const filter = ref('');
@@ -279,6 +289,7 @@ export default {
     },
     editApplication(application)
     {
+      this.$emit('application', application);
       this.$router.push({
         name: 'nav.application',
         params: {

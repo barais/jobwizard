@@ -47,6 +47,7 @@ export default
   wizard_help_text: () => 'Der Jobwizard unterstützt sie bei der Erstellung einer Anzeige. Die Nutzung des Jobwizard und die Erstellung der Anzeige ist kostenlos. Über die Einstellungen können sie weitere Felder aktivieren und deaktivieren.',
   wizard_help_anonymous: () => 'Sie sind momentan nicht angemeldet. Sie können als anonymer Benutzer alle Funktionen nutzen. Allerdings können Sie am Ende die Anzeige nur als HTML downloaden.',
   select_or_create: () => 'Wählen sie eine Firma oder erstellen sie eine neue.',
+  'Invalid identifier or password': () => 'Ungültiger Benutzer oder ungültiges Passwort',
   btn: {
     login: () => 'Anmelden',
     logout: () => 'Abmelden',
@@ -80,6 +81,7 @@ export default
     organizations: () => 'Firmen',
     misc: () => 'Sonstiges',
     statistics: () => 'Statistiken',
+    clicks: () => 'Klicks',
     state: () => 'Status',
     organization: () => 'Firma',
     create_org: () => 'Neue Firma anlegen',
@@ -131,7 +133,8 @@ export default
   msg: {
     job_saved_success: () => 'Stellenanzeige wurde erfolgreich gespeichert',
     login_successfull: () => 'Erfolgreich eingeloggt!',
-    login_failed: () => 'Anmeldung fehlgeschlagen. {err}',
+    login_failed: () => 'Anmeldung fehlgeschlagen.',
+    forgot_password_failed: () => 'Versand der Mail zum Zurücksetzen des Kennwortes fehlgeschlagen. {0}',
     registration_successfull: () => 'Die Registrierung war erfolgreich. Bitte prüfen Sie ihre Mails!'
   },
   rules:
