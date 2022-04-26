@@ -10,7 +10,7 @@
         fit="contain"
         height="200px"
         :label="$t('choose_logo')"
-        :image="imageLogo"
+        :image="orgLogo"
       />
       <div class="col-lg-10 col-md-9" :style="{maxWidth: (maxWidth * 2 * 0.8) + 'px'}">
         <q-item>
@@ -31,7 +31,7 @@
         fit="fill"
         :width="(maxWidth * 2) + 'px'"
         height="200px"
-        :image="imageHeader"
+        :image="orgHeader"
         :max-total-size="204800"
         :label="$t('choose_header')"
       />
@@ -111,6 +111,7 @@ import { mapGetters, mapMutations } from 'vuex';
 import { GET_SETTINGS, GET_STEP, GET_TOKEN, GET_FORM, SET_FIELD, GET_LOGO, GET_HEADER, SET_LOGO, SET_HEADER } from 'src/store/names';
 import EditorInput from 'src/components/form/Editor.vue';
 import UploadLogo from 'src/components/UploadLogo.vue';
+import { api } from 'boot/axios';
 
 export default
 {
@@ -124,22 +125,14 @@ export default
   {
     return {
       maxWidth: 800,
+      org: null,
+      orgLogo: null,
+      orgHeader: null,
     };
   },
   computed:
     {
       ...mapGetters([GET_FORM, GET_TOKEN, GET_LOGO, GET_HEADER, GET_SETTINGS]),
-      imageLogo:
-        {
-          get()
-          {
-            return this[GET_LOGO];
-          },
-          set(val)
-          {
-            this[SET_LOGO](val);
-          }
-        },
       organization:
         {
           get()
@@ -321,6 +314,10 @@ export default
   mounted()
   {
     this.setFocus();
+    if (this.organization && this.organization.id != null)
+    {
+      this.getOrg(this.organization.id);
+    }
   },
   methods:
     {
@@ -364,6 +361,23 @@ export default
       headerRemoved(files)
       {
         this.imageHeader = '';
+      },
+      getOrg(id)
+      {
+        api.get('/api/organizations/' + id,
+          {
+            headers: {
+              accept: 'application/json',
+              Authorization: 'Bearer ' + this[GET_TOKEN]
+            }
+          }
+        ).then(response =>
+        {
+          this.org = response.data;
+          this.orgLogo = this.$q.config.jobUrl + this.org.logo.url;
+          this.orgHeader = this.$q.config.jobUrl + this.org.header[0].url;
+          console.log('Header ', this.orgHeader);
+        });
       },
     }
 };
