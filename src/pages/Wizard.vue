@@ -69,6 +69,7 @@
                 no-caps
                 color="primary"
                 name="next"
+                :loading="sending"
                 :label="$t('btn.publish')"
                 @click.stop="onSave"
               >
@@ -145,6 +146,7 @@ export default {
       maxWidth: 1024, // used to limit the width of QEditor, otherwise it grows too much when you type text
       dlgPreview: false,
       lastStep: false,
+      sending: false,
       validationErrors:
       {
         stepOne: false,
