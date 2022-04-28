@@ -114,11 +114,11 @@ export default
       },
       [GET_LOGO](state)
       {
-        return state.logo;
+        return state.form.logo;
       },
       [GET_HEADER](state)
       {
-        return state.header;
+        return state.form.header;
       },
       [GET_HTML](state)
       {
@@ -168,12 +168,11 @@ export default
       },
       [SET_LOGO](state, value)
       {
-        console.log('val ', value);
-        state.logo = value;
+        state.form.logo = value;
       },
       [SET_HEADER](state, value)
       {
-        state.header = value;
+        state.form.header = value;
       },
       [SET_HTML](state, value)
       {

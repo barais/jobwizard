@@ -131,13 +131,12 @@ export default {
         },
         logoUrl()
         {
-          return this.imageLogo.data.formats.thumbnail.url;
+          return this.imageLogo.data.url;
         },
         headerUrl()
         {
-          return this.imageHeader.data[0].formats.thumbnail.url;
+          return this.imageHeader.data[0].url;
         },
-
         token()
         {
           return this[GET_TOKEN];
