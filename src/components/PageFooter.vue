@@ -72,7 +72,7 @@
           flat
           no-caps
           type="button"
-          :label="$t('contact')"
+          :label="$t('nav.contact')"
           @click="showDialog"
         />
       </q-tab>
