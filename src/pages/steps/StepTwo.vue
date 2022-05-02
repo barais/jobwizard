@@ -2,6 +2,7 @@
   <div class="q-gutter-md">
     <div class="q-pa-md">
       <div class="row q-col-gutter-md justify-center">
+        <!--
         <div class="col-md-12" :style="{maxWidth: (maxWidth * 2 * 0.8) + 'px'}">
           <q-item>
             <q-item-section class="full-width">
@@ -20,8 +21,9 @@
           :label="$t('choose_logo')"
           :image="imageLogo"
         />
-
+        -->
         <!-- Header image -->
+        <!--
         <upload-logo
           ref="job"
           ref2="api::job.job"
@@ -35,6 +37,7 @@
           :max-total-size="204800"
           :label="$t('choose_header')"
         />
+        -->
       </div>
       <div class="jobfields row q-col-gutter-md justify-center">
         <!-- Intro -->
@@ -120,13 +123,13 @@ import {
   SET_HEADER
 } from 'src/store/names';
 import EditorInput from 'src/components/form/Editor.vue';
-import UploadLogo from 'src/components/UploadLogo.vue';
+// import UploadLogo from 'src/components/UploadLogo.vue';
 
 export default {
   name: 'StepTwo',
   components: {
     EditorInput,
-    UploadLogo
+    // UploadLogo
   },
   mixins: [mixinValidations],
   data()
