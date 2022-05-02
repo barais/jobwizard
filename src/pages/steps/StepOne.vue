@@ -1,142 +1,104 @@
 <template>
   <div class="row q-col-gutter-md">
-    <q-splitter
-      v-model="splitterModel"
-    >
-      <template #before>
-        <div class="q-pa-md">
-          <div class="col-6 row q-col-gutter-md">
-            <!-- Job title -->
-            <TextInput
-              v-model="jobTitle"
-              name="job_title"
-              class="col-12"
-              :label="$t('job_title')"
+    <div class="q-pa-md">
+      <div class="col-6 row q-col-gutter-md">
+        <!-- Job title -->
+        <TextInput
+          v-model="jobTitle"
+          name="job_title"
+          class="col-12"
+          :label="$t('job_title')"
+          :rules="[ruleRequired]"
+          @enterPress="gotoNext"
+        />
+
+        <company-select
+          class="col-12"
+          :label="$t('label.organization')"
+          @update:org="saveOrg"
+        />
+
+        <div class="col-12">
+          <div class="row">
+            <q-input
+              id="location"
+              ref="location"
+              v-model.trim="locationDisplay"
+              :label="$t('label.location')"
+              color="primary"
+              class="col-lg-6 col-md-6"
+              name="location"
+              outlined
+              dense
               :rules="[ruleRequired]"
-              @enterPress="gotoNext"
+              @keypress.enter="gotoNext"
             />
-
-            <company-select
-              class="col-12"
-              :label="$t('label.organization')"
-              @update:org="saveOrg"
-            />
-
-            <div class="col-12">
-              <div class="row">
-                <q-input
-                  id="location"
-                  ref="location"
-                  v-model.trim="locationDisplay"
-                  :label="$t('label.location')"
-                  color="primary"
-                  class="col-lg-6 col-md-6"
-                  name="location"
-                  outlined
-                  dense
-                  :rules="[ruleRequired]"
-                  @keypress.enter="gotoNext"
-                />
-                <q-checkbox
-                  v-model="remoteWork"
-                  style="margin-top: -20px;"
-                  :label="$t('label.homeoffice')"
-                  color="primary"
-                  name="apply_post"
-                  class="col-lg-3 col-md-3"
-                />
-                <q-slider
-                  v-if="remoteWork"
-                  v-model="remoteWorkPercentage"
-                  name="remoteWorkPercentage"
-                  class="col-lg-3 col-md-3"
-                  :label-value="remoteWorkPercentage + '%'"
-                  label-always
-                  :min="10"
-                  :max="100"
-                  :step="10"
-                />
-              </div>
-            </div>
-            <!-- URL -->
-            <TextInput
-              v-if="urlEnabled"
-              v-model="applyUrl"
-              name="apply_url"
-              class="col-12"
-              :label="$t('label.apply_url')"
-              :rules="[validURL]"
-              :disable="applyPost"
-              @enterPress="gotoNext"
-            />
-
-            <!-- Email -->
-            <TextInput
-              v-if="emailEnabled"
-              v-model="applyEmail"
-              name="apply_email"
-              class="col-12"
-              :label="$t('label.apply_email')"
-              :rules="[validEmail]"
-              :disable="applyPost"
-              @enterPress="gotoNext"
-            />
-
             <q-checkbox
-              v-if="postEnabled"
-              v-model="applyPost"
-              :label="$t('label.apply_post')"
+              v-model="remoteWork"
+              style="margin-top: -20px;"
+              :label="$t('label.homeoffice')"
               color="primary"
               name="apply_post"
-            >
-              <Tooltip :text="$t('help.apply_post')" />
-            </q-checkbox>
-
-            <!-- Reference -->
-            <TextInput
-              v-if="referenceEnabled"
-              v-model="reference"
-              name="reference"
-              class="col-12"
-              :label="$t('label.reference')"
-              @enterPress="gotoNext"
+              class="col-lg-3 col-md-3"
+            />
+            <q-slider
+              v-if="remoteWork"
+              v-model="remoteWorkPercentage"
+              name="remoteWorkPercentage"
+              class="col-lg-3 col-md-3"
+              :label-value="remoteWorkPercentage + '%'"
+              label-always
+              :min="10"
+              :max="100"
+              :step="10"
             />
           </div>
         </div>
-      </template>
+        <!-- URL -->
+        <TextInput
+          v-if="urlEnabled"
+          v-model="applyUrl"
+          name="apply_url"
+          class="col-12"
+          :label="$t('label.apply_url')"
+          :rules="[validURL]"
+          :disable="applyPost"
+          @enterPress="gotoNext"
+        />
 
-      <template #after>
-        <div class="q-pa-md">
-          <div class="row">
-            <div class="col-12 q-gutter-md">
-              <q-card>
-                <q-card-section>
-                  <div class="text-h4">
-                    {{ $t('wizard_help_title') }}
-                  </div>
-                </q-card-section>
-                <q-card-section>
-                  <div>
-                    {{ $t('wizard_help_text') }}
-                  </div>
-                </q-card-section>
-                <q-card-section align="center">
-                  <q-btn flat :to="'/' + $yawik.lang() + '/settings'">{{ $t('nav.settings') }}</q-btn>
-                </q-card-section>
-                <q-card-section v-if="!$yawik.isAuth()">
-                  <div>
-                    {{ $t('wizard_help_anonymous') }}
-                  </div>
-                </q-card-section>
-              </q-card>
-            </div>
-            <div class="col-12 q-mt-md">
-              <Preview />
-            </div>
-          </div>
-        </div>
-      </template>
-    </q-splitter>
+        <!-- Email -->
+        <TextInput
+          v-if="emailEnabled"
+          v-model="applyEmail"
+          name="apply_email"
+          class="col-12"
+          :label="$t('label.apply_email')"
+          :rules="[validEmail]"
+          :disable="applyPost"
+          @enterPress="gotoNext"
+        />
+
+        <q-checkbox
+          v-if="postEnabled"
+          v-model="applyPost"
+          :label="$t('label.apply_post')"
+          color="primary"
+          name="apply_post"
+        >
+          <Tooltip :text="$t('help.apply_post')" />
+        </q-checkbox>
+
+        <!-- Reference -->
+        <TextInput
+          v-if="referenceEnabled"
+          v-model="reference"
+          name="reference"
+          class="col-12"
+          :label="$t('label.reference')"
+          @enterPress="gotoNext"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -158,19 +120,10 @@ import TextInput from 'src/components/form/TextInput.vue';
 import Tooltip from 'src/components/form/Tooltip.vue';
 import CompanySelect from 'src/components/CompanySelect.vue';
 import { api } from 'boot/axios';
-import { ref } from 'vue';
-import Preview from 'components/Preview';
 
 export default {
   name: 'StepOne',
-  setup()
-  {
-    return {
-      splitterModel: ref(40)
-    };
-  },
   components: {
-    Preview,
     TextInput,
     Tooltip,
     CompanySelect

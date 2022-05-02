@@ -1,118 +1,107 @@
 <template>
   <div class="q-gutter-md">
-    <q-splitter
-      v-model="splitterModel"
-    >
-      <template #before>
-        <div class="q-pa-md">
-          <div class="row q-col-gutter-md justify-center">
-            <div class="col-md-12" :style="{maxWidth: (maxWidth * 2 * 0.8) + 'px'}">
-              <q-item>
-                <q-item-section class="full-width">
-                  <q-item-label class="text-h3" caption>{{ orgName }}</q-item-label>
-                  <q-item-label class="text-h2">{{ GET_FORM.jobTitle }}</q-item-label>
-                </q-item-section>
-              </q-item>
-            </div>
-            <upload-logo
-              ref="job"
-              class="col-md-10 q-mr-lg"
-              :ref-id="$route.params.id"
-              field="logo"
-              fit="contain"
-              height="200px"
-              :label="$t('choose_logo')"
-              :image="imageLogo"
-            />
-
-            <!-- Header image -->
-            <upload-logo
-              ref="job"
-              ref2="api::job.job"
-              :ref-id="$route.params.id"
-              field="header"
-              class="col-md-10 q-mr-lg"
-              fit="fill"
-              :width="(maxWidth * 2) + 'px'"
-              height="200px"
-              :image="imageHeader"
-              :max-total-size="204800"
-              :label="$t('choose_header')"
-            />
-          </div>
-          <div class="jobfields row q-col-gutter-md justify-center">
-            <!-- Intro -->
-            <EditorInput
-              v-if="!orgDescription"
-              v-model:label="introLabel"
-              v-model:value="intro"
-              :rules="[ruleRequired]"
-              name="intro"
-            />
-            <div
-              v-if="orgDescription"
-              class="col-md-12"
-              :style="{maxWidth: (maxWidth * 2) + 'px'}"
-            >
-              <div style="width: 100%;" class="text-h5 q-mb-md">
-                {{ orgDescriptionLabel }}
-              </div>
-              <!-- eslint-disable  vue/no-v-html -->
-              <div v-html="orgDescription" />
-            </div>
-
-            <!-- Tasks -->
-            <EditorInput
-              v-model:label="taskLabel"
-              v-model:value="tasks"
-              :rules="[ruleRequired]"
-              name="tasks"
-            />
-
-            <!-- Profile -->
-            <EditorInput
-              v-model:label="profileLabel"
-              v-model:value="profile"
-              :rules="[]"
-              name="profile"
-            />
-
-            <!-- Offer -->
-            <EditorInput
-              v-model:label="offerLabel"
-              v-model:value="offer"
-              :rules="[]"
-              name="offer"
-            />
-
-            <!-- Contact info -->
-            <EditorInput
-              v-if="!orgContactInfo"
-              v-model:label="contactInfoLabel"
-              v-model:value="contactInfo"
-              :rules="applyPost ? [ruleRequired] : []"
-              name="contactInfo"
-            />
-            <div
-              v-if="orgContactInfo"
-              class="col-md-12"
-              :style="{maxWidth: (maxWidth * 2) + 'px'}"
-            >
-              <div style="width: 100%;" class="text-h5 q-mb-md">
-                {{ orgContactInfoLabel }}
-              </div>
-              <!-- eslint-disable  vue/no-v-html -->
-              <div v-html="orgContactInfo" />
-            </div>
-          </div>
+    <div class="q-pa-md">
+      <div class="row q-col-gutter-md justify-center">
+        <div class="col-md-12" :style="{maxWidth: (maxWidth * 2 * 0.8) + 'px'}">
+          <q-item>
+            <q-item-section class="full-width">
+              <q-item-label class="text-h3" caption>{{ orgName }}</q-item-label>
+              <q-item-label class="text-h2">{{ GET_FORM.jobTitle }}</q-item-label>
+            </q-item-section>
+          </q-item>
         </div>
-      </template>
-      <template #after>
-        <div class="q-pa-md">
-          <Preview />
+        <upload-logo
+          ref="job"
+          class="col-md-10 q-mr-lg"
+          :ref-id="$route.params.id"
+          field="logo"
+          fit="contain"
+          height="200px"
+          :label="$t('choose_logo')"
+          :image="imageLogo"
+        />
+
+        <!-- Header image -->
+        <upload-logo
+          ref="job"
+          ref2="api::job.job"
+          :ref-id="$route.params.id"
+          field="header"
+          class="col-md-10 q-mr-lg"
+          fit="fill"
+          :width="(maxWidth * 2) + 'px'"
+          height="200px"
+          :image="imageHeader"
+          :max-total-size="204800"
+          :label="$t('choose_header')"
+        />
+      </div>
+      <div class="jobfields row q-col-gutter-md justify-center">
+        <!-- Intro -->
+        <EditorInput
+          v-if="!orgDescription"
+          v-model:label="introLabel"
+          v-model:value="intro"
+          :rules="[ruleRequired]"
+          name="intro"
+        />
+        <div
+          v-if="orgDescription"
+          class="col-md-12"
+          :style="{maxWidth: (maxWidth * 2) + 'px'}"
+        >
+          <div style="width: 100%;" class="text-h5 q-mb-md">
+            {{ orgDescriptionLabel }}
+          </div>
+          <!-- eslint-disable  vue/no-v-html -->
+          <div v-html="orgDescription" />
         </div>
-      </template>
-    </q-splitter>
+
+        <!-- Tasks -->
+        <EditorInput
+          v-model:label="taskLabel"
+          v-model:value="tasks"
+          :rules="[ruleRequired]"
+          name="tasks"
+        />
+
+        <!-- Profile -->
+        <EditorInput
+          v-model:label="profileLabel"
+          v-model:value="profile"
+          :rules="[]"
+          name="profile"
+        />
+
+        <!-- Offer -->
+        <EditorInput
+          v-model:label="offerLabel"
+          v-model:value="offer"
+          :rules="[]"
+          name="offer"
+        />
+
+        <!-- Contact info -->
+        <EditorInput
+          v-if="!orgContactInfo"
+          v-model:label="contactInfoLabel"
+          v-model:value="contactInfo"
+          :rules="applyPost ? [ruleRequired] : []"
+          name="contactInfo"
+        />
+        <div
+          v-if="orgContactInfo"
+          class="col-md-12"
+          :style="{maxWidth: (maxWidth * 2) + 'px'}"
+        >
+          <div style="width: 100%;" class="text-h5 q-mb-md">
+            {{ orgContactInfoLabel }}
+          </div>
+          <!-- eslint-disable  vue/no-v-html -->
+          <div v-html="orgContactInfo" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -132,19 +121,10 @@ import {
 } from 'src/store/names';
 import EditorInput from 'src/components/form/Editor.vue';
 import UploadLogo from 'src/components/UploadLogo.vue';
-import { ref } from 'vue';
-import Preview from 'components/Preview';
 
 export default {
   name: 'StepTwo',
-  setup()
-  {
-    return {
-      splitterModel: ref(50)
-    };
-  },
   components: {
-    Preview,
     EditorInput,
     UploadLogo
   },
