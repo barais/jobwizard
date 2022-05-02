@@ -63,17 +63,35 @@
           :label="$t('docs')"
         />
       </q-tab>
+      <q-tab
+        name="contact"
+      >
+        <q-btn
+          class="full-width"
+          text-color="primary"
+          flat
+          no-caps
+          type="button"
+          :label="$t('contact')"
+          @click="showDialog"
+        />
+      </q-tab>
     </q-tabs>
+    <contact :show="dialogPopup" />
   </q-footer>
 </template>
 
 <script>
+import Contact from 'components/Contact';
 export default
 {
   name: 'PageFooter',
+  components: { Contact },
   data()
   {
-    return {};
+    return {
+      dialogPopup: false
+    };
   },
   computed:
     {
@@ -93,7 +111,17 @@ export default
       {
         return process.env.YAWIK_URL_DOCS;
       }
+    },
+  methods: {
+    showDialog()
+    {
+      this.dialogPopup = false;
+      setTimeout(() =>
+      {
+        this.dialogPopup = true;
+      }, 100);
     }
+  }
 };
 </script>
 
