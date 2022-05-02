@@ -3,11 +3,11 @@
     <q-dialog v-model="contactPopup" size="md">
       <q-card style="width: 700px; max-width: 80vw;" class="q-px-sm q-pb-md">
         <q-card-section>
-          <div class="text-h6">{{ $t('contact') }}</div>
+          <div class="text-h6">{{ $t('nav.contact') }}</div>
         </q-card-section>
         <q-card-section class="row q-gutter-y-md">
-          <q-input v-model="firstname" dense :label="$t('firstname')" outlined class="col-6" />
-          <q-input v-model="lastname" dense :label="$t('lastname')" outlined class="col-6" />
+          <q-input v-model="firstname" dense :label="$t('label.firstname')" outlined class="col-6" />
+          <q-input v-model="lastname" dense :label="$t('label.lastname')" outlined class="col-6" />
           <q-input v-model="email" dense :label="$t('email')" outlined class="col-12" />
           <q-input v-model="company" dense :label="$t('company')" outlined class="col-12" />
 
@@ -30,7 +30,7 @@
           <q-list class="col-12">
             <q-item v-ripple :tag="$t('termsAccepted')">
               <q-item-section avatar>
-                <q-checkbox v-model="terms" val="terms" color="teal" />
+                <q-checkbox v-model="terms" val="terms" color="primary" />
               </q-item-section>
               <q-item-section>
                 <q-item-label>
@@ -47,7 +47,7 @@
           <q-btn
             no-caps
             :loading="isLoading"
-            :label="$t('send')"
+            :label="$t('btn.send')"
             color="primary"
             @click="sendContact"
           />

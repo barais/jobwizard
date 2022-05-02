@@ -127,6 +127,8 @@ export default
     visibility: () => 'Visibility',
     salary: () => 'Annual salary',
     homeoffice: () => 'Home office',
+    firstname: () => 'First name',
+    lastname: () => 'Last name'
   },
   msg: {
     job_saved_success: () => 'Job posting successfully saved',

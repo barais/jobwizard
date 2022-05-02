@@ -129,6 +129,8 @@ export default
     visibility: () => 'Sichtbarkeit',
     salary: () => 'Jahresgehalt',
     homeoffice: () => 'Homeoffice',
+    firstname: () => 'Vorname',
+    lastname: () => 'Nachname'
   },
   msg: {
     job_saved_success: () => 'Stellenanzeige wurde erfolgreich gespeichert',

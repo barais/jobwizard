@@ -106,6 +106,8 @@ export default
     visibility: () => 'Visibilité',
     salary: () => 'Salaire annuel',
     homeoffice: () => 'bureau à domicile',
+    firstname: () => 'Prénome',
+    lastname: () => 'Nom de famille'
   },
   msg: {
     job_saved_success: () => "l'offre d'emploi a été sauvegardée avec succès",
