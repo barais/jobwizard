@@ -1,7 +1,6 @@
 <template>
   <div>
     <q-uploader
-      v-if="!fileExists && image==null"
       hide-upload-btn
       :color="$q.dark.mode ? 'black' : 'grey-2' "
       :text-color="$q.dark.mode ? 'white' : 'dark'"
@@ -15,13 +14,6 @@
       @rejected="rejectedFiles"
       @added="logoAdded"
       @removed="logoRemoved"
-    />
-    <q-img
-      v-else
-      :width="width"
-      :height="height"
-      :fit="fit"
-      :src="image!=null?image:$q.config.jobUrl + (field == 'logo' ? logoUrl : headerUrl)"
     />
   </div>
 </template>
@@ -128,14 +120,6 @@ export default {
           return this.field === 'logo'
             ? this.imageLogo && this.imageLogo.data
             : this.imageHeader && this.imageHeader.data;
-        },
-        logoUrl()
-        {
-          return this.imageLogo.data.url;
-        },
-        headerUrl()
-        {
-          return this.imageHeader.data[0].url;
         },
         token()
         {
