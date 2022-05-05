@@ -178,12 +178,26 @@ export default {
     {
       this.readFile(files[0]).then(b64 =>
       {
-        this.imageLogo = b64;
+        if (this.field === 'logo')
+        {
+          this.imageLogo = b64;
+        }
+        else if (this.field === 'header')
+        {
+          this.imageHeader = b64;
+        }
       });
     },
     logoRemoved(files)
     {
-      this.imageLogo = '';
+      if (this.field === 'logo')
+      {
+        this.imageLogo = null;
+      }
+      else if (this.field === 'header')
+      {
+        this.imageHeader = null;
+      }
     },
     uploadFile(file)
     {

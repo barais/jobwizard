@@ -21,28 +21,74 @@
           <q-tooltip :delay="400">{{ $t('tooltip.fullscreen') }}</q-tooltip>
         </template>
       </q-btn-toggle>
-      <q-btn class="z-top" dense icon="mdi-eyedropper-variant">
+
+      <q-btn dense icon="mdi-eyedropper-variant">
         <q-popup-proxy v-model="dlgColor" transition-show="scale" transition-hide="scale" style="max-height: none !important; transform: translateY(50px);">
           <q-color v-model="color" no-header no-footer class="z-top" default-view="palette" style="max-width: 250px;" @change="dlgColor = false" />
         </q-popup-proxy>
         <q-tooltip :delay="400">{{ $t('tooltip.colorize') }}</q-tooltip>
+      </q-btn>
+
+      <q-btn color="primary" text-color="white" flat @click="prompt=true">
+        {{ $t('images') }}
       </q-btn>
       <q-space />
     </q-bar>
     <q-card-section :class="'col-grow overflow-hidden row q-pa-md mx-auto '+mode">
       <iframe id="jobpreview" class="col-grow q-mx-auto rounded-borders" :style="frameStyle" :srcdoc="htmlCode" data-cy="the-frame" />
     </q-card-section>
+
+    <q-dialog v-model="prompt" persistent>
+      <q-card style="min-width: 600px;">
+        <q-card-section>
+          <div class="text-h6">{{ $t('upload_images') }}</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <upload-logo
+            ref="job"
+            class="col-md-10 q-mr-lg q-mt-md"
+            :ref-id="$route.params.id"
+            field="logo"
+            fit="contain"
+            height="200px"
+            :label="$t('choose_logo')"
+            :image="imageLogo"
+          />
+          <upload-logo
+            ref="job"
+            ref2="api::job.job"
+            :ref-id="$route.params.id"
+            field="header"
+            class="col-md-10 q-mr-lg q-mt-md"
+            fit="fill"
+            :width="(maxWidth * 2) + 'px'"
+            height="200px"
+            :image="imageHeader"
+            :max-total-size="204800"
+            :label="$t('choose_header')"
+          />
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn v-close-popup flat label="Close" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-card>
 </template>
 
 <script>
-import { GET_FORM, GET_LOGO, GET_HEADER, GET_META } from 'src/store/names';
-import { mapGetters } from 'vuex';
+import { GET_FORM, GET_LOGO, GET_HEADER, GET_META, SET_LOGO, SET_HEADER } from 'src/store/names';
+import { mapGetters, mapMutations } from 'vuex';
 import { DEFAULT_LOGO } from 'src/assets/default_logo_base64.js';
-
+import UploadLogo from 'src/components/UploadLogo.vue';
 export default
 {
   name: 'Preview',
+  components: {
+    UploadLogo
+  },
   props:
       {
         modelValue:
@@ -59,12 +105,36 @@ export default
       countryImage: '',
       color: '#5498D7',
       dlgColor: false,
-      mode: this.$q.platform.is.mobile ? 'fullscreen' : 'desktop'
+      mode: this.$q.platform.is.mobile ? 'fullscreen' : 'desktop',
+      prompt: false,
+      maxWidth: 800,
     };
   },
   computed:
       {
         ...mapGetters([GET_FORM, GET_LOGO, GET_HEADER, GET_META]),
+        imageLogo:
+          {
+            get()
+            {
+              return this[GET_LOGO];
+            },
+            set(val)
+            {
+              this[SET_LOGO](val);
+            }
+          },
+        imageHeader:
+          {
+            get()
+            {
+              return this[GET_HEADER];
+            },
+            set(val)
+            {
+              this[SET_HEADER](val);
+            }
+          },
         country()
         {
           return this[GET_META].country;
@@ -400,6 +470,7 @@ export default
   },
   methods:
       {
+        ...mapMutations([SET_LOGO, SET_HEADER]),
         close()
         {
           this.$emit('update:modelValue', false);
@@ -456,7 +527,11 @@ export default
   "mobile": "Mobile",
   "desktop": "Desktop",
   "fullscreen": "Fullscreen",
-  "colorize": "Here you can adjust the main colour of your job advertisement."
+  "colorize": "Here you can adjust the main colour of your job advertisement.",
+  "choose_logo": "Choose company logo",
+  "choose_header": "Choose a header image",
+  "images": "Images",
+  "upload_images": "Upload Images"
   }
   },
   "de": {
@@ -470,7 +545,11 @@ export default
   "mobile": "Smartphone",
   "desktop": "Desktop",
   "fullscreen": "Fullscreen",
-  "colorize": "Hier können sie die Hauptfarbe ihrer Stellenanzeige anpassen."
+  "colorize": "Hier können sie die Hauptfarbe ihrer Stellenanzeige anpassen.",
+  "choose_logo": "Choose company logo",
+  "choose_header": "Choose a header image",
+  "images": "Images",
+  "upload_images": "Upload Images"
   }
   }
   }
