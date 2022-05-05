@@ -29,7 +29,7 @@
         <q-tooltip :delay="400">{{ $t('tooltip.colorize') }}</q-tooltip>
       </q-btn>
 
-      <q-btn color="primary" text-color="white" flat @click="prompt=true">
+      <q-btn color="primary" text-color="white" flat @click="open">
         {{ $t('images') }}
       </q-btn>
       <q-space />
@@ -38,7 +38,7 @@
       <iframe id="jobpreview" class="col-grow q-mx-auto rounded-borders" :style="frameStyle" :srcdoc="htmlCode" data-cy="the-frame" />
     </q-card-section>
 
-    <q-dialog v-model="prompt" persistent>
+    <q-dialog v-model="prompt" :position="position" persistent>
       <q-card style="min-width: 600px;">
         <q-card-section>
           <div class="text-h6">{{ $t('upload_images') }}</div>
@@ -83,6 +83,8 @@ import { GET_FORM, GET_LOGO, GET_HEADER, GET_META, SET_LOGO, SET_HEADER } from '
 import { mapGetters, mapMutations } from 'vuex';
 import { DEFAULT_LOGO } from 'src/assets/default_logo_base64.js';
 import UploadLogo from 'src/components/UploadLogo.vue';
+import { ref } from 'vue';
+
 export default
 {
   name: 'Preview',
@@ -98,6 +100,21 @@ export default
           },
       },
   emits: ['update:modelValue'],
+  setup()
+  {
+    const prompt = ref(false);
+    const position = ref('left');
+    return {
+      prompt,
+      position,
+
+      open()
+      {
+        position.value = 'left';
+        prompt.value = true;
+      }
+    };
+  },
   data()
   {
     return {
@@ -106,7 +123,6 @@ export default
       color: '#5498D7',
       dlgColor: false,
       mode: this.$q.platform.is.mobile ? 'fullscreen' : 'desktop',
-      prompt: false,
       maxWidth: 800,
     };
   },
