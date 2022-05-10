@@ -45,59 +45,56 @@
     </q-card-section>
 
     <q-dialog v-model="prompt" :position="position" persistent>
-      <q-card style="min-width: 600px;">
-        <q-card-section>
-          <div class="text-h6">{{ $t('upload_images') }}</div>
-        </q-card-section>
+      <div class="q-gutter-y-md" style="max-width: 600px;">
+        <q-card>
+          <q-tabs
+            v-model="tab"
+            dense
+            class="text-red"
+            active-color="primary"
+            indicator-color="primary"
+            align="justify"
+            narrow-indicator
+          >
+            <q-tab no-caps name="logo" :label="$t('logo')" />
+            <q-tab no-caps name="header" :label="$t('header')" />
+          </q-tabs>
+          <q-separator />
+          <q-tab-panels v-model="tab" animated>
+            <q-tab-panel name="logo">
+              <div class="text-h6">{{ $t('logo') }}</div>
+              <q-card>
+                <q-card-section class="q-pt-none">
+                  <DropZone
+                    :image="imageLogo"
+                    @change="logoChanged"
+                    @remove="imageLogo = null"
+                  />
+                </q-card-section>
+                <q-card-actions align="right" class="text-primary">
+                  <q-btn v-close-popup flat label="Close" />
+                </q-card-actions>
+              </q-card>
+            </q-tab-panel>
 
-        <q-card-section class="q-pt-none">
-          <div>
-            {{ $t('choose_logo') }}
-          </div>
-          <DropZone
-            @change="logoChanged"
-          />
-          <UserPhoto :image="imageLogo" :width="maxImageSize" :height="maxImageSize" class="q-mx-auto q-mt-md" @remove="imageLogo = null" />
-
-          <!--
- <upload-logo
-             ref="job"
-             class="col-md-10 q-mr-lg q-mt-md"
-             :ref-id="$route.params.id"
-             field="logo"
-             fit="contain"
-             height="200px"
-             :label="$t('choose_logo')"
-             :image="imageLogo"
-           />
-          <upload-logo
-            ref="job"
-            ref2="api::job.job"
-            :ref-id="$route.params.id"
-            field="header"
-            class="col-md-10 q-mr-lg q-mt-md"
-            fit="fill"
-            :width="(maxWidth * 2) + 'px'"
-            height="200px"
-            :image="imageHeader"
-            :max-total-size="204800"
-            :label="$t('choose_header')"
-          />
--->
-        </q-card-section>
-        <q-card-section class="q-pt-none">
-          <div>
-            {{ $t('choose_header') }}
-          </div>
-          <DropZone
-            @change="headerChanged"
-          />
-          <UserPhoto :image="imageHeader" :width="maxImageSize" :height="maxImageSize" class="q-mx-auto q-mt-md" @remove="imageHeader = null" />
-        </q-card-section>
-        <q-card-actions align="right" class="text-primary">
-          <q-btn v-close-popup flat label="Close" />
-        </q-card-actions>
-      </q-card>
+            <q-tab-panel name="header">
+              <div class="text-h6">{{ $t('header') }}</div>
+              <q-card>
+                <q-card-section class="q-pt-none">
+                  <DropZone
+                    :image="imageHeader"
+                    @change="headerChanged"
+                    @remove="imageHeader = null"
+                  />
+                </q-card-section>
+                <q-card-actions align="right" class="text-primary">
+                  <q-btn v-close-popup flat label="Close" />
+                </q-card-actions>
+              </q-card>
+            </q-tab-panel>
+          </q-tab-panels>
+        </q-card>
+      </div>
     </q-dialog>
   </q-card>
 </template>
@@ -108,22 +105,20 @@ import { mapGetters, mapMutations } from 'vuex';
 import { DEFAULT_LOGO } from 'src/assets/default_logo_base64.js';
 import { ref } from 'vue';
 import DropZone from 'components/DropZone';
-import UserPhoto from 'components/UserPhoto';
 
 export default {
   name: 'Preview',
   components: {
-    UserPhoto,
     DropZone,
   },
   props:
-      {
-        modelValue:
-          {
-            type: Boolean,
-            default: false
-          },
-      },
+  {
+    modelValue:
+    {
+      type: Boolean,
+      default: false
+    },
+  },
   emits: ['update:modelValue'],
   setup()
   {
@@ -132,7 +127,6 @@ export default {
     return {
       prompt,
       position,
-
       open()
       {
         position.value = 'left';
@@ -150,6 +144,7 @@ export default {
       mode: this.$q.platform.is.mobile ? 'fullscreen' : 'desktop',
       maxWidth: 800,
       image: null,
+      tab: 'logo',
       maxImageSize: 300,
     };
   },
