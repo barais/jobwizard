@@ -23,8 +23,12 @@
       </q-btn-toggle>
 
       <q-btn dense icon="mdi-eyedropper-variant">
-        <q-popup-proxy v-model="dlgColor" transition-show="scale" transition-hide="scale" style="max-height: none !important; transform: translateY(50px);">
-          <q-color v-model="color" no-header no-footer class="z-top" default-view="palette" style="max-width: 250px;" @change="dlgColor = false" />
+        <q-popup-proxy v-model="dlgColor" transition-show="scale" transition-hide="scale"
+                       style="max-height: none !important; transform: translateY(50px);"
+        >
+          <q-color v-model="color" no-header no-footer class="z-top" default-view="palette" style="max-width: 250px;"
+                   @change="dlgColor = false"
+          />
         </q-popup-proxy>
         <q-tooltip :delay="400">{{ $t('tooltip.colorize') }}</q-tooltip>
       </q-btn>
@@ -35,7 +39,9 @@
       <q-space />
     </q-bar>
     <q-card-section :class="'col-grow overflow-hidden row q-pa-md mx-auto '+mode">
-      <iframe id="jobpreview" class="col-grow q-mx-auto rounded-borders" :style="frameStyle" :srcdoc="htmlCode" data-cy="the-frame" />
+      <iframe id="jobpreview" class="col-grow q-mx-auto rounded-borders" :style="frameStyle" :srcdoc="htmlCode"
+              data-cy="the-frame"
+      />
     </q-card-section>
 
     <q-dialog v-model="prompt" :position="position" persistent>
@@ -45,16 +51,25 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <upload-logo
-            ref="job"
-            class="col-md-10 q-mr-lg q-mt-md"
-            :ref-id="$route.params.id"
-            field="logo"
-            fit="contain"
-            height="200px"
-            :label="$t('choose_logo')"
-            :image="imageLogo"
+          <div>
+            {{ $t('choose_logo') }}
+          </div>
+          <DropZone
+            @change="logoChanged"
           />
+          <UserPhoto :image="imageLogo" :width="maxImageSize" :height="maxImageSize" class="q-mx-auto q-mt-md" @remove="imageLogo = null" />
+
+          <!--
+ <upload-logo
+             ref="job"
+             class="col-md-10 q-mr-lg q-mt-md"
+             :ref-id="$route.params.id"
+             field="logo"
+             fit="contain"
+             height="200px"
+             :label="$t('choose_logo')"
+             :image="imageLogo"
+           />
           <upload-logo
             ref="job"
             ref2="api::job.job"
@@ -68,8 +83,17 @@
             :max-total-size="204800"
             :label="$t('choose_header')"
           />
+-->
         </q-card-section>
-
+        <q-card-section class="q-pt-none">
+          <div>
+            {{ $t('choose_header') }}
+          </div>
+          <DropZone
+            @change="headerChanged"
+          />
+          <UserPhoto :image="imageHeader" :width="maxImageSize" :height="maxImageSize" class="q-mx-auto q-mt-md" @remove="imageHeader = null" />
+        </q-card-section>
         <q-card-actions align="right" class="text-primary">
           <q-btn v-close-popup flat label="Close" />
         </q-card-actions>
@@ -82,14 +106,15 @@
 import { GET_FORM, GET_LOGO, GET_HEADER, GET_META, SET_LOGO, SET_HEADER } from 'src/store/names';
 import { mapGetters, mapMutations } from 'vuex';
 import { DEFAULT_LOGO } from 'src/assets/default_logo_base64.js';
-import UploadLogo from 'src/components/UploadLogo.vue';
 import { ref } from 'vue';
+import DropZone from 'components/DropZone';
+import UserPhoto from 'components/UserPhoto';
 
-export default
-{
+export default {
   name: 'Preview',
   components: {
-    UploadLogo
+    UserPhoto,
+    DropZone,
   },
   props:
       {
@@ -124,6 +149,8 @@ export default
       dlgColor: false,
       mode: this.$q.platform.is.mobile ? 'fullscreen' : 'desktop',
       maxWidth: 800,
+      image: null,
+      maxImageSize: 300,
     };
   },
   computed:
@@ -487,6 +514,52 @@ export default
   methods:
       {
         ...mapMutations([SET_LOGO, SET_HEADER]),
+        logoChanged(list)
+        {
+          if (list[0].size)
+          {
+            if (list[0].size > this.maxFileSize)
+            {
+              this.$q.notify({
+                color: 'negative',
+                position: 'top',
+                icon: 'mdi-alert',
+                message: this.$t('files.photoRejected'),
+              });
+              return;
+            }
+            const reader = new FileReader();
+            reader.onload = (e) =>
+            {
+              this.imageLogo = e.target.result;
+            };
+            reader.readAsDataURL(list[0]);
+            //this.photo = list[0];
+          }
+        },
+        headerChanged(list)
+        {
+          if (list[0].size)
+          {
+            if (list[0].size > this.maxFileSize)
+            {
+              this.$q.notify({
+                color: 'negative',
+                position: 'top',
+                icon: 'mdi-alert',
+                message: this.$t('files.photoRejected'),
+              });
+              return;
+            }
+            const reader = new FileReader();
+            reader.onload = (e) =>
+            {
+              this.imageHeader = e.target.result;
+            };
+            reader.readAsDataURL(list[0]);
+            //this.photo = list[0];
+          }
+        },
         close()
         {
           this.$emit('update:modelValue', false);

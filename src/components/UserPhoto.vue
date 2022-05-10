@@ -1,8 +1,8 @@
 <template>
-  <q-card flat>
+  <q-card flat align="center">
     <img :src="image" :style="stylePhoto">
     <q-card-actions v-if="image" align="center">
-      <q-btn color="negative" @click="$emit('remove')">{{ $t('buttons.remove') }}</q-btn>
+      <q-btn color="negative" @click="$emit('remove')">{{ $t('remove') }}</q-btn>
     </q-card-actions>
   </q-card>
 </template>
