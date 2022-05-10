@@ -9,7 +9,6 @@
     {{ $t('drag_drop') }}
     <label ref="file_btn" tabindex="0" @keypress="selectFile">
       {{ $t('click_here') }}
-      <user-photo :image="image" :width="100" :height="100" class="q-mx-auto q-mt-md" @remove="$emit('remove')" />
       <input
         ref="file_ctrl"
         type="file"
@@ -17,9 +16,10 @@
         :multiple="multiple"
         @change="chooseFile"
         @focus="resetFocus"
-      >
+      >.
     </label>
-    {{ $t('choose_manually') }}.
+    {{ $t('choose_manually') }}
+    <user-photo :image="image" :width="100" :height="100" class="q-mx-auto q-mt-md" @remove="$emit('remove')" />
   </div>
 </template>
 
