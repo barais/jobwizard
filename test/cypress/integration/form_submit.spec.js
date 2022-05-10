@@ -41,21 +41,21 @@ describe('Filling and sending the form', () =>
     cy.get('[name="next"]').click();
   });
 
-  it('Step 4. Download', () =>
-  {
-    cy.get('.q-bar > .q-btn > .q-btn__content > .mdi').click();
-    cy.intercept('http://localhost:8080/en/demo', { body: { success: true } }).as('submitForm');
-    // submit form
-    cy.get('[name="next"]').click();
-  });
+//  it('Step 4. Download', () =>
+//  {
+//    cy.get('.q-bar > .q-btn > .q-btn__content > .mdi').click();
+//    cy.intercept('http://localhost:8080/en/demo', { body: { success: true } }).as('submitForm');
+//    // submit form
+//    cy.get('[name="next"]').click();
+//  });
 
-  it('Check Preview', () =>
-  {
-    cy.get('[name="preview"]').click();
-    cy.get('iframe#jobpreview').invoke('attr', 'srcdoc').then( ($job) => {
-      cy.state('document').write($job)
-      cy.contains('CROSS Solution');
-      return null
-    })
-  });
+//  it('Check Preview', () =>
+//  {
+//    cy.get('[name="preview"]').click();
+//    cy.get('iframe#jobpreview').invoke('attr', 'srcdoc').then( ($job) => {
+//      cy.state('document').write($job)
+//      cy.contains('CROSS Solution');
+//      return null
+//    })
+//  });
 });
