@@ -1,7 +1,6 @@
 <template>
   <div>
     <q-uploader
-      v-if="!fileExists && image==null"
       hide-upload-btn
       :color="$q.dark.mode ? 'black' : 'grey-2' "
       :text-color="$q.dark.mode ? 'white' : 'dark'"
@@ -15,13 +14,6 @@
       @rejected="rejectedFiles"
       @added="logoAdded"
       @removed="logoRemoved"
-    />
-    <q-img
-      v-else
-      :width="width"
-      :height="height"
-      :fit="fit"
-      :src="image!=null?image:$q.config.jobUrl + (field == 'logo' ? logoUrl : headerUrl)"
     />
   </div>
 </template>
@@ -129,14 +121,6 @@ export default {
             ? this.imageLogo && this.imageLogo.data
             : this.imageHeader && this.imageHeader.data;
         },
-        logoUrl()
-        {
-          return this.imageLogo.data.url;
-        },
-        headerUrl()
-        {
-          return this.imageHeader.data[0].url;
-        },
         token()
         {
           return this[GET_TOKEN];
@@ -178,12 +162,26 @@ export default {
     {
       this.readFile(files[0]).then(b64 =>
       {
-        this.imageLogo = b64;
+        if (this.field === 'logo')
+        {
+          this.imageLogo = b64;
+        }
+        else if (this.field === 'header')
+        {
+          this.imageHeader = b64;
+        }
       });
     },
     logoRemoved(files)
     {
-      this.imageLogo = '';
+      if (this.field === 'logo')
+      {
+        this.imageLogo = null;
+      }
+      else if (this.field === 'header')
+      {
+        this.imageHeader = null;
+      }
     },
     uploadFile(file)
     {

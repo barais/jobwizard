@@ -9,30 +9,48 @@
     {{ $t('drag_drop') }}
     <label ref="file_btn" tabindex="0" @keypress="selectFile">
       {{ $t('click_here') }}
-      <input ref="file_ctrl" type="file" :accept="accept" :multiple="multiple" @change="chooseFile" @focus="resetFocus">
+      <input
+        ref="file_ctrl"
+        type="file"
+        :accept="accept"
+        :multiple="multiple"
+        @change="chooseFile"
+        @focus="resetFocus"
+      >.
     </label>
-    {{ $t('choose_manually') }}.
+    {{ $t('choose_manually') }}
+    <user-photo :image="image" :width="100" :height="100" class="q-mx-auto q-mt-md" @remove="$emit('remove')" />
   </div>
 </template>
 
 <script>
+import UserPhoto from 'components/UserPhoto';
+
 export default
 {
   name: 'DropZone',
+  components: {
+    UserPhoto
+  },
   props:
+  {
+    multiple:
     {
-      multiple:
-        {
-          type: Boolean,
-          default: false
-        },
-      accept:
-        {
-          type: String,
-          default: 'image/*'
-        }
+      type: Boolean,
+      default: false
     },
-  emits: ['change'],
+    accept:
+    {
+      type: String,
+      default: 'image/*'
+    },
+    image:
+    {
+      type: String,
+      default: 'logo'
+    }
+  },
+  emits: ['change', 'remove'],
   data()
   {
     return {
@@ -79,7 +97,7 @@ function clearFileInput(ctrl)
   .drop_area
   {
     border-radius: 6px;
-    border: 2px dashed $secondary;
+    border: 1px dashed $secondary;
     background-color: rgba($secondary, 0.2);
     display: inline-block;
     padding: 16px 20px;

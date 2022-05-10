@@ -3,7 +3,7 @@
     <br>
     <div class="q-pb-sm">{{ $t('label.publication-time') }}</div>
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-6">
         <DateInput
           ref="start"
           v-model.trim="dateStart"
@@ -15,7 +15,7 @@
           :label="$t('label.publication-start')"
         />
       </div>
-      <q-checkbox v-model="immediately" class="col-md-2" :label="$t('label.immediately')" />
+      <q-checkbox v-model="immediately" class="col-md-6" :label="$t('label.immediately')" />
       <q-select
         v-model="days"
         class="col-md-6"

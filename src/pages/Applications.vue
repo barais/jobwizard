@@ -258,7 +258,7 @@ export default {
         params: {
           'pagination[page]': data.pagination.page,
           'pagination[pageSize]': data.pagination.rowsPerPage,
-          populate: 'photo,attachments,job',
+          populate: 'photo,job',
           sort: this.pagination.sortBy + ':' + (this.pagination.descending ? 'desc' : 'asc')
 
         },

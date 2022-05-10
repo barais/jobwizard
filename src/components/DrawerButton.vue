@@ -17,12 +17,12 @@ export default
   name: 'DrawerButton',
   inheritAttrs: false,
   props:
+  {
+    icon:
     {
-      icon:
-        {
-          type: String,
-          default: undefined
-        },
+      type: String,
+      default: undefined
     },
+  },
 };
 </script>

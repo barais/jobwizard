@@ -1,5 +1,5 @@
 <template>
-  <div :style="{maxWidth: maxWidth}" class="col-md-6 col-sm-12">
+  <div :style="{maxWidth: maxWidth}" class="col-md-12 col-sm-12">
     <div class="cursor-pointer text-h5">
       <q-icon color="primary" name="mdi-pencil" />
       {{ labelText }}

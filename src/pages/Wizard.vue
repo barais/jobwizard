@@ -1,6 +1,6 @@
 <template>
-  <q-page class="flex">
-    <q-form ref="frm" autocomplete="false" :spellcheck="spellcheck" class="grow full-width" @submit="submitForm"
+  <q-page class="flex row">
+    <q-form ref="frm" autocomplete="false" :spellcheck="spellcheck" class="grow col-6" @submit="submitForm"
             @validation-error="hasErrors"
     >
       <q-page-sticky style="z-index: 5900;" position="bottom-left" :offset="[18, -65]">
@@ -102,17 +102,17 @@
         </template>
       </q-stepper>
     </q-form>
-    <DialogPreview ref="preview" v-model="dlgPreview" />
+    <preview class="col-6" />
   </q-page>
 </template>
 
 <script>
 import SwitchLanguage from 'src/components/SwitchLanguage';
-import DialogPreview from 'src/components/dialogs/DialogPreview';
 import StepOne from './steps/StepOne';
 import StepTwo from './steps/StepTwo';
 import StepThree from './steps/StepThree';
 import StepFour from './steps/StepFour';
+import Preview from 'components/Preview';
 import { SET_JOB, GET_STEP, SET_STEP, CLEAR_FORM, GET_FORM, GET_META, GET_LOGO, GET_TOKEN, SET_LOGO, SET_HEADER, GET_HEADER, GET_SETTINGS, SET_FIELD } from '../store/names';
 import { mapGetters, mapMutations } from 'vuex';
 import saveAs from 'src/lib/FileSaver';
@@ -125,11 +125,11 @@ export default {
   components:
   {
     SwitchLanguage,
-    DialogPreview,
     StepOne,
     StepTwo,
     StepThree,
     StepFour,
+    Preview,
   },
   props:
   {
