@@ -145,7 +145,8 @@ export default {
       maxWidth: 800,
       image: null,
       tab: 'logo',
-      maxImageSize: 300,
+      maxLogoSize: 500,
+      maxHeaderSize: 1024,
     };
   },
   computed:
@@ -513,13 +514,24 @@ export default {
         {
           if (list[0].size)
           {
-            if (list[0].size > this.maxFileSize)
+            console.log(list[0].size);
+            if (!list[0].type.includes('image'))
             {
               this.$q.notify({
                 color: 'negative',
                 position: 'top',
                 icon: 'mdi-alert',
-                message: this.$t('files.photoRejected'),
+                message: this.$t('invalid_image'),
+              });
+              return;
+            }
+            if (list[0].size > this.maxLogoSize * 1000)
+            {
+              this.$q.notify({
+                color: 'negative',
+                position: 'top',
+                icon: 'mdi-alert',
+                message: this.$t('file_size'),
               });
               return;
             }
@@ -536,16 +548,27 @@ export default {
         {
           if (list[0].size)
           {
-            if (list[0].size > this.maxFileSize)
+            if (!list[0].type.includes('image'))
             {
               this.$q.notify({
                 color: 'negative',
                 position: 'top',
                 icon: 'mdi-alert',
-                message: this.$t('files.photoRejected'),
+                message: this.$t('invalid_image'),
               });
               return;
             }
+            if (list[0].size > this.maxHeaderSize * 1000)
+            {
+              this.$q.notify({
+                color: 'negative',
+                position: 'top',
+                icon: 'mdi-alert',
+                message: this.$t('file_size'),
+              });
+              return;
+            }
+
             const reader = new FileReader();
             reader.onload = (e) =>
             {
@@ -615,7 +638,8 @@ export default {
   "choose_logo": "Choose company logo",
   "choose_header": "Choose a header image",
   "images": "Images",
-  "upload_images": "Upload Images"
+  "upload_images": "Upload Images",
+  "file_size": "Image size exceed"
   }
   },
   "de": {
@@ -633,7 +657,8 @@ export default {
   "choose_logo": "Choose company logo",
   "choose_header": "Choose a header image",
   "images": "Images",
-  "upload_images": "Upload Images"
+  "upload_images": "Upload Images",
+  "file_size": "Image size exceed"
   }
   }
   }
