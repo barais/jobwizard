@@ -3,20 +3,6 @@
     <q-form ref="frm" autocomplete="false" :spellcheck="spellcheck" class="grow col-6" @submit="submitForm"
             @validation-error="hasErrors"
     >
-      <q-page-sticky style="z-index: 5900;" position="bottom-left" :offset="[18, -65]">
-        <div class="justify-center q-pb-lg flex">
-          <q-btn-group push>
-            <q-btn name="preview" color="primary" outline @click="dlgPreview = true">
-              {{ $t('btn.preview') }}
-            </q-btn>
-            <SwitchLanguage v-if="!toolbar" class="q-mx-auto" />
-            <q-btn name="abort" color="negative" @click="abortForm">
-              {{ $t($q.platform.is.mobile ? 'btn.cancel' :
-                'btn.abort') }}
-            </q-btn>
-          </q-btn-group>
-        </div>
-      </q-page-sticky>
       <!-- eslint-disable quasar/no-invalid-props -->
       <q-stepper
         ref="stepper"
@@ -45,60 +31,73 @@
           <component :is="stepName" :style="'min-height: ' + ($q.screen.height-230) + 'px;'" @next="navigate('next')" />
         </q-step>
         <template #navigation>
-          <q-page-sticky style="z-index: 5900;" position="bottom-right" :offset="[18, -65]">
-            <div class="row justify-end q-px-lg q-pb-lg">
-              <q-btn
-                v-if="steps.indexOf(currentStep) > 0 && mode==='insert'"
-                name="prev" outline color="primary"
-                :label="$t('btn.back')"
-                class="q-mr-md"
-                @click.stop="navigate('previous')"
-              />
-              <q-btn
-                v-if="lastStep & !$yawik.isAuth()"
-                color="primary"
-                icon="download"
-                name="next"
-                no-caps
-                :label="$t('btn.download')"
-                @click.stop="trySubmit"
-              />
-              <q-btn-dropdown
-                v-if="(lastStep && $yawik.isAuth())"
-                split
-                no-caps
-                color="primary"
-                name="next"
-                :loading="sending"
-                :label="$t('btn.publish')"
-                @click.stop="onSave"
-              >
-                <q-list>
-                  <q-item v-close-popup clickable @click.stop="onSave">
-                    <q-item-section side>
-                      <q-icon name="mdi-content-save" color="secondary" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>{{ $t('btn.save') }}</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item v-close-popup clickable @click.stop="trySubmit">
-                    <q-item-section side>
-                      <q-icon name="download" color="secondary" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>{{ $t('btn.download') }}</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                </q-list>
-              </q-btn-dropdown>
-              <q-btn
-                v-if="!lastStep"
-                color="primary" name="next" :label="$t('btn.continue')"
-                @click.stop="navigate('next')"
-              />
+          <div style="z-index: 5900;" class="q-mt-md">
+            <div class="row q-px-lg q-pb-lg">
+              <div class="col-8">
+                <div class=" q-pb-lg flex">
+                  <q-btn-group push>
+                    <SwitchLanguage v-if="!toolbar" class="q-mx-auto" />
+                    <q-btn name="abort" color="negative" @click="abortForm">
+                      {{ $t($q.platform.is.mobile ? 'btn.cancel' :
+                        'btn.abort') }}
+                    </q-btn>
+                  </q-btn-group>
+                </div>
+              </div>
+              <div class="col-4 justify-end">
+                <q-btn
+                  v-if="steps.indexOf(currentStep) > 0 && mode==='insert'"
+                  name="prev" outline color="primary"
+                  :label="$t('btn.back')"
+                  class="q-mr-md"
+                  @click.stop="navigate('previous')"
+                />
+                <q-btn
+                  v-if="lastStep & !$yawik.isAuth()"
+                  color="primary"
+                  icon="download"
+                  name="next"
+                  no-caps
+                  :label="$t('btn.download')"
+                  @click.stop="trySubmit"
+                />
+                <q-btn-dropdown
+                  v-if="(lastStep && $yawik.isAuth())"
+                  split
+                  no-caps
+                  color="primary"
+                  name="next"
+                  :loading="sending"
+                  :label="$t('btn.publish')"
+                  @click.stop="onSave"
+                >
+                  <q-list>
+                    <q-item v-close-popup clickable @click.stop="onSave">
+                      <q-item-section side>
+                        <q-icon name="mdi-content-save" color="secondary" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>{{ $t('btn.save') }}</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                    <q-item v-close-popup clickable @click.stop="trySubmit">
+                      <q-item-section side>
+                        <q-icon name="download" color="secondary" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>{{ $t('btn.download') }}</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-btn-dropdown>
+                <q-btn
+                  v-if="!lastStep"
+                  color="primary" name="next" :label="$t('btn.continue')"
+                  @click.stop="navigate('next')"
+                />
+              </div>
             </div>
-          </q-page-sticky>
+          </div>
         </template>
       </q-stepper>
     </q-form>
