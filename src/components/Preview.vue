@@ -597,23 +597,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .desktop
-  {
-    background-image: url("../assets/images/macbook-mockup.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: initial;
-    background-size: 80%;
-  }
-
-  .mobile
-  {
-    background-image: url("../assets/images/iphone-mockup.png");
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
-    background-size: 30%;
-  }
 
   .mobile .preview-buttons
   {
