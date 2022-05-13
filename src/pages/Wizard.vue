@@ -6,7 +6,7 @@
       @validation-error="hasErrors"
     >
       <!-- eslint-disable quasar/no-invalid-props -->
-      <q-scroll-area style="height: 450px;">
+      <q-scroll-area :style="stepperHeight">
         <q-stepper
           ref="stepper"
           v-model="currentStep"
@@ -233,6 +233,10 @@ export default {
           name = name + '.html';
 
           return name;
+        },
+        stepperHeight()
+        {
+          return 'height: ' + (this.$q.screen.height - 210) + 'px;';
         }
 
       },
