@@ -29,7 +29,7 @@
                 </template>
 
                 <template #label-1="opt">
-                  <div style="width: 350px;">
+                  <div style="width: 270px;">
                     <div class="row">
                       <div class="col-5" style="display: flex; align-items: center;">
                         <span>{{ opt.label }}</span>
@@ -54,7 +54,7 @@
                   </div>
                 </template>
                 <template #label-2="opt">
-                  <div style="width: 350px;">
+                  <div style="width: 270px;">
                     <div class="row">
                       <div class="col-5" style="display: flex; align-items: center;">
                         <span>{{ opt.label }}</span>

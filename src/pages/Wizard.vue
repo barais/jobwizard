@@ -6,42 +6,36 @@
       @validation-error="hasErrors"
     >
       <!-- eslint-disable quasar/no-invalid-props -->
-      <q-scroll-area :style="stepperHeight">
-        <q-stepper
-          ref="stepper"
-          v-model="currentStep"
-          animated
-          bordered
-          header-nav
-          all-panels
-          :swipeable="$q.platform.is.mobile"
-          :contracted="$q.platform.is.mobile"
-          header-class="bg-third"
+      <q-stepper
+        ref="stepper"
+        v-model="currentStep"
+        animated
+        bordered
+        header-nav
+        all-panels
+        :swipeable="$q.platform.is.mobile"
+        :contracted="$q.platform.is.mobile"
+        header-class="bg-third"
+      >
+        <!-- eslint-enable quasar/no-invalid-props -->
+        <q-step
+          v-for="stepName in steps"
+          :key="stepName"
+          :style="stepperHeight"
+          :name="stepName"
+          :prefix="steps.indexOf(stepName)+1"
+          :title="$t('steps.' + stepName)"
+          done-color="positive"
+          active-color="primary"
+          error-color="negative"
+          :done="isCompleted(stepName)"
+          :error="validationErrors[stepName] && isCompleted(stepName)"
         >
-          <!-- eslint-enable quasar/no-invalid-props -->
-          <q-step
-            v-for="stepName in steps"
-            :key="stepName"
-            :name="stepName"
-            :prefix="steps.indexOf(stepName)+1"
-            :title="$t('steps.' + stepName)"
-            done-color="positive"
-            active-color="primary"
-            error-color="negative"
-            :done="isCompleted(stepName)"
-            :error="validationErrors[stepName] && isCompleted(stepName)"
-          >
-            <component :is="stepName" :style="'min-height: ' + ($q.screen.height-230) + 'px;'" @next="navigate('next')" />
-          </q-step>
-          <template #navigation>
-            <div class="row">
-              <div class="col-6">
-                <q-page-sticky position="bottom" style="z-index: 5900;" class="q-mt-md bg-white" />
-              </div>
-            </div>
-          </template>
-        </q-stepper>
-      </q-scroll-area>
+          <component :is="stepName" :style="'min-height: ' + ($q.screen.height-230) + 'px;'"
+                     @next="navigate('next')"
+          />
+        </q-step>
+      </q-stepper>
       <div style="position: sticky; z-index: 5900;">
         <div class="row q-px-lg q-pb-lg q-mt-md ">
           <div class="col-8">
@@ -236,7 +230,7 @@ export default {
         },
         stepperHeight()
         {
-          return 'height: ' + (this.$q.screen.height - 210) + 'px;';
+          return 'height: ' + (this.$q.screen.height - 300) + 'px;';
         }
 
       },
@@ -454,3 +448,29 @@ export default {
 }
 ;
 </script>
+
+<style>
+  /* width */
+  ::-webkit-scrollbar
+  {
+    width: 5px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track
+  {
+    background: #F1F1F1;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb
+  {
+    background: #82C7FF;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover
+  {
+    background: #555;
+  }
+</style>
