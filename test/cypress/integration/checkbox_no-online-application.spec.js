@@ -25,9 +25,9 @@ describe('check apply_url, apply_email and apply_post', () =>
     cy.visit('/en/demo')
     cy.get('input[name="apply_email"]').type('bleek@cross-solution.de');
 
-    cy.get('button[name="preview"]').then(($btn) => {
-      cy.wrap($btn).click();
-    });
+//    cy.get('button[name="preview"]').then(($btn) => {
+//      cy.wrap($btn).click();
+//    });
 
     cy.get('iframe#jobpreview').invoke('attr', 'srcdoc').then( ($job) => {
       cy.state('document').write($job)
