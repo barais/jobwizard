@@ -1,6 +1,7 @@
 <template>
   <q-card flat class="bg-third column">
     <q-bar class="bg-primary text-white">
+      {{ color1 }}
       <q-btn-toggle
         v-model="mode"
         toggle-color="secondary"
@@ -26,11 +27,11 @@
         <q-popup-proxy v-model="dlgColor" transition-show="scale" transition-hide="scale"
                        style="max-height: none !important; transform: translateY(50px);"
         >
-          <q-color v-model="color" no-header no-footer class="z-top" default-view="palette" style="max-width: 250px;"
+          <q-color v-model="color1" no-header no-footer class="z-top" default-view="palette" style="max-width: 250px;"
                    @change="dlgColor = false"
           />
         </q-popup-proxy>
-        <q-tooltip :delay="400">{{ $t('tooltip.colorize') }}</q-tooltip>
+        <q-tooltip max-width="120px" :delay="400">{{ $t('tooltip.colorize') }}</q-tooltip>
       </q-btn>
 
       <q-btn color="primary" text-color="white" flat @click="open">
@@ -100,7 +101,7 @@
 </template>
 
 <script>
-import { GET_FORM, GET_LOGO, GET_HEADER, GET_META, SET_LOGO, SET_HEADER } from 'src/store/names';
+import { GET_FORM, GET_LOGO, GET_HEADER, GET_META, SET_META, SET_LOGO, SET_HEADER } from 'src/store/names';
 import { mapGetters, mapMutations } from 'vuex';
 import { DEFAULT_LOGO } from 'src/assets/default_logo_base64.js';
 import { ref } from 'vue';
@@ -139,7 +140,6 @@ export default {
     return {
       canvas: null,
       countryImage: '',
-      color: '#5498D7',
       dlgColor: false,
       mode: this.$q.platform.is.mobile ? 'fullscreen' : 'desktop',
       maxWidth: 800,
@@ -152,6 +152,17 @@ export default {
   computed:
       {
         ...mapGetters([GET_FORM, GET_LOGO, GET_HEADER, GET_META]),
+        color1:
+        {
+          get()
+          {
+            return this[GET_META].color1;
+          },
+          set(val)
+          {
+            this[SET_META]({ color1: val });
+          }
+        },
         imageLogo:
           {
             get()
@@ -274,7 +285,7 @@ export default {
     }
     a
     {
-      color: ${this.color};
+      color: ${this.color1};
       text-decoration: none;
     }
     a:hover
@@ -328,7 +339,7 @@ export default {
     }
     .job
     {
-      border: 1px solid ${this.color}66;
+      border: 1px solid ${this.color1}66;
       margin: 0 auto;
       max-width:1200px;
       -webkit-box-shadow: 0px 10px 28px 0px rgb(50 50 50 / 41%);
@@ -336,8 +347,8 @@ export default {
       box-shadow: 0px 10px 28px 0px rgb(50 50 50 / 41%);
     }
     .intro {
-      border: 1px solid ${this.color}66;
-      background-color: ${this.color}11;
+      border: 1px solid ${this.color1}66;
+      background-color: ${this.color1}11;
     }
     .intro ul {
       list-style-type: none;
@@ -350,25 +361,25 @@ export default {
       margin-bottom: 0;
     }
     .info svg {
-      color: ${this.color}88;
+      color: ${this.color1}88;
       vertical-align: bottom;
       margin-right: 5px;
     }
     .jobdetails {
-      border: 1px solid ${this.color}66;
+      border: 1px solid ${this.color1}66;
     }
     h1 {
-      color: ${this.color}
+      color: ${this.color1}
     }
     .button.button-primary, button.button-primary {
       color: #FFF;
-      background-color:  ${this.color};
-      border-color:  ${this.color}55;
+      background-color:  ${this.color1};
+      border-color:  ${this.color1}55;
     }
     .button.button-primary:hover, button.button-primary:hover {
       color: #FFF;
-      background-color:  ${this.color}DD;
-      border-color:  ${this.color}11;
+      background-color:  ${this.color1}DD;
+      border-color:  ${this.color1}11;
     }
     .row.intro,
     .row.details {
@@ -509,7 +520,7 @@ export default {
   },
   methods:
       {
-        ...mapMutations([SET_LOGO, SET_HEADER]),
+        ...mapMutations([SET_LOGO, SET_META, SET_HEADER]),
         logoChanged(list)
         {
           if (list[0].size)

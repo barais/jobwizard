@@ -58,6 +58,7 @@ const emptyForm = {
     },
     salaryVisibility: true,
     formattedAddress: '',
+    color1: '#5498D7'
   },
   applyURL: '',
   applyEmail: '',
@@ -159,7 +160,6 @@ export default
       },
       [SET_META](state, obj)
       {
-        console.log(Object.values(obj)[0]);
         state.form.meta[Object.keys(obj)[0]] = Object.values(obj)[0];
       },
       [SET_LOCATION](state, obj)
