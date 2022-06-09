@@ -304,7 +304,7 @@ export default {
 
           const formData = new FormData();
           const formObj = JSON.parse(JSON.stringify(form));
-          const html = new Blob([this.$refs.preview.htmlCode], {
+          const html = new Blob([this.$refs.preview?.htmlCode], {
             type: 'text/html',
             name: this.filename
           });
