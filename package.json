@@ -55,7 +55,7 @@
     "@vue/compiler-sfc": "^3.2.26",
     "babel-loader": "^8.2.4",
     "custompatch": "^1.0.17",
-    "cypress": "^9.0.0",
+    "cypress": "^10.3.1",
     "dotenv-flow": "^3.2.0",
     "eslint": "^7.23.0",
     "eslint-config-standard": "^16.0.2",
