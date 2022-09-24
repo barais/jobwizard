@@ -1,3 +1,5 @@
+import btn from './buttons.js';
+
 export default
 {
   localeName: () => 'Deutsch',
@@ -48,24 +50,7 @@ export default
   wizard_help_anonymous: () => 'Sie sind momentan nicht angemeldet. Sie können als anonymer Benutzer alle Funktionen nutzen. Allerdings können Sie am Ende die Anzeige nur als HTML downloaden.',
   select_or_create: () => 'Wählen sie eine Firma oder erstellen sie eine neue.',
   'Invalid identifier or password': () => 'Ungültiger Benutzer oder ungültiges Passwort',
-  btn: {
-    login: () => 'Anmelden',
-    logout: () => 'Abmelden',
-    close: () => 'Schliessen',
-    email: () => 'E-Mail',
-    preview: () => 'Vorschau',
-    cancel: () => 'Abbrechen',
-    abort: () => 'Abbrechen',
-    back: () => 'Zurück',
-    continue: () => 'Weiter',
-    download: () => 'Download',
-    register: () => 'Registrieren',
-    save: () => 'Speichern',
-    send: () => 'Senden',
-    publish: () => 'Veröffentlichen',
-    apply_postmail: () => 'Bewerbung per Post',
-    apply_text: () => 'jetzt bewerben',
-  },
+  btn: btn,
   nav:
   {
     applications: () => 'Bewerbungen',

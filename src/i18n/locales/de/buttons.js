@@ -1,0 +1,18 @@
+export default {
+  login: () => 'Anmelden',
+  logout: () => 'Abmelden',
+  close: () => 'Schliessen',
+  email: () => 'E-Mail',
+  preview: () => 'Vorschau',
+  cancel: () => 'Abbrechen',
+  abort: () => 'Abbrechen',
+  back: () => 'Zurück',
+  continue: () => 'Weiter',
+  download: () => 'Download',
+  register: () => 'Registrieren',
+  save: () => 'Speichern',
+  send: () => 'Senden',
+  publish: () => 'Veröffentlichen',
+  apply_postmail: () => 'Bewerbung per Post',
+  apply_text: () => 'jetzt bewerben',
+};

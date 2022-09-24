@@ -1,3 +1,5 @@
+import btn from './buttons.js';
+
 export default
 {
   localeName: () => 'French',
@@ -27,25 +29,7 @@ export default
   wizard_help_text: () => "Le Jobwizard vous aide à créer une annonce. L'utilisation du Jobwizard et la création de l'annonce sont gratuites. Vous pouvez activer ou désactiver d'autres champs dans les paramètres.",
   wizard_help_anonymous: () => "Vous n'êtes actuellement pas connecté. Vous pouvez utiliser toutes les fonctions en tant qu'utilisateur anonyme. Cependant, vous ne pourrez finalement télécharger l'annonce qu'au format HTML.",
   select_or_create: () => 'Choisissez une entreprise ou créez-en une nouvelle.',
-  btn: {
-    login: () => 'Connexion',
-    logout: () => 'Déconnexion',
-    close: () => 'Fermez',
-    email: () => 'Email',
-    preview: () => 'Aperçu',
-    cancel: () => 'Annuler',
-    abort: () => 'Annuler',
-    back: () => 'Retour',
-    continue: () => 'Continuer',
-    download: () => 'Téléchargement',
-    save: () => 'Sauver',
-    register: () => "S'inscrire",
-    send: () => 'Envoyer',
-    publish: () => 'Publier',
-    apply_postmail: () => 'Candidature par courrier',
-    apply_text: () => 'Postulez maintenant',
-
-  },
+  btn: btn,
   nav: {
     applications: () => 'Candidatures',
     dashboard: () => 'Dashboard',

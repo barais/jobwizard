@@ -1,0 +1,18 @@
+export default {
+  login: () => 'Login',
+  logout: () => 'Logout',
+  close: () => 'Close',
+  email: () => 'Email',
+  preview: () => 'Preview',
+  cancel: () => 'Cancel',
+  abort: () => 'Abort',
+  back: () => 'Back',
+  continue: () => 'Next',
+  download: () => 'Download',
+  register: () => 'Register',
+  save: () => 'Save',
+  send: () => 'Send',
+  publish: () => 'Publish',
+  apply_postmail: () => 'Apply by regular post',
+  apply_text: () => 'apply now',
+};
