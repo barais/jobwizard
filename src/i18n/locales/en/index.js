@@ -1,3 +1,22 @@
+const btn = {
+  login: () => 'Login',
+  logout: () => 'Logout',
+  close: () => 'Close',
+  email: () => 'Email',
+  preview: () => 'Preview',
+  cancel: () => 'Cancel',
+  abort: () => 'Abort',
+  back: () => 'Back',
+  continue: () => 'Next',
+  download: () => 'Download',
+  register: () => 'Register',
+  save: () => 'Save',
+  send: () => 'Send',
+  publish: () => 'Publish',
+  apply_postmail: () => 'Apply by regular post',
+  apply_text: () => 'apply now',
+};
+
 export default
 {
   localeName: () => 'English',
@@ -20,6 +39,7 @@ export default
   Mr: () => 'Mr.',
   Mrs: () => 'Mrs.',
   header: () => 'Headerimage',
+  create_job: () => 'create new job',
   jobboard: () => 'Jobboard',
   job_title: () => 'Job title',
   ad_management: () => 'Ad management',
@@ -43,26 +63,7 @@ export default
   wizard_help_text: () => 'The Jobwizard supports you in creating an advertisement. The use of the Job Wizard and the creation of the advertisement is free of charge. You can activate and deactivate further fields via the settings.',
   wizard_help_anonymous: () => 'You are currently not logged in. You can use all functions as an anonymous user. However, at the end you can only download the advertisement as HTML.',
   select_or_create: () => 'Choose a company or create a new one.',
-  btn:
-  {
-    login: () => 'Login',
-    logout: () => 'Logout',
-    close: () => 'Close',
-    email: () => 'Email',
-    preview: () => 'Preview',
-    cancel: () => 'Cancel',
-    abort: () => 'Abort',
-    back: () => 'Back',
-    continue: () => 'Next',
-    download: () => 'Download',
-    register: () => 'Register',
-    save: () => 'Save',
-    send: () => 'Send',
-    publish: () => 'Publish',
-    apply_postmail: () => 'Apply by regular post',
-    apply_text: () => 'apply now',
-
-  },
+  btn,
   nav:
   {
     applications: () => 'Applications',
