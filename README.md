@@ -1,14 +1,14 @@
-# Wizard. Input tool for jobs. 
+# Wizard. Input tool for jobs.
 
-Standalone wizard based on [quasar](https://quasar.dev/). It is a single page application (SPA) running in the  clients browser. The result is a static HTML content. 
+This project is a fork of the Yawik jobwizard.
+
+
+Standalone wizard based on [quasar](https://quasar.dev/). It is a single page application (SPA) running in the  clients browser. The result is a static HTML content.
 
 As an authenticated user it's possible to save, manage and publish jobs. Jobs are [Google Jobs](https://jobs.google.com/about/) ready.
 
 ![JobWizard](./docs/jobwizard-animated.gif)
 
-## Task description
-
-https://gitlab.com/yawik/rewrite/-/issues/1
 
 ## Status
 
@@ -28,13 +28,13 @@ yarn
 yarn dev
 ```
 
-you should be able to acess http://localhost:8090 
+you should be able to acess http://localhost:8090
 
 ## Configuration
 
-The form is .env-aware.  
+The form is .env-aware.
 
-| Name                         | Value                               | 
+| Name                         | Value                               |
 |------------------------------|-------------------------------------|
 | YAWIK_URL_PRIVACY            | Link to the Privacy notes           |
 | YAWIK_API_URL                | Yawik API                           |
@@ -48,8 +48,8 @@ It's possible to show a toolbar with the Logo and a navigation drawer by using q
 
 | Param        | Description       |
 |--------------|-------------------|
-| tb=0         | hide toolbar      |  
-| hf=1         | hide footer       | 
+| tb=0         | hide toolbar      |
+| hf=1         | hide footer       |
 
 ## Live
 
