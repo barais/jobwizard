@@ -38,6 +38,7 @@ yarn-error.log*
 package-lock.json
 /vendor/
 .npm
+.env
 .env.*
 /build
 /cypress/videos/

@@ -2,7 +2,7 @@ import { createI18n } from 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js';
 import { messages } from 'src/i18n';
 
 const i18n = createI18n({
-  locale: 'de',
+  locale: 'fr',
   fallbackLocale: 'en',
   silentTranslationWarn: true,
   warnHtmlInMessage: 'off',

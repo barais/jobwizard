@@ -10,6 +10,7 @@ import {
   GET_HEADER,
   GET_HTML,
   GET_TOKEN,
+  GET_LOCATION,
   HAS_AUTH,
   CLEAR_FORM,
   SET_SETTINGS_FIELD,
@@ -38,6 +39,9 @@ const emptyForm = {
     addressRegion: '',
     postalCode: '',
     addressCountry: '',
+    lat: 0,
+    lng: 0,
+
   },
   meta: {
     publishImmediately: true,
@@ -113,6 +117,10 @@ export default
       {
         return state.form.meta;
       },
+      [GET_LOCATION](state)
+      {
+        return state.form.location;
+      },
       [GET_LOGO](state)
       {
         return state.form.logo;
@@ -164,6 +172,8 @@ export default
       },
       [SET_LOCATION](state, obj)
       {
+        console.error('setlocation', obj);
+        //state.form.location[Object.keys(obj)[0]] = Object.values(obj)[0];
         state.form.location = obj;
       },
       [SET_LOGO](state, value)

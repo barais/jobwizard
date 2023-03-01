@@ -17,15 +17,6 @@
         "price": 0,
         "mode": false
 
-    },
-    {
-        "id": "product3",
-        "name": "Yawik",
-        "logo": "images/yawik_logo-desktop.svg",
-        "slug": "Yawik",
-        "icon": "mdi-star",
-        "price": 100,
-        "mode": false
     }
 ]
 

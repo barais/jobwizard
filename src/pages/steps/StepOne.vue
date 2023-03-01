@@ -108,6 +108,7 @@ import {
   GET_FORM,
   GET_TOKEN,
   SET_LOCATION,
+  GET_LOCATION,
   GET_SETTINGS,
   SET_META,
   GET_META,
@@ -142,13 +143,19 @@ export default {
         'administrative_area_level_1',
         'country',
         'postal_code',
+        'lat',
+        'lng'
+
       ],
       locationData: {
         streetAddress: '',
         addressLocality: '',
         addressRegion: '',
         postalCode: '',
-        addressCountry: ''
+        addressCountry: '',
+        lat: 0,
+        lng: 0
+
       },
       locationNameFormat: {
         street_number: 'short_name',
@@ -157,12 +164,16 @@ export default {
         administrative_area_level_1: 'short_name',
         country: 'long_name',
         postal_code: 'short_name',
+        lat: 'number',
+        lng: 'number'
+
       },
     };
   },
   computed:
   {
-    ...mapGetters([GET_TOKEN, GET_FORM, GET_META, GET_SETTINGS, GET_LOGO, GET_HEADER]),
+    ...mapGetters([GET_LOCATION, GET_TOKEN, GET_FORM, GET_META, GET_SETTINGS, GET_LOGO, GET_HEADER]),
+
     jobTitle:
     {
       get()
@@ -319,6 +330,88 @@ export default {
           this[SET_HEADER](val);
         }
       },
+
+    addressCountry: {
+      get()
+      {
+        return this[GET_LOCATION].addressCountry;
+      },
+      set(val)
+      {
+        this[SET_LOCATION]({ addressCountry: val });
+      }
+    },
+    addressLocality: {
+      get()
+      {
+        return this[GET_LOCATION].addressLocality;
+      },
+      set(val)
+      {
+        this[SET_LOCATION]({ addressLocality: val });
+      }
+    },
+    addressRegion: {
+      get()
+      {
+        return this[GET_LOCATION].addressRegion;
+      },
+      set(val)
+      {
+        this[SET_LOCATION]({ addressRegion: val });
+      }
+    },
+    lat: {
+      get()
+      {
+        return this[GET_LOCATION].lat;
+      },
+      set(val)
+      {
+        this[SET_LOCATION]({ lat: val });
+      }
+    },
+    lng: {
+      get()
+      {
+        return this[GET_LOCATION].lng;
+      },
+      set(val)
+      {
+        this[SET_LOCATION]({ lng: val });
+      }
+    },
+    postalCode: {
+      get()
+      {
+        return this[GET_LOCATION].postalCode;
+      },
+      set(val)
+      {
+        this[SET_LOCATION]({ postalCode: val });
+      }
+    },
+    streetAddress: {
+      get()
+      {
+        return this[GET_LOCATION].streetAddress;
+      },
+      set(val)
+      {
+        this[SET_LOCATION]({ streetAddress: val });
+      }
+    },
+    location:
+      {
+        get()
+        {
+          return this[GET_LOCATION];
+        },
+        set(val)
+        {
+          this[SET_LOCATION](val);
+        }
+      },
   },
   mounted()
   {
@@ -326,7 +419,7 @@ export default {
     {
       const autocompleteInput = this.$refs.location.getNativeElement();
       this.googleSearchBox = new window.google.maps.places.Autocomplete(autocompleteInput, {
-        fields: ['formatted_address', 'address_components'],
+        fields: ['formatted_address', 'address_components', 'geometry'],
         types: ['(cities)']
       });
       if (this.countries)
@@ -339,8 +432,12 @@ export default {
       }
       this.googleSearchBox.addListener('place_changed', () =>
       {
-        const place = this.googleSearchBox.getPlace();
-        this.locationChanged(place);
+        if (this.googleSearchBox !== null)
+        {
+          const place = this.googleSearchBox.getPlace();
+
+          this.locationChanged(place);
+        }
       }
       );
     }
@@ -374,9 +471,10 @@ export default {
           return component[this.locationNameFormat[type]];
         }
       }
+
       return '';
     },
-    insertLocatationData(loc)
+    insertLocatationData(loc, localisation)
     {
       for (const component of this.locationForm)
       {
@@ -397,14 +495,23 @@ export default {
           case 'postal_code':
             this.locationData.postalCode = this.getLocationComp(loc, component);
             break;
+          case 'lat':
+            // this.getLocationComp(localisation, component);
+            this.locationData.lat = localisation.location.lat();
+            break;
+          case 'lng':
+            //this.getLocationComp(localisation, component);
+            this.locationData.lng = localisation.location.lng();
+            break;
         }
       }
     },
     locationChanged(place)
     {
       const addressComponents = place.address_components;
-      this.insertLocatationData(addressComponents);
-      this[SET_LOCATION] = this.locationData;
+      const localisation = place.geometry;
+      this.insertLocatationData(addressComponents, localisation);
+      this[SET_LOCATION](this.locationData);
       this.locationDisplay = place.formatted_address;
     },
     saveOrg(val)

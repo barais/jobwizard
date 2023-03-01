@@ -14,29 +14,33 @@ installQuasarPlugin();
 
 describe('Logo', () =>
 {
-
   const OLD_ENV = process.env;
 
   let cmp;
 
   beforeEach(() =>
   {
-    jest.resetModules() // Most important - it clears the cache
+    jest.resetModules(); // Most important - it clears the cache
     process.env = { ...OLD_ENV }; // Make a copy
     process.env.VUE_ROUTER_BASE = 'yawik/';
     cmp = shallowMount(Logo, {
       global: {
         mocks: {
           $yawik: {
-            lang(){return 'de'}
+            lang()
+            {
+              return 'fr';
+            }
           },
-          $t: () => {}
+          $t: () =>
+          {}
         }
       }
     });
   });
-  
-  afterAll(() => {
+
+  afterAll(() =>
+  {
     process.env = OLD_ENV; // Restore old environment
   });
 
@@ -45,10 +49,8 @@ describe('Logo', () =>
     expect(cmp).toBeTruthy();
   });
 
-
   it('check home', () =>
   {
     expect(cmp.vm.home).toBe('yawik/de');
   });
-
 });

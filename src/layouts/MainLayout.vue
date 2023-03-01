@@ -140,13 +140,24 @@ export default {
   {
     const lang = this.$route.params.lang;
     this.$root.$i18n.locale = lang;
-    import(
-      /* webpackInclude: /(de|en-GB)\.js$/ */
-      'quasar/lang/' + (lang === 'en' ? 'en-GB' : lang)
-    ).then(lang =>
+    if (lang === 'en')
     {
-      this.$q.lang.set(lang.default);
-    });
+      import(
+        'quasar/lang/en-GB'
+      ).then(lang =>
+      {
+        this.$q.lang.set(lang.default);
+      });
+    }
+    else
+    {
+      import(
+        'quasar/lang/fr'
+      ).then(lang =>
+      {
+        this.$q.lang.set(lang.default);
+      });
+    }
   },
   mounted()
   {

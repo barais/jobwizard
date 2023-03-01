@@ -65,6 +65,7 @@ export default
         },
       menuList()
       {
+        console.error(this.$yawik.lang());
         return [
           {
             icon: 'mdi-earth',
@@ -90,12 +91,12 @@ export default
             to: '/' + this.$yawik.lang() + '/organizations',
             separator: true
           },
-          {
+          /*{
             icon: 'mdi-content-copy',
             label: this.$t('templates'),
             to: '/' + this.$yawik.lang() + '/templates',
             separator: true
-          },
+          },*/
           /*
           {
             icon: 'poll',

@@ -12,6 +12,7 @@ export const GET_SETTINGS = 'GET_SETTINGS';
 export const GET_LANG = 'GET_LANG';
 export const GET_LOGO = 'GET_LOGO';
 export const GET_META = 'GET_META';
+export const GET_LOCATION = 'GET_LOCATION';
 export const GET_HEADER = 'GET_HEADER';
 export const GET_HTML = 'GET_HTML';
 export const GET_TOKEN = 'GET_TOKEN';

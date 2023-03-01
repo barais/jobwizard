@@ -129,19 +129,13 @@ export default
         "name": "Google",
         "slug": "for jobs",
         "slogan": "publish on google for jobs",
-        "description": "the job posting will be published on Goole for jobs"
+        "description": "the job posting will be published on Google for jobs"
       },
       "product2": {
         "name": "Homepage",
         "slug": "Homepage",
         "slogan": "publish on your homepage",
         "description": "the job posting will be published on your homepage"
-      },
-      "product3": {
-        "name": "Yawik",
-        "slug": "for jobs",
-        "slogan": "publish on yawik portal and support the project.",
-        "description": "the job posting will be published on Goole for jobs"
       },
       "free": "free",
       "pleaseRegister": "You must be logged in to use this channel. If you are not logged in, you can only download the job advertisement."
@@ -159,12 +153,6 @@ export default
         "slug": "Homepage",
         "slogan": "auf Homepage veröffentlichen",
         "description": "Die Stellenanzeige wird auf ihrer Homepage veröffentlicht."
-      },
-      "product3": {
-        "name": "Yawik",
-        "slug": "Yawik",
-        "slogan": "auf Yawik schalten",
-        "description": "mit dem Geld unterstützen Sie die Entwicklung von Yawik"
       },
       "free": "kostenlos",
       "pleaseRegister": "Sie müssen angemeldet ein, um diesen Kanal nutzen zu können. Unangemeldet können Sie die Stellenanzeige nur downloaden.",

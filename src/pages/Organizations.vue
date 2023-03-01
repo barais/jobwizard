@@ -316,6 +316,7 @@ export default {
         createOrg()
         {
           this.sending = true;
+          console.error(this[GET_TOKEN]);
           api.post('/api/organizations', {
             data: {
               name: this.orgName,

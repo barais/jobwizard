@@ -27,15 +27,7 @@
             </div>
           </q-td>
           <q-td key="jobTitle" :props="props">
-            <a v-if="props.row.attributes.html" target="_new" :href="$q.config.jobUrl + props.row.attributes.html.url">
-              <span class="cursor-pointer jobtitle">
-                {{ props.row.attributes.jobTitle }}
-                <q-tooltip :delay="500">
-                  {{ props.row.attributes.id }}
-                </q-tooltip>
-              </span>
-            </a>
-            <span v-if="!props.row.attributes.html" class="jobtitle">
+            <span class="jobtitle">
               {{ props.row.attributes.jobTitle }}
             </span>
           </q-td>

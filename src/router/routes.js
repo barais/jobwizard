@@ -5,7 +5,7 @@ const routes = [
     component: () => import('pages/Home.vue'),
   },
   {
-    path: '/:lang(de|en|fr)',
+    path: '/:lang(fr|de|en)',
     redirect: {
       name: 'wizard',
     },

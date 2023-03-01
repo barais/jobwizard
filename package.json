@@ -23,7 +23,9 @@
     "concurrently:dev:jest": "concurrently \"quasar dev\" \"jest --watch\"",
     "test:e2e": "cross-env E2E_TEST=true start-test \"quasar dev\" http-get://localhost:8090 \"cypress open\"",
     "test:e2e:ci": "cross-env E2E_TEST=true start-test \"quasar dev\" http-get://localhost:8090 \"cypress run\"",
-    "docs:serve": "mkdocs serve -a 0.0.0.0:8000"
+    "docs:serve": "mkdocs serve -a 0.0.0.0:8000",
+    "docker:build":"docker build  -t barais/jobwizard .",
+    "docker:push":"docker push barais/jobwizard"
   },
   "dependencies": {
     "@quasar/extras": "^1.15.3",

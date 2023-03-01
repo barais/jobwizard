@@ -97,6 +97,7 @@ export default {
     },
     createOrg(data)
     {
+      console.log(this[GET_TOKEN]);
       console.log(data);
       api.post('/api/organizations', {
         data: this.org
@@ -116,6 +117,7 @@ export default {
     updateOrg(data)
     {
       console.log(data);
+      console.log(this[GET_TOKEN]);
       api.put('/api/organizations/' + data.id, {
         data: data
       },

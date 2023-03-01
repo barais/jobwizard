@@ -92,13 +92,24 @@ export default {
       }
       this.$router.push(routePath);
 
-      import(
-        /* webpackInclude: /(fr|de|en-GB)\.js$/ */
-        'quasar/lang/' + (lang === 'en' ? 'en-GB' : lang)
-      ).then(lang =>
+      if (lang === 'en')
       {
-        this.$q.lang.set(lang.default);
-      });
+        import(
+          'quasar/lang/en-GB'
+        ).then(lang =>
+        {
+          this.$q.lang.set(lang.default);
+        });
+      }
+      else
+      {
+        import(
+          'quasar/lang/fr'
+        ).then(lang =>
+        {
+          this.$q.lang.set(lang.default);
+        });
+      }
     }
   }
 };

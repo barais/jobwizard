@@ -21,13 +21,7 @@
             {{ new Date(props.row.attributes.publishedAt).toLocaleString($yawik.lang()) }}
           </q-td>
           <q-td key="title" :props="props">
-            <a v-if="props.row.attributes.html" target="_new" :href="$q.config.jobUrl + props.row.attributes.html.url">
-              <span class="cursor-pointer jobtitle">
-                {{ props.row.attributes.jobTitle }}
-              </span>
-              <q-tooltip> {{ props.row.attributes.tasks }}</q-tooltip>
-            </a>
-            <span v-if="!props.row.attributes.html" class="jobtitle">
+            <span class="jobtitle">
               {{ props.row.attributes.jobTitle }}
             </span>
             <div>

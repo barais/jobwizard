@@ -130,7 +130,7 @@ module.exports = function(ctx)
     // https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
     framework: {
       iconSet: 'mdi-v5', // Quasar icon set
-      lang: 'de', // Quasar language pack
+      lang: 'fr', // Quasar language pack
       config: {
         dark: false,
         sitename: 'jobwizard',

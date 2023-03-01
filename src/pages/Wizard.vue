@@ -128,7 +128,9 @@ import {
   SET_HEADER,
   GET_HEADER,
   GET_SETTINGS,
-  SET_FIELD
+  SET_FIELD,
+  //  SET_LOCATION,
+  GET_LOCATION
 } from '../store/names';
 import { mapGetters, mapMutations } from 'vuex';
 import saveAs from 'src/lib/FileSaver';
@@ -174,7 +176,7 @@ export default {
   },
   computed:
       {
-        ...mapGetters([GET_TOKEN, GET_STEP, GET_FORM, GET_META, GET_SETTINGS, GET_LOGO, GET_HEADER]),
+        ...mapGetters([GET_TOKEN, GET_STEP, GET_FORM, GET_META, GET_SETTINGS, GET_LOGO, GET_HEADER, GET_LOCATION]),
         currentStep:
           {
             get()
@@ -212,6 +214,10 @@ export default {
         logo()
         {
           return this[GET_LOGO];
+        },
+        location()
+        {
+          return this[GET_LOCATION];
         },
         header()
         {
@@ -290,6 +296,10 @@ export default {
           let methodType = 'POST';
           let url = '/api/jobs';
           const form = { ...this[GET_FORM] };
+          console.error(form);
+          console.error(this.location);
+          const loc = { ...this[GET_LOCATION] };
+          console.error(loc);
           if (form.id != null)
           {
             methodType = 'PUT';
@@ -315,6 +325,7 @@ export default {
 
           formData.append('html', html, this.filename);
           formData.append('data', JSON.stringify(formObj));
+          console.error(formData);
           api({
             method: methodType,
             url: url,
