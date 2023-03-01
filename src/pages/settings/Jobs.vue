@@ -148,7 +148,6 @@ export default {
       this.autocomplete.addListener('place_changed', () =>
       {
         const place = this.autocomplete.getPlace();
-        console.error(place);
         //  let ac = place.address_components;
         this.location = place.formatted_address;
       });

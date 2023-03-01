@@ -4,7 +4,6 @@ const yawik = {
   lang()
   {
     const $q = useQuasar();
-    console.error($q);
     return $q.lang.isoName === 'en-GB' ? 'en' : $q.lang.isoName;
   },
   dateFormat()

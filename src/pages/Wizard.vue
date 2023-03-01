@@ -296,10 +296,6 @@ export default {
           let methodType = 'POST';
           let url = '/api/jobs';
           const form = { ...this[GET_FORM] };
-          console.error(form);
-          console.error(this.location);
-          const loc = { ...this[GET_LOCATION] };
-          console.error(loc);
           if (form.id != null)
           {
             methodType = 'PUT';

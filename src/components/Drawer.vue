@@ -65,7 +65,6 @@ export default
         },
       menuList()
       {
-        console.error(this.$yawik.lang());
         return [
           {
             icon: 'mdi-earth',

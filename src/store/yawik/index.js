@@ -172,7 +172,6 @@ export default
       },
       [SET_LOCATION](state, obj)
       {
-        console.error('setlocation', obj);
         //state.form.location[Object.keys(obj)[0]] = Object.values(obj)[0];
         state.form.location = obj;
       },
