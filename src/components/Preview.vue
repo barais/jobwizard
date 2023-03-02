@@ -636,6 +636,26 @@ export default {
   "file_size": "Image size exceed"
   }
   },
+  "fr": {
+  "jobad_wizard": "Wizard",
+  "intro": "Intro",
+  "tasks": "Tâches",
+  "profile": "Profile",
+  "offer": "Offre",
+  "contacts": "Contact",
+  "tooltip": {
+  "mobile": "Mobile",
+  "desktop": "Desktop",
+  "fullscreen": "Plein écran",
+  "colorize": "Vous pouvez régler ici la couleur principale de votre offre d'emploi.",
+  "choose_logo": "Choisir le logo de l'entreprise",
+  "choose_header": "Choisissez une image d'en-tête",
+  "images": "Images",
+  "upload_images": "Télécharger des images",
+  "file_size": "La taille de l'image dépasse"
+  }
+  },
+
   "de": {
   "jobad_wizard": "Anzeigen Assistent",
   "intro": "Einleitung",

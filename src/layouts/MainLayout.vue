@@ -66,15 +66,15 @@ import Logout from 'components/Logout';
 
 const metaData = {
   title: 'JobWizard',
-  titleTemplate: title => `${title} - Stellenanzeigen einfach auf Google veröffentlichen`,
+  titleTemplate: title => `${title} - Publier facilement des offres d'emploi sur Google`,
   meta: {
     description: {
       name: 'description',
-      content: 'Der Yawik Jobwizard ist ein Generator für Stellenanzeigen, die mobil und auf dem Desktop gut aussehen und die Sie auf Google Jobs schalten können'
+      content: 'Le Yawik Jobwizard est un générateur d\'annonces d\'emploi qui se présentent bien sur mobile et sur ordinateur et que vous pouvez diffuser sur Google Jobs.'
     },
     keywords: {
       name: 'keywords',
-      content: 'Anzeigengenerator Stellenanzeigen Google Jobs'
+      content: 'Générateur d\'annonces Annonces d\'emploi Google Jobs'
     }
   },
   link: {
@@ -84,7 +84,7 @@ const metaData = {
     }
   },
   noscript: {
-    default: 'Der Yawik Anzeigengenerator benötigt Javascript'
+    default: 'Le générateur d\'annonces Yawik nécessite Javascript'
   }
 };
 
